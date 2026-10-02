@@ -2,41 +2,50 @@
 <html>
 <head>
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>AIMEME.IN</title>
+<title>AIMEME.IN - GOLDEN UI DESIGN PREMIUM</title>
 <script src="https://cdn.tailwindcss.com"></script>
 <style>
 body{background:#050505;color:#fff;font-family:Inter,sans-serif}
-.golden-glass{background:linear-gradient(135deg, rgba(255,214,10,0.10), rgba(255,255,255,0.03));backdrop-filter:blur(20px);border:1px solid rgba(255,214,10,0.30)}
-.slider{display:flex;overflow-x:scroll;overflow-y:hidden;scroll-snap-type:x mandatory;scroll-behavior:smooth;-webkit-overflow-scrolling:touch;gap:0;padding:0;width:100%}
+.golden-glass{background:linear-gradient(135deg, rgba(255,214,10,0.12), rgba(255,255,255,0.04));backdrop-filter:blur(20px);border:1px solid rgba(255,214,10,0.35)}
+.slider{display:flex;overflow-x:scroll;scroll-snap-type:x mandatory;scroll-behavior:smooth;gap:0;padding:0;width:100%}
 .slider::-webkit-scrollbar{display:none}
-.insta-card{background:#fff;overflow:hidden;min-width:100%;width:100%;max-width:100%;flex-shrink:0;scroll-snap-align:start;scroll-snap-stop:always;border-bottom:1px solid #e8e8e8}
+.insta-card{background:#fff;overflow:hidden;min-width:100%;width:100%;flex-shrink:0;scroll-snap-align:start;scroll-snap-stop:always;border-bottom:1px solid #e8e8e8}
 @media(min-width:500px){.insta-card{border-radius:14px;min-width:92vw;width:92vw;margin:12px;border:1px solid #e8e8e8}.slider{gap:14px;padding:12px}}
 </style>
 </head>
 <body>
-<header class="golden-glass sticky top-0 z-30 mx-3 mt-3 rounded-[18px] p-3.5 flex justify-between items-center">
-<div><h1 class="text-[16px] font-black tracking-[4px]">AIMEME<span class="text-yellow-400">.</span></h1><p class="text-[7px] opacity-50">GOLDEN GLASS UI</p></div>
-<div class="flex items-center gap-2">
-<span id="mCount" class="bg-[#FFD60A] text-black text-[11px] px-3 py-1 rounded-full font-black">0/5</span>
-<button onclick="openWithdraw()" class="bg-white/10 w-9 h-9 rounded-full">💸</button>
-<button onclick="openSaved()" class="bg-white/10 w-9 h-9 rounded-full">🔖</button>
-<button id="addBtn" onclick="openModal()" class="hidden bg-white text-black px-4 py-2 rounded-full font-bold text-xs">+ ADD</button>
-</div>
+<header class="golden-glass sticky top-0 z-30 mx-3 mt-3 rounded-[22px] p-4 flex justify-between items-center shadow-[0_0_30px_rgba(255,214,10,0.15)]">
+  <div class="flex flex-col">
+    <div class="flex items-center gap-1">
+      <h1 class="text-[18px] font-black tracking-[5px] leading-none">AIMEME<span class="text-[#FFD60A]">.</span>IN</h1>
+      <span class="ml-2 text-[7px] font-black tracking-[0.3em] bg-gradient-to-r from-[#FFD60A] to-[#FFB800] text-black px-2 py-[2px] rounded-full">PREMIUM</span>
+    </div>
+    <div class="flex items-center gap-2 mt-1">
+      <div class="h-[2px] w-6 bg-[#FFD60A]"></div>
+      <p class="text-[8px] tracking-[0.35em] font-bold opacity-70">GOLDEN UI DESIGN • PREMIUM</p>
+    </div>
+  </div>
+  <div class="flex items-center gap-2">
+    <span id="mCount" class="bg-gradient-to-r from-[#FFD60A] to-[#FFB800] text-black text-[11px] px-3.5 py-1.5 rounded-full font-black">0/5</span>
+    <button onclick="openWithdraw()" class="bg-white/10 w-9 h-9 rounded-full border border-white/10">💸</button>
+    <button onclick="openSaved()" class="bg-white/10 w-9 h-9 rounded-full border border-white/10">🔖</button>
+    <button id="addBtn" onclick="openModal()" class="hidden bg-white text-black px-4 py-2 rounded-full font-black text-xs">+ ADD</button>
+  </div>
 </header>
 <div class="relative mt-4 mx-0 sm:mx-3 bg-[#0a0a0a] sm:rounded-[18px] overflow-hidden border-y sm:border border-white/10 min-h-[520px]">
 <div class="absolute inset-0 flex flex-col items-center justify-center text-center p-6">
 <div class="w-16 h-16 rounded-full bg-white/10 flex items-center justify-center text-[28px]">🔒</div>
-<h3 class="font-black text-[15px] mt-3">SLIDER LOCKED</h3>
-<p class="text-[12px] opacity-70 mt-2 max-w-[240px]">Complete mission to unlock scratch card and win reward</p>
+<h3 class="font-black text-[15px] mt-3 tracking-[2px]">SLIDER LOCKED</h3>
+<p class="text-[12px] opacity-70 mt-2 max-w-[240px]">Complete 5 missions to unlock scratch card</p>
 <div class="mt-4 bg-[#FFD60A] text-black px-5 py-2 rounded-full font-black text-[12px]"><span id="mCount2">0/5 Completed</span></div>
 </div>
 <div id="grid" class="slider relative z-10"></div>
 </div>
 <div id="modal" class="fixed inset-0 bg-black/80 hidden items-center justify-center z-50 p-4">
 <div class="bg-[#111111] w-full max-w-[380px] rounded-[28px] p-7 border border-white/10">
-<h2 class="font-black text-[22px]">New Drop</h2>
-<p class="text-[11px] tracking-[0.2em] opacity-40 mt-1 font-bold">AIMEME CULTURE • GOLDEN EDITION</p>
-<input id="imgIn" placeholder="Image Link (https://...) - Optional" class="w-full mt-6 p-4 bg-[#0a0a0a] border border-[#FFD60A]/40 rounded-[16px] text-[14px] outline-none">
+<h2 id="modalTitle" class="font-black text-[22px]">New Drop</h2>
+<p class="text-[11px] tracking-[0.2em] opacity-40 mt-1 font-bold">AIMEME • GOLDEN EDITION</p>
+<input id="imgIn" placeholder="Image Link" class="w-full mt-6 p-4 bg-[#0a0a0a] border border-[#FFD60A]/40 rounded-[16px] text-[14px] outline-none">
 <div class="flex items-center gap-3 mt-4">
 <label class="bg-white text-black px-4 py-2 rounded-[8px] font-bold text-[13px] cursor-pointer">Choose file<input type="file" id="fileIn" hidden accept="image/*"></label>
 <span id="fileName" class="opacity-60 text-[13px]">No file chosen</span>
@@ -44,11 +53,17 @@ body{background:#050505;color:#fff;font-family:Inter,sans-serif}
 <textarea id="capIn" placeholder="Write caption..." rows="3" class="w-full mt-4 p-4 bg-[#0a0a0a] border border-white/10 rounded-[16px] text-[14px] outline-none resize-none"></textarea>
 <div class="flex gap-3 mt-6">
 <button onclick="closeModal()" class="flex-1 p-4 bg-[#1a1a1a] border border-white/10 rounded-[16px] font-bold">Cancel</button>
-<button onclick="addPost()" class="flex-1 p-4 bg-gradient-to-r from-[#FFE55A] to-[#FFB800] text-black rounded-[16px] font-black">DROP NOW</button>
+<button id="modalBtn" onclick="addPost()" class="flex-1 p-4 bg-gradient-to-r from-[#FFE55A] to-[#FFB800] text-black rounded-[16px] font-black">DROP NOW</button>
 </div>
 </div>
 </div>
-
+<div id="postMenu" class="fixed inset-0 bg-black/60 hidden items-end z-[97] p-3">
+<div class="bg-[#1a1a1a] w-full max-w-[360px] mx-auto rounded-[22px] p-3 border border-white/10">
+<button onclick="editPost()" class="w-full flex items-center gap-3 p-4 bg-white/5 rounded-xl"><span class="w-8 h-8 bg-white/10 rounded-full flex items-center justify-center">✏️</span><span class="font-bold text-[14px]">Edit Post</span></button>
+<button onclick="deletePost()" class="w-full flex items-center gap-3 p-4 bg-red-500/10 rounded-xl mt-2 text-red-400"><span class="w-8 h-8 bg-red-500/20 rounded-full flex items-center justify-center">🗑️</span><span class="font-bold text-[14px]">Delete Post</span></button>
+<button onclick="closePostMenu()" class="w-full mt-3 p-3.5 bg-white/10 rounded-xl font-bold">Cancel</button>
+</div>
+</div>
 <div id="shareModal" class="fixed inset-0 bg-black/70 hidden items-end z-[96] p-3">
 <div class="bg-white w-full max-w-[360px] mx-auto rounded-[24px] p-5 text-black">
 <div class="w-10 h-1 bg-zinc-300 rounded-full mx-auto mb-4"></div>
@@ -59,58 +74,36 @@ body{background:#050505;color:#fff;font-family:Inter,sans-serif}
 <button onclick="shareTo('facebook')" class="flex flex-col items-center gap-2"><div class="w-[52px] h-[52px] rounded-full bg-[#1877F2] flex items-center justify-center"><img src="https://upload.wikimedia.org/wikipedia/commons/5/51/Facebook_f_logo_%282019%29.svg" class="w-6 h-6"></div><span class="text-[11px]">Facebook</span></button>
 <button onclick="shareTo('snapchat')" class="flex flex-col items-center gap-2"><div class="w-[52px] h-[52px] rounded-full bg-[#FFFC00] flex items-center justify-center border"><img src="https://upload.wikimedia.org/wikipedia/en/c/c4/Snapchat_logo.svg" class="w-7 h-7"></div><span class="text-[11px]">Snapchat</span></button>
 </div>
-<button onclick="shareTo('copy')" class="w-full mt-6 bg-black text-white p-3.5 rounded-xl font-bold">🔗 Copy Post Link</button>
+<button onclick="shareTo('copy')" class="w-full mt-6 bg-black text-white p-3.5 rounded-xl font-bold">🔗 Copy Link</button>
 <button onclick="closeShare()" class="w-full mt-2 bg-zinc-100 p-3.5 rounded-xl font-bold">Cancel</button>
 </div>
 </div>
-
 <div id="commentModal" class="fixed inset-0 bg-black/80 hidden items-end z-[95]"><div class="bg-[#121212] w-full rounded-t-[24px] max-h-[70vh] flex flex-col"><div class="p-4 flex justify-between border-b border-white/10"><h3 class="font-bold">Comments</h3><button onclick="closeComment()" class="w-8 h-8 bg-white/10 rounded-full">✕</button></div><div id="commentList" class="flex-1 overflow-auto p-4 space-y-3"></div><div class="p-3 border-t border-white/10 flex gap-2"><input id="cInput" placeholder="Add comment..." class="flex-1 p-3 bg-black rounded-full text-[13px] border border-white/10 outline-none"><button onclick="postComment()" class="bg-[#FFD60A] text-black px-5 rounded-full font-bold">POST</button></div></div></div>
 <div id="scratchModal" class="fixed inset-0 bg-black/90 hidden items-center justify-center z-[90] p-4"><div class="w-full max-w-[340px]"><h2 class="text-center font-bold text-[20px]">🎉 MISSION COMPLETE!</h2><div class="relative mt-4 w-full h-[380px] rounded-[28px] overflow-hidden bg-[#1a1a1a]"><div id="realReward" class="absolute inset-0"></div><canvas id="scratchCanvas" class="absolute inset-0 w-full h-full"></canvas></div><div id="afterWin" class="hidden mt-4"><div id="upiBox" class="hidden golden-glass rounded-[18px] p-4"><p class="text-[#00FF88] font-bold">💰 ₹<span id="winAmt"></span> UPI Cash!</p><input id="upiId" placeholder="Enter UPI ID" class="w-full mt-3 p-3.5 bg-black rounded-xl border border-yellow-400/30 outline-none"><button onclick="withdrawUPI()" class="w-full mt-3 bg-[#FFD60A] text-black py-3 rounded-xl font-black">WITHDRAW</button></div><div id="voucherBox" class="hidden text-center golden-glass p-4 rounded-[18px]"><p class="text-[#FFD60A] font-bold">🎁 Copied!</p><p id="vCodeShow" class="font-black mt-2"></p><button onclick="closeScratch()" class="w-full mt-3 bg-white text-black py-3 rounded-xl font-black">CLOSE</button></div></div></div></div>
 <div id="withdrawModal" class="fixed inset-0 bg-black/90 hidden items-center justify-center z-[80] p-4"><div class="w-full max-w-[360px] bg-zinc-900 rounded-[22px] p-5"><div class="flex justify-between"><h2 class="font-bold">💸 History</h2><button onclick="closeWithdraw()" class="w-8 h-8 bg-white/10 rounded-full">✕</button></div><div id="withdrawList" class="mt-4 space-y-2"></div></div></div>
 <div id="savedModal" class="fixed inset-0 bg-black/90 hidden items-center justify-center z-[80] p-4"><div class="w-full max-w-[360px] bg-zinc-900 rounded-[22px] p-5"><div class="flex justify-between"><h2 class="font-bold">🔖 Saved</h2><button onclick="closeSaved()" class="w-8 h-8 bg-white/10 rounded-full">✕</button></div><div id="savedList" class="mt-4 space-y-3"></div></div></div>
 <script>
 let posts = JSON.parse(localStorage.getItem('aimeme_posts')||'[]');
-if(posts.length===0) posts=[1,2,3,4,5].map(i=>({id:i, img:`https://picsum.photos/600/600?random=${i+40}`, caption:'Golden Glass Drop 🔥', likes:17, liked:false, comments:1, saved:false, commentList:[{user:'aimeme.in', text:'Good Morning Jaanu 🥰'}]}));
+if(posts.length===0) posts=[1,2,3,4,5].map(i=>({id:i, img:`https://picsum.photos/600/600?random=${i+40}`, caption:'Golden UI Design Premium 🔥', likes:17, liked:false, comments:1, saved:false, commentList:[{user:'aimeme.in', text:'Good Morning Jaanu 🥰'}]}));
 let actions = JSON.parse(localStorage.getItem('mission_actions')||'[]');
 let liked = JSON.parse(localStorage.getItem('liked_posts')||'[]');
 let saved = JSON.parse(localStorage.getItem('saved_posts')||'[]');
 let withdraws = JSON.parse(localStorage.getItem('withdraws')||'[]');
-let finalImg="", currentReward=null, activeId=null, shareId=null;
+let finalImg="", currentReward=null, activeId=null, shareId=null, menuPostId=null, editId=null;
 let rewards=[{type:'upi',amount:5,color:'#00FF88'},{type:'upi',amount:10,color:'#00FF88'},{type:'upi',amount:20,color:'#00FF88'},{type:'voucher',brand:'GIVA',code:'PF-KQXRMZ',offer:'28% Off',color:'#FFB6B8'},{type:'voucher',brand:'TIRA',code:'septhd06vuvi67k',offer:'30% Off',color:'#7AB8E8'}];
 if(window.location.search.includes('admin')) document.getElementById('addBtn').classList.remove('hidden');
 document.getElementById('fileIn').addEventListener('change',e=>{
 document.getElementById('fileName').innerText=e.target.files[0].name;
 let r=new FileReader(); r.onload=ev=>finalImg=ev.target.result; r.readAsDataURL(e.target.files[0]);
 });
-function doAction(id,type){
-let p=posts.find(x=>x.id===id);
-let alreadyDone = actions.includes(id);
-if(type==='like'){
-if(liked.includes(id)){p.likes--;p.liked=false;liked=liked.filter(x=>x!==id);}
-else{p.likes++;p.liked=true;liked.push(id);}
-localStorage.setItem('liked_posts',JSON.stringify(liked));
-}
-if(type==='save'){
-p.saved=!p.saved;
-if(p.saved){if(!saved.includes(id))saved.push(id);}else{saved=saved.filter(x=>x!==id);}
-localStorage.setItem('saved_posts',JSON.stringify(saved));
-localStorage.setItem('aimeme_posts',JSON.stringify(posts)); render(); return;
-}
-if(type==='share'){ openShare(id); }
-if(!alreadyDone){ actions.push(id); }
-localStorage.setItem('mission_actions',JSON.stringify(actions));
-localStorage.setItem('aimeme_posts',JSON.stringify(posts));
-render();
-}
+function openPostMenu(id){menuPostId=id; document.getElementById('postMenu').style.display='flex';}
+function closePostMenu(){document.getElementById('postMenu').style.display='none';}
+function editPost(){let p=posts.find(x=>x.id===menuPostId); if(!p) return; editId=p.id; document.getElementById('modalTitle').innerText='Edit Drop'; document.getElementById('modalBtn').innerText='UPDATE NOW'; document.getElementById('imgIn').value=p.img.startsWith('data:')?'':p.img; document.getElementById('capIn').value=p.caption; finalImg=p.img; closePostMenu(); openModal();}
+function deletePost(){if(!confirm('Delete this post?')) return; posts=posts.filter(x=>x.id!==menuPostId); localStorage.setItem('aimeme_posts',JSON.stringify(posts)); closePostMenu(); render();}
+function doAction(id,type){let p=posts.find(x=>x.id===id); let alreadyDone = actions.includes(id); if(type==='like'){if(liked.includes(id)){p.likes--;p.liked=false;liked=liked.filter(x=>x!==id);}else{p.likes++;p.liked=true;liked.push(id); if(navigator.vibrate) navigator.vibrate(50);} localStorage.setItem('liked_posts',JSON.stringify(liked));} if(type==='save'){p.saved=!p.saved; if(p.saved){if(!saved.includes(id))saved.push(id);}else{saved=saved.filter(x=>x!==id);} localStorage.setItem('saved_posts',JSON.stringify(saved)); localStorage.setItem('aimeme_posts',JSON.stringify(posts)); render(); return;} if(type==='share'){ openShare(id); } if(!alreadyDone){ actions.push(id); } localStorage.setItem('mission_actions',JSON.stringify(actions)); localStorage.setItem('aimeme_posts',JSON.stringify(posts)); render();}
 function openShare(id){shareId=id; document.getElementById('shareModal').style.display='flex';}
 function closeShare(){document.getElementById('shareModal').style.display='none';}
-function shareTo(platform){
-let link=window.location.origin+'?post='+shareId; let text=`Check this meme 🔥 ${link}`;
-if(platform==='whatsapp') window.open(`https://wa.me/?text=${encodeURIComponent(text)}`,'_blank');
-if(platform==='facebook') window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(link)}`,'_blank');
-if(platform!=='whatsapp'&&platform!=='facebook'){navigator.clipboard.writeText(link); alert('🔗 Link Copied!');}
-closeShare();
-}
+function shareTo(platform){let link=window.location.origin+'?post='+shareId; let text=`Check this meme 🔥 ${link}`; if(platform==='whatsapp') window.open(`https://wa.me/?text=${encodeURIComponent(text)}`,'_blank'); if(platform==='facebook') window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(link)}`,'_blank'); if(platform!=='whatsapp'&&platform!=='facebook'){navigator.clipboard.writeText(link); alert('🔗 Link Copied!');} closeShare();}
 function openSaved(){document.getElementById('savedModal').style.display='flex'; let list=posts.filter(p=>saved.includes(p.id)); document.getElementById('savedList').innerHTML=list.map(p=>`<div class="flex gap-3 bg-white/5 p-2 rounded-xl"><img src="${p.img}" class="w-16 h-16 rounded-lg"><div><p class="text-[12px] font-bold">${p.caption}</p></div></div>`).join('')||'<p class="opacity-40 text-center text-[11px]">No saved</p>';}
 function closeSaved(){document.getElementById('savedModal').style.display='none';}
 function openComment(id){activeId=id; let p=posts.find(x=>x.id===id); document.getElementById('commentModal').style.display='flex'; document.getElementById('commentList').innerHTML=(p.commentList||[]).map(c=>`<div class="flex gap-2"><div class="w-7 h-7 rounded-full bg-zinc-600"></div><div class="bg-white/5 rounded-[16px] px-3 py-2"><b class="text-[12px]">${c.user}</b> <span class="text-[12px]">${c.text}</span></div></div>`).join('');}
@@ -121,15 +114,17 @@ document.getElementById('mCount').innerText=`${actions.length}/5`;
 document.getElementById('mCount2').innerText=`${actions.length}/5 Completed`;
 let slider=document.getElementById('grid');
 if(actions.length>=5){slider.classList.remove('locked'); if(!localStorage.getItem('scratchShown')){localStorage.setItem('scratchShown','true'); setTimeout(openScratch,700);}} else {slider.classList.add('locked');}
-slider.innerHTML=posts.slice().reverse().map(p=>`<div class="insta-card"><div class="flex justify-between items-center px-3.5 py-3"><div class="flex items-center gap-2.5"><div class="w-8 h-8 rounded-full bg-gradient-to-br from-yellow-400 to-orange-500 flex items-center justify-center text-[10px] font-black text-black">A</div><div><div class="flex items-center gap-1"><span class="text-[13.5px] font-bold text-black">aimeme.in</span><svg width="14" height="14" viewBox="0 0 24 24" fill="#0095f6"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg></div><div class="text-[11px] text-[#8e8e8e]">Golden Glass</div></div></div><div class="text-black font-bold">⋮</div></div><div class="relative w-full aspect-square bg-[#f5f5f5]"><img src="${p.img}" class="absolute inset-0 w-full h-full object-cover"></div><div class="flex justify-between items-center px-3.5 py-3"><div class="flex items-center gap-4"><button onclick="doAction(${p.id},'like')"><svg width="23" height="23" viewBox="0 0 24 24" fill="${p.liked?'#000':'none'}" stroke="#000" stroke-width="1.6"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg></button><button onclick="openComment(${p.id})"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="1.6"><path d="M21 11.5a8.5 8.5 0 0 1-8.5 8.5H11l-4 3v-3.5A8.5 8.5 0 0 1 21 11.5z"/></svg></button><button onclick="doAction(${p.id},'share')"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="1.6"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"/></svg></button></div><button onclick="doAction(${p.id},'save')"><svg width="21" height="21" viewBox="0 0 24 24" fill="${p.saved?'#000':'none'}" stroke="#000" stroke-width="1.6"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg></button></div><div class="px-3.5 pb-3.5 text-[12px] text-black"><b>${p.likes||0} likes</b> • <span class="opacity-60">${p.comments||0} comments</span><div class="mt-1 text-[13px]"><b>aimeme.in</b> ${p.caption||''}</div></div></div>`).join('');
+slider.innerHTML=posts.slice().reverse().map(p=>`<div class="insta-card"><div class="flex justify-between items-center px-3.5 py-3"><div class="flex items-center gap-2.5"><div class="w-8 h-8 rounded-full bg-gradient-to-br from-yellow-400 to-orange-500 flex items-center justify-center text-[10px] font-black text-black">A</div><div><div class="flex items-center gap-1"><span class="text-[13.5px] font-bold text-black">aimeme.in</span><svg width="14" height="14" viewBox="0 0 24 24" fill="#0095f6"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg></div><div class="text-[11px] text-[#8e8e8e]">Golden UI • Premium • ${Math.floor(Math.random()*5+1)}.${Math.floor(Math.random()*9)}k views • 🔴 LIVE</div></div></div><button onclick="openPostMenu(${p.id})" class="text-black font-bold px-2">⋮</button></div><div class="relative w-full aspect-square bg-[#f5f5f5]"><img src="${p.img}" class="absolute inset-0 w-full h-full object-cover"></div><div class="flex justify-between items-center px-3.5 py-3"><div class="flex items-center gap-4"><button onclick="doAction(${p.id},'like')"><svg width="23" height="23" viewBox="0 0 24 24" fill="${p.liked?'#000':'none'}" stroke="#000" stroke-width="1.6"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg></button><button onclick="openComment(${p.id})"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="1.6"><path d="M21 11.5a8.5 8.5 0 0 1-8.5 8.5H11l-4 3v-3.5A8.5 8.5 0 0 1 21 11.5z"/></svg></button><button onclick="doAction(${p.id},'share')"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="1.6"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"/></svg></button></div><button onclick="doAction(${p.id},'save')"><svg width="21" height="21" viewBox="0 0 24 24" fill="${p.saved?'#000':'none'}" stroke="#000" stroke-width="1.6"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg></button></div><div class="px-3.5 pb-3.5 text-[12px] text-black"><b>${p.likes||0} likes</b> • <span class="opacity-60">${p.comments||0} comments</span><div class="mt-1 text-[13px]"><b>aimeme.in</b> ${p.caption||''}</div></div></div>`).join('');
 }
 function openScratch(){let r=rewards[Math.floor(Math.random()*rewards.length)]; currentReward=r; document.getElementById('scratchModal').style.display='flex'; document.getElementById('afterWin').classList.add('hidden'); document.getElementById('upiBox').classList.add('hidden'); document.getElementById('voucherBox').classList.add('hidden'); if(r.type==='upi'){document.getElementById('winAmt').innerText=r.amount; document.getElementById('realReward').innerHTML=`<div style="background:${r.color};height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;color:#000"><div class="text-[72px]">💸</div><h1 class="font-black text-[38px]">₹${r.amount}</h1></div>`;}else{document.getElementById('realReward').innerHTML=`<div style="background:${r.color};height:100%;padding:26px;display:flex;flex-direction:column;justify-content:center;color:#000"><p class="text-[11px] font-bold opacity-60">${r.brand}</p><h1 class="font-black text-[22px] mt-2">${r.offer}</h1><p class="mt-4 font-bold bg-black text-white inline-block px-3 py-1 rounded-full text-[12px]">${r.code}</p></div>`;} setTimeout(initScratch,120);}
-function initScratch(){let c=document.getElementById('scratchCanvas'),ctx=c.getContext('2d'); c.width=c.offsetWidth; c.height=c.offsetHeight; ctx.fillStyle='#9e9e9e'; ctx.fillRect(0,0,c.width,c.height); ctx.font='900 16px sans-serif'; ctx.fillStyle='#444'; ctx.fillText('SCRATCH KARO! 🎁',c.width/2-70,c.height/2); let d=false; function s(e){if(!d)return; let r=c.getBoundingClientRect(); let x=(e.touches?e.touches[0].clientX:e.clientX)-r.left; let y=(e.touches?e.touches[0].clientY:e.clientY)-r.top; ctx.globalCompositeOperation='destination-out'; ctx.beginPath(); ctx.arc(x,y,30,0,Math.PI*2); ctx.fill(); check();} c.addEventListener('mousedown',()=>d=true); c.addEventListener('mouseup',()=>d=false); c.addEventListener('mousemove',s); c.addEventListener('touchstart',()=>d=true); c.addEventListener('touchend',()=>d=false); c.addEventListener('touchmove',s); function check(){let data=ctx.getImageData(0,0,c.width,c.height).data,t=0; for(let i=3;i<data.length;i+=4) if(data[i]==0) t++; if(t/(c.width*c.height)>0.48){c.style.opacity='0'; c.style.pointerEvents='none'; document.getElementById('afterWin').classList.remove('hidden'); if(currentReward.type==='upi') document.getElementById('upiBox').classList.remove('hidden'); else{document.getElementById('voucherBox').classList.remove('hidden'); document.getElementById('vCodeShow').innerText=currentReward.code; navigator.clipboard.writeText(currentReward.code);} }}}
+function initScratch(){let c=document.getElementById('scratchCanvas'),ctx=c.getContext('2d'); c.width=c.offsetWidth; c.height=c.offsetHeight; ctx.fillStyle='#9e9e9e'; ctx.fillRect(0,0,c.width,c.height); ctx.font='900 16px sans-serif'; ctx.fillStyle='#444'; ctx.fillText('SCRATCH KARO! 🎁',c.width/2-70,c.height/2); let d=false; function s(e){if(!d)return; let r=c.getBoundingClientRect(); let x=(e.touches?e.touches[0].clientX:e.clientX)-r.left; let y=(e.touches?e.touches[0].clientY:e.clientY)-r.top; ctx.globalCompositeOperation='destination-out'; ctx.beginPath(); ctx.arc(x,y,30,0,Math.PI*2); ctx.fill(); check();} c.addEventListener('mousedown',()=>d=true); c.addEventListener('mouseup',()=>d=false); c.addEventListener('mousemove',s); c.addEventListener('touchstart',()=>d=true); c.addEventListener('touchend',()=>d=false); c.addEventListener('touchmove',s); function check(){let data=ctx.getImageData(0,0,c.width,c.height).data,t=0; for(let i=3;i<data.length;i+=4) if(data[i]==0) t++; if(t/(c.width*c.height)>0.48){c.style.opacity='0'; c.style.pointerEvents='none'; document.getElementById('afterWin').classList.remove('hidden'); if(currentReward.type==='upi') document.getElementById('upiBox').classList.remove('hidden'); else{document.getElementById('voucherBox').classList.remove('hidden'); document.getElementById('vCodeShow').innerText=currentReward.code; navigator.clipboard.writeText(currentReward.code);} if(navigator.vibrate) navigator.vibrate([100,50,100]); }}}
 function withdrawUPI(){let upi=document.getElementById('upiId').value.trim(); if(!upi.includes('@')) return alert('Sahi UPI ID daalo'); withdraws.unshift({amount:currentReward.amount, upi, status:'processing'}); localStorage.setItem('withdraws',JSON.stringify(withdraws)); alert(`₹${currentReward.amount} Processing!`); closeScratch(); openWithdraw();}
 function openWithdraw(){document.getElementById('withdrawModal').style.display='flex'; document.getElementById('withdrawList').innerHTML=withdraws.map(w=>`<div class="bg-white/5 p-3 rounded-xl flex justify-between text-[12px]"><div><b>₹${w.amount}</b><div class="text-[10px] opacity-50">${w.upi}</div></div><div class="text-[10px] px-2 py-1 rounded-full bg-[#FFD60A] text-black font-bold">${w.status.toUpperCase()}</div></div>`).join('')||'<p class="text-[11px] opacity-40 text-center">No history</p>';}
 function closeWithdraw(){document.getElementById('withdrawModal').style.display='none';}
-function openModal(){document.getElementById('modal').style.display='flex'} function closeModal(){document.getElementById('modal').style.display='none'} function closeScratch(){document.getElementById('scratchModal').style.display='none'}
-function addPost(){let link=document.getElementById('imgIn').value.trim(); let cap=document.getElementById('capIn').value.trim(); if(link) finalImg=link; if(!finalImg) return alert('Image daal'); if(!cap) cap="Golden Drop 🔥"; posts.push({img:finalImg, caption:cap, likes:0, liked:false, comments:0, saved:false, commentList:[], id:Date.now()}); localStorage.setItem('aimeme_posts',JSON.stringify(posts)); document.getElementById('imgIn').value=''; document.getElementById('capIn').value=''; document.getElementById('fileName').innerText='No file chosen'; finalImg=''; closeModal(); render();}
+function openModal(){document.getElementById('modal').style.display='flex'}
+function closeModal(){document.getElementById('modal').style.display='none'; editId=null; document.getElementById('modalTitle').innerText='New Drop'; document.getElementById('modalBtn').innerText='DROP NOW'; document.getElementById('imgIn').value=''; document.getElementById('capIn').value=''; document.getElementById('fileName').innerText='No file chosen'; finalImg='';}
+function closeScratch(){document.getElementById('scratchModal').style.display='none'}
+function addPost(){let link=document.getElementById('imgIn').value.trim(); let cap=document.getElementById('capIn').value.trim(); if(link) finalImg=link; if(!finalImg) return alert('Image daal'); if(!cap) cap="Golden Drop 🔥"; if(editId){let p=posts.find(x=>x.id===editId); p.img=finalImg; p.caption=cap; editId=null;}else{posts.push({img:finalImg, caption:cap, likes:0, liked:false, comments:0, saved:false, commentList:[], id:Date.now()});} localStorage.setItem('aimeme_posts',JSON.stringify(posts)); closeModal(); render();}
 render();
 </script>
 </body>
