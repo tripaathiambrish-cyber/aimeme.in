@@ -7,29 +7,33 @@
 <style>
 body{background:#050505;color:#fff;font-family:Inter,sans-serif;margin:0}
 .golden-glass{background:linear-gradient(135deg, rgba(255,214,10,0.14), rgba(255,255,255,0.05));backdrop-filter:blur(20px);border:1px solid rgba(255,214,10,0.35)}
-.feed{height:calc(100vh - 80px);overflow-y:scroll;scroll-snap-type:y mandatory;scroll-behavior:smooth}
+.feed{height:calc(100vh - 115px);overflow-y:scroll;scroll-snap-type:y mandatory;scroll-behavior:smooth}
 .feed::-webkit-scrollbar{display:none}
-.feed-card{scroll-snap-align:start;scroll-snap-stop:always;min-height:calc(100vh - 80px);display:flex;align-items:center;justify-content:center;padding:14px}
-.insta-post{width:100%;max-width:400px;background:#fff;border-radius:18px;overflow:hidden;box-shadow:0 12px 40px rgba(0,0,0,0.5);border:1px solid #e5e5e5}
+.feed-card{scroll-snap-align:start;scroll-snap-stop:always;min-height:calc(100vh - 115px);display:flex;align-items:center;justify-content:center;padding:10px}
+.insta-post{width:100%;max-width:340px;background:#fff;border-radius:16px;overflow:hidden;box-shadow:0 12px 40px rgba(0,0,0,0.5);border:1px solid #e5e5e5}
 .gold-tick{width:16px;height:16px;background:radial-gradient(circle at 30% 30%, #FFE55A, #FFB800);border-radius:50%;display:flex;align-items:center;justify-content:center;box-shadow:0 0 8px rgba(255,184,0,0.6)}
 </style>
 </head>
 <body>
-<header class="golden-glass sticky top-0 z-30 mx-3 mt-3 rounded-[22px] p-4 flex justify-between items-center">
+<header class="golden-glass sticky top-0 z-30 mx-3 mt-3 rounded-[22px] p-3 flex flex-col gap-2.5">
+<div class="flex justify-between items-center w-full">
 <div>
 <h1 class="text-[20px] font-black tracking-[5px] leading-none">AIMEME<span class="text-[#FFD60A]">.</span>IN</h1>
-<p class="text-[8px] tracking-[0.35em] opacity-60 mt-1.5 font-bold">FEED SCROLLER</p>
+<p class="text-[8px] tracking-[0.35em] opacity-60 mt-1 font-bold">FEED SCROLLER</p>
 </div>
 <div class="flex gap-2 items-center">
-<a href="https://www.instagram.com/aimeme.co.in" target="_blank" class="flex items-center gap-1.5 bg-gradient-to-tr from-[#f09433] via-[#dc2743] to-[#bc1888] text-white px-4 py-2 rounded-full font-black text-[11px] tracking-wider shadow-[0_0_15px_rgba(220,39,67,0.6)] hover:scale-105 transition">
-<svg class="w-4 h-4 fill-white" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
-FOLLOW
-</a>
 <span id="mCount" class="bg-[#FFD60A] text-black text-[11px] px-3 py-1.5 rounded-full font-black">0/5</span>
-<button onclick="openWithdraw()" class="bg-white/10 w-9 h-9 rounded-full border border-white/10 flex items-center justify-center">💸</button>
-<button onclick="openVoucher()" class="bg-white/10 w-9 h-9 rounded-full border border-white/10 flex items-center justify-center">🎟️</button>
-<button id="addBtn" onclick="openModal()" class="hidden bg-white text-black px-4 py-2 rounded-full font-black text-xs">+ ADD</button>
+<button onclick="openWithdraw()" class="bg-white/10 w-8 h-8 rounded-full border border-white/10 flex items-center justify-center">💸</button>
+<button onclick="openVoucher()" class="bg-white/10 w-8 h-8 rounded-full border border-white/10 flex items-center justify-center">🎟️</button>
+<button id="addBtn" onclick="openModal()" class="hidden bg-white text-black px-3 py-1.5 rounded-full font-black text-[10px]">+ ADD</button>
 </div>
+</div>
+<a href="https://www.instagram.com/aimeme.co.in" target="_blank" class="w-full flex items-center justify-center gap-2.5 bg-white text-black px-4 py-2.5 rounded-full font-bold text-[13px] tracking-wide shadow-lg">
+<span class="w-6 h-6 rounded-full bg-gradient-to-tr from-[#f09433] via-[#dc2743] to-[#bc1888] flex items-center justify-center">
+<svg class="w-4 h-4 fill-white" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
+</span>
+Follow us on Instagram
+</a>
 </header>
 <div id="feed" class="feed"></div>
 <div id="modal" class="fixed inset-0 bg-black/80 hidden items-center justify-center z-50 p-4">
@@ -62,7 +66,7 @@ function render(){
 document.getElementById('mCount').innerText=`${actions.length}/5`;
 document.getElementById('feed').innerHTML=posts.slice().reverse().map(p=>`
 <div class="feed-card"><div class="insta-post">
-<div class="flex justify-between items-center px-4 py-3"><div class="flex items-center gap-2.5"><div class="w-8 h-8 rounded-full bg-gradient-to-br from-[#FFE55A] to-[#FFB800] flex items-center justify-center font-black text-black text-[12px]">A</div><div><div class="flex items-center gap-1.5"><span class="text-[13px] font-bold text-black">aimeme.in</span><div class="gold-tick"><svg width="10" height="10" viewBox="0 0 24 24" fill="black"><path d="M9 16.2L4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4L9 16.2z"/></svg></div></div><div class="text-[11px] text-[#8e8e8e]">Placehere • Golden Verified</div></div></div><span class="text-black text-[12px] opacity-30">●●●</span></div>
+<div class="flex justify-between items-center px-4 py-3"><div class="flex items-center gap-2.5"><div class="w-8 h-8 rounded-full bg-gradient-to-br from-[#FFE55A] to-[#FFB800] flex items-center justify-center font-black text-black text-[12px]">A</div><div><div class="flex items-center gap-1.5"><span class="text-[13px] font-bold text-black">aimeme.in</span><div class="gold-tick"><svg width="10" height="10" viewBox="0 0 24 24" fill="black"><path d="M9 16.2L4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4L9 16.2z"/></svg></div></div><div class="text-[11px] text-[#8e8e8e]">Golden Verified</div></div></div><span class="text-black text-[12px] opacity-30">●●●</span></div>
 <div class="relative w-full aspect-[4/5] bg-[#FFD60A]"><img src="${p.img}" class="absolute inset-0 w-full h-full object-cover"></div>
 <div class="flex justify-between items-center px-4 py-3"><div class="flex items-center gap-4"><button onclick="doAction(${p.id},'like')"><svg width="24" height="24" viewBox="0 0 24 24" fill="${liked.includes(p.id)?'black':'none'}" stroke="black" stroke-width="1.7"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg></button><button onclick="doAction(${p.id},'comment')"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="black" stroke-width="1.6"><path d="M21 11.5a8.5 8.5 0 0 1-8.5 8.5H11l-4 3v-3.5A8.5 8.5 0 0 1 21 11.5z"/></svg></button><button onclick="doAction(${p.id},'share')"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="black" stroke-width="1.6"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"/></svg></button></div><button><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="black" stroke-width="1.6"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg></button></div>
 <div class="px-4 pb-4 text-black text-[12px]"><b>${p.likes} likes</b><div class="mt-1"><b>aimeme.in</b> ${p.caption}</div></div>
