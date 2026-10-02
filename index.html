@@ -1,152 +1,165 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-<meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>AiMeme.in - Golden Edition</title>
+<title>AiMeme.in</title>
 <script src="https://cdn.tailwindcss.com"></script>
-<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@600;700&display=swap" rel="stylesheet">
 <style>
-body{font-family:'Space Grotesk',sans-serif;background:#000;color:#fff}
-.glass{background:#101010;border:1px solid rgba(255,255,255,0.1)}
+body{background:#000;color:#fff}
+.card{position:relative;background:#101010;border-radius:22px;overflow:hidden;border:1px solid rgba(255,255,255,0.08)}
+.top-actions{position:absolute;top:8px;right:8px;display:flex;gap:5px;z-index:10}
+.icon-btn{background:rgba(0,0,0,0.7);backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,0.1);padding:5px 8px;border-radius:20px;font-size:10px}
+.locked{filter:blur(12px);pointer-events:none}
 </style>
 </head>
-<body class="min-h-screen">
+<body>
 
-<!-- HEADER -->
-<div class="flex justify-between items-center p-5">
-  <h1 class="text-[24px] font-black">AiMeme<span class="text-[#FFD60A]">.in</span></h1>
-  <button id="addBtn" onclick="checkAdmin()" class="bg-[#FFD60A] text-black px-5 py-2 rounded-full font-black text-[12px]">+ DROP</button>
+<div class="flex justify-between p-5">
+  <h1 class="text-xl font-black">AiMeme<span class="text-[#FFD60A]">.in</span></h1>
+  <button onclick="checkAdmin()" class="bg-[#FFD60A] text-black px-4 py-2 rounded-full font-black text-xs">+ DROP</button>
 </div>
 
-<!-- GALLERY -->
-<div id="gallery" class="grid grid-cols-2 gap-3 p-3">
-  <!-- Memes yahan load honge -->
+<!-- Mission Progress Bar -->
+<div class="mx-3 p-3 bg-[#111] rounded-2xl border border-white/10 flex justify-between items-center">
+  <span class="text-xs">Mission: <span id="missionCount">0</span>/5</span>
+  <span class="text-[10px] bg-[#FFD60A] text-black px-2 py-1 rounded-full font-bold" id="missionStatus">LOCKED</span>
 </div>
 
-<!-- NEW DROP MODAL - EXACT AS SCREENSHOT -->
-<div id="addModal" class="fixed inset-0 bg-black/95 backdrop-blur-xl hidden items-center justify-center z-50 p-4">
-  <div class="w-full max-w-[360px] bg-[#0E0E0E] border border-white/10 rounded-[28px] p-6 shadow-2xl">
-    <h2 class="text-[24px] font-black">New Drop</h2>
-    <p class="text-[10px] tracking-[0.25em] opacity-40 mt-1 font-bold">AIMEME CULTURE • GOLDEN EDITION</p>
+<div id="gallery" class="grid grid-cols-1 gap-3 p-3 mt-3"></div>
 
-    <input id="memeUrl" type="text" placeholder="Image Link (https://...)"
-      class="w-full mt-6 p-4 bg-[#1A1A1A] rounded-[16px] text-[14px] border border-[#FFD60A]/60 focus:border-[#FFD60A] outline-none">
+<!-- LOCK MESSAGE -->
+<div id="lockOverlay" class="fixed bottom-5 left-3 right-3 bg-[#FFD60A] text-black p-4 rounded-[18px] font-bold text-center text-[13px] hidden z-[60]">
+  🔒 Do Like Comment And Share And Complete The Mission To Get Reward<br>
+  <span class="text-[11px] font-normal">Slide locked - 5 posts pe action karo</span>
+</div>
 
-    <div class="mt-4 flex items-center gap-3">
-      <label class="bg-[#EFEFEF] text-black px-3.5 py-1.5 rounded-[6px] text-[13px] font-bold cursor-pointer">
-        Choose file
-        <input type="file" id="memeFile" accept="image/*" class="hidden" onchange="handleFile(this)">
-      </label>
-      <span id="fileName" class="text-[13px] text-white/60 truncate">No file chosen</span>
+<!-- NEW DROP -->
+<div id="addModal" class="fixed inset-0 bg-black/95 hidden items-center justify-center z-50 p-4">
+  <div class="w-full max-w-sm bg-[#0E0E0E] rounded-[28px] p-6 border border-white/10">
+    <h2 class="text-xl font-black">New Drop</h2>
+    <input id="memeUrl" placeholder="Image Link (Optional)" class="w-full mt-4 p-4 bg-[#1A1A1A] rounded-[16px] text-sm border border-yellow-500/40 outline-none">
+    <div class="mt-3 flex gap-2 items-center">
+      <label class="bg-white text-black px-3 py-1 rounded text-xs font-bold">Choose file<input type="file" id="memeFile" hidden accept="image/*"></label>
+      <span id="fileName" class="text-xs opacity-60">No file</span>
     </div>
-
-    <textarea id="memeCaption" placeholder="Write caption..."
-      class="w-full mt-4 p-4 bg-[#1A1A1A] rounded-[18px] text-[14px] border border-white/10 h-[110px] outline-none resize-none"></textarea>
-
-    <div class="flex gap-3 mt-6">
-      <button onclick="closeModal()" class="flex-1 p-4 bg-[#1C1C1C] border border-white/10 rounded-[18px] text-[14px] font-bold">Cancel</button>
-      <button onclick="dropMeme()" class="flex-1 p-4 bg-[#FFD60A] bg-gradient-to-br from-[#FFE55A] to-[#FFB800] text-black rounded-[18px] text-[15px] font-black">DROP NOW</button>
+    <textarea id="memeCaption" placeholder="Write caption..." class="w-full mt-3 p-4 bg-[#1A1A1A] rounded-[16px] h-20 text-sm border border-white/10"></textarea>
+    <div class="flex gap-3 mt-4">
+      <button onclick="closeModal()" class="flex-1 p-4 bg-[#1C1C1C] rounded-[16px]">Cancel</button>
+      <button onclick="dropMeme()" class="flex-1 p-4 bg-[#FFD60A] text-black rounded-[16px] font-black">DROP NOW</button>
     </div>
   </div>
 </div>
 
-<!-- ADMIN LOGIN - NO COPY VISIBLE -->
-<div id="adminLogin" class="fixed inset-0 bg-black/90 backdrop-blur-xl hidden items-center justify-center z-[80] p-4">
-  <div class="w-full max-w-[340px] bg-[#0E0E0E] border border-white/10 rounded-[28px] p-6 text-center">
-    <h2 class="font-black text-[16px]">Admin Login</h2>
-    <p class="text-[10px] opacity-40 mt-1">Enter your secret password</p>
-    <input id="passInput" type="password" placeholder="Password"
-      class="w-full mt-6 p-4 bg-[#1A1A1A] rounded-[16px] text-[14px] border border-white/10 text-center outline-none">
+<div id="adminLogin" class="fixed inset-0 bg-black/90 hidden items-center justify-center z-[80] p-4">
+  <div class="bg-[#0E0E0E] rounded-[28px] p-6 w-full max-w-xs text-center border border-white/10">
+    <input id="passInput" type="password" placeholder="Password" class="w-full p-4 bg-[#1A1A1A] rounded-[16px] text-center text-sm outline-none">
     <button onclick="loginAdmin()" class="w-full mt-4 p-4 bg-[#FFD60A] text-black font-black rounded-[16px]">LOGIN</button>
-    <button onclick="document.getElementById('adminLogin').classList.add('hidden')" class="mt-3 text-[11px] opacity-50">Cancel</button>
   </div>
 </div>
 
 <script>
-const ADMIN_PASS = "VidhayakJi@786#AiMeme";
-let finalImageData = "";
+const ADMIN_PASS="VidhayakJi@786#AiMeme";
+let finalImg="";
+let userActions = JSON.parse(localStorage.getItem('user_mission')||'[]'); // array of post ids where action done
 
-// File handling
-function handleFile(input){
-  const file = input.files[0];
-  if(!file) return;
-  document.getElementById('fileName').innerText = file.name;
-  const reader = new FileReader();
-  reader.onload = (e) => { finalImageData = e.target.result; };
-  reader.readAsDataURL(file);
-}
+document.getElementById('memeFile').addEventListener('change',e=>{
+  document.getElementById('fileName').innerText=e.target.files[0].name;
+  let r=new FileReader(); r.onload=ev=>finalImg=ev.target.result; r.readAsDataURL(e.target.files[0]);
+});
 
-function checkAdmin(){
-  if(localStorage.getItem('aimeme_admin') === 'true'){ openModal(); return; }
-  document.getElementById('adminLogin').classList.remove('hidden');
-  document.getElementById('adminLogin').classList.add('flex');
-}
-
-function loginAdmin(){
-  const p = document.getElementById('passInput').value.trim();
-  if(p === ADMIN_PASS){
-    localStorage.setItem('aimeme_admin','true');
-    document.getElementById('adminLogin').classList.add('hidden');
-    document.getElementById('adminLogin').classList.remove('flex');
-    openModal();
+function updateMission(){
+  document.getElementById('missionCount').innerText=userActions.length;
+  if(userActions.length>=5){
+    document.getElementById('missionStatus').innerText="UNLOCKED 🔥";
+    document.getElementById('missionStatus').className="text-[10px] bg-green-400 text-black px-2 py-1 rounded-full font-bold";
+    document.getElementById('lockOverlay').classList.add('hidden');
   } else {
-    alert('Wrong Password');
+    document.getElementById('missionStatus').innerText="LOCKED";
   }
 }
 
-function openModal(){
-  document.getElementById('addModal').classList.remove('hidden');
-  document.getElementById('addModal').classList.add('flex');
+function doAction(id, type){
+  if(!userActions.includes(id)){
+    userActions.push(id);
+    localStorage.setItem('user_mission',JSON.stringify(userActions));
+  }
+  // update counts
+  let posts=JSON.parse(localStorage.getItem('aimeme_posts')||'[]');
+  let p=posts.find(x=>x.id===id);
+  if(type==='like') p.likes++;
+  if(type==='comment') p.comments++;
+  if(type==='share') p.shares++;
+  p.rating=Math.min(5, p.likes+p.comments+p.shares);
+  localStorage.setItem('aimeme_posts',JSON.stringify(posts));
+  loadGallery();
+  checkLock();
 }
-function closeModal(){
-  document.getElementById('addModal').classList.add('hidden');
-  document.getElementById('addModal').classList.remove('flex');
+
+function checkLock(){
+  updateMission();
+  if(userActions.length>=1 && userActions.length<5){
+    document.getElementById('lockOverlay').classList.remove('hidden');
+    document.getElementById('lockOverlay').innerHTML=`🔒 Do Like Comment And Share And Complete The Mission To Get Reward<br><span class="text-[11px]">Slide locked - ${userActions.length}/5 done</span>`;
+    // lock slide after 1st post
+    setTimeout(()=>{ window.scrollTo({top:0, behavior:'smooth'}) },500);
+  }
+  if(userActions.length>=5){
+    // reward
+    if(!localStorage.getItem('reward_shown')){
+      alert('🎉 MISSION COMPLETE! Reward Unlocked! Ab full slide kar sakta hai!');
+      localStorage.setItem('reward_shown','true');
+    }
+  }
+}
+
+function loadGallery(){
+  let posts=JSON.parse(localStorage.getItem('aimeme_posts')||'[]');
+  let html="";
+  posts.forEach((p,i)=>{
+    let isLocked = (userActions.length>=1 && userActions.length<5 && i>=1);
+    html+=`
+    <div class="card ${isLocked?'locked':''}">
+      <div class="top-actions">
+        <button onclick="doAction(${p.id},'like')" class="icon-btn">❤️ ${p.likes}</button>
+        <button onclick="doAction(${p.id},'comment')" class="icon-btn">💬 ${p.comments}</button>
+        <button onclick="doAction(${p.id},'share')" class="icon-btn">↗️ ${p.shares||0}</button>
+        <div class="icon-btn bg-[#FFD60A] text-black font-black">${p.rating||0}/5</div>
+      </div>
+      <img src="${p.img}" class="w-full h-[320px] object-cover">
+      ${p.caption?`<div class="p-3 text-xs">${p.caption}</div>`:''}
+      ${isLocked?'<div class="absolute inset-0 bg-black/60 flex items-center justify-center text-xs font-bold">🔒 Complete Mission to Unlock</div>':''}
+    </div>`;
+  });
+  document.getElementById('gallery').innerHTML=html||'<p class="text-center opacity-30 mt-20 text-sm">No drops yet</p>';
+  updateMission();
 }
 
 function dropMeme(){
-  const link = document.getElementById('memeUrl').value.trim();
-  const caption = document.getElementById('memeCaption').value.trim();
-
-  // Image Link is OPTIONAL - if file is selected use file, else use link
-  let imageToPost = finalImageData;
-  if(link) imageToPost = link;
-
-  if(!imageToPost){
-    alert('Photo to daal bhai - ya Link ya File');
-    return;
-  }
-
-  // Save to localStorage (tum Supabase/Firebase use kar rahe ho to yahan API call karna)
-  let memes = JSON.parse(localStorage.getItem('aimeme_posts') || '[]');
-  memes.unshift({img: imageToPost, caption: caption, time: Date.now()});
-  localStorage.setItem('aimeme_posts', JSON.stringify(memes));
-
-  alert('DROP SUCCESSFUL! 🔥');
-  closeModal();
+  let link=document.getElementById('memeUrl').value.trim();
+  if(link) finalImg=link;
+  if(!finalImg) return alert('Image daal');
+  let posts=JSON.parse(localStorage.getItem('aimeme_posts')||'[]');
+  posts.unshift({img:finalImg, caption:document.getElementById('memeCaption').value, likes:0, comments:0, shares:0, rating:0, id:Date.now()});
+  localStorage.setItem('aimeme_posts',JSON.stringify(posts));
   location.reload();
 }
+function checkAdmin(){document.getElementById('adminLogin').classList.remove('hidden');document.getElementById('adminLogin').classList.add('flex');}
+function loginAdmin(){if(document.getElementById('passInput').value.trim()===ADMIN_PASS){localStorage.setItem('aimeme_admin','true');document.getElementById('adminLogin').classList.add('hidden');document.getElementById('addModal').classList.remove('hidden');document.getElementById('addModal').classList.add('flex');}else alert('Wrong');}
+function closeModal(){document.getElementById('addModal').classList.add('hidden');}
+if(window.location.search.includes('admin')) checkAdmin();
+loadGallery(); checkLock();
 
-// Load gallery
-(function loadGallery(){
-  const memes = JSON.parse(localStorage.getItem('aimeme_posts') || '[]');
-  const g = document.getElementById('gallery');
-  if(memes.length === 0){
-    g.innerHTML = '<p class="col-span-2 text-center opacity-30 text-sm mt-10">No drops yet. Be the first!</p>';
-    return;
+// Prevent slide when locked
+let startY=0;
+document.addEventListener('touchstart',e=>startY=e.touches[0].clientY);
+document.addEventListener('touchmove',e=>{
+  if(userActions.length>=1 && userActions.length<5){
+    if(e.touches[0].clientY < startY-50){
+      e.preventDefault();
+      document.getElementById('lockOverlay').classList.remove('hidden');
+    }
   }
-  g.innerHTML = memes.map(m => `
-    <div class="glass rounded-[20px] overflow-hidden">
-      <img src="${m.img}" class="w-full h-48 object-cover">
-      ${m.caption? `<p class="p-3 text-[12px]">${m.caption}</p>` : ''}
-    </div>
-  `).join('');
-})();
-
-// Secret admin route
-if(window.location.search.includes('admin')){
-  checkAdmin();
-}
+},{passive:false});
 </script>
 </body>
 </html>
