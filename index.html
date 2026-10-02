@@ -6,92 +6,88 @@
 <script src="https://cdn.tailwindcss.com"></script>
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@600;700&display=swap" rel="stylesheet">
 <style>
-body{font-family:'Space Grotesk',sans-serif;background:#060606}
-.golden-glass{background:linear-gradient(135deg, rgba(255,214,10,0.08), rgba(255,255,255,0.03));backdrop-filter:blur(20px);border:1px solid rgba(255,214,10,0.25)}
-.insta-card{background:#fff;color:#000;border-radius:12px;overflow:hidden;width:90vw;max-width:360px;flex-shrink:0;scroll-snap-align:center}
-.slider{display:flex;overflow-x:scroll;scroll-snap-type:x mandatory;gap:12px;padding:10px}
+body{font-family:'Space Grotesk',sans-serif;background:#050505;color:#fff}
+.golden-glass{background:linear-gradient(135deg, rgba(255,214,10,0.10), rgba(255,255,255,0.03));backdrop-filter:blur(20px);border:1px solid rgba(255,214,10,0.30)}
+.insta-card{background:#fff;border-radius:14px;overflow:hidden;width:92vw;max-width:360px;flex-shrink:0;scroll-snap-align:center;box-shadow:0 4px 20px rgba(0,0,0,0.3);border:1px solid #e8e8e8;margin:0 auto}
+.slider{display:flex;overflow-x:scroll;scroll-snap-type:x mandatory;gap:14px;padding:12px;padding-bottom:110px}
 .slider::-webkit-scrollbar{display:none}
-.locked{filter:blur(20px);pointer-events:none;opacity:0.5}
+.locked.card-img{filter:blur(18px);transform:scale(1.05)}
+.locked.card-img-wrap::after{content:"";position:absolute;inset:0;background:rgba(0,0,0,0.2);backdrop-filter:blur(2px)}
 canvas{touch-action:none}
 </style>
 </head>
-<body class="text-white">
+<body>
 
-<!-- HEADER - SECRET ADMIN + WITHDRAWAL -->
-<header class="golden-glass sticky top-0 z-30 mx-2 mt-2 rounded-[16px] p-3 flex justify-between items-center">
-  <div>
-    <h1 class="text-[15px] font-bold tracking-[5px]">AIMEME<span class="text-yellow-400">.</span></h1>
-    <p class="text-[7px] opacity-40 tracking-[0.2em]">GOLDEN GLASS UI DESIGN</p>
-  </div>
+<!-- HEADER - GOLDEN GLASS -->
+<header class="golden-glass sticky top-0 z-30 mx-3 mt-3 rounded-[18px] p-3.5 flex justify-between items-center">
+  <div><h1 class="text-[16px] font-bold tracking-[4px]">AIMEME<span class="text-yellow-400">.</span></h1><p class="text-[7px] opacity-50 tracking-[0.2em]">GOLDEN GLASS UI DESIGN</p></div>
   <div class="flex items-center gap-2">
-    <span id="mCount" class="bg-[#FFD60A] text-black text-[10px] px-2.5 py-1 rounded-full font-black">0/5</span>
-    <button onclick="openWithdraw()" class="bg-white/10 p-2 rounded-full text-[14px]">💸</button>
-    <!-- YE BUTTON SIRF?admin PE DIKHEGA -->
+    <span id="mCount" class="bg-[#FFD60A] text-black text-[11px] px-3 py-1 rounded-full font-black">0/5</span>
+    <button onclick="openWithdraw()" class="bg-white/10 w-9 h-9 rounded-full flex items-center justify-center text-[16px]">💸</button>
     <button id="addBtn" onclick="openModal()" class="hidden bg-white text-black px-5 py-2 rounded-full font-bold text-xs">+ ADD</button>
   </div>
 </header>
 
-<!-- INSTAGRAM STYLE SLIDER - COMPACT VISIBLE -->
-<div class="mt-3"><div id="grid" class="slider"></div></div>
+<!-- SLIDER - CLEARLY VISIBLE INSTAGRAM CARDS -->
+<div class="mt-4"><div id="grid" class="slider"></div></div>
 
-<div id="lockMsg" class="fixed bottom-3 left-3 right-3 bg-white text-black p-3 rounded-[14px] text-center z-40 text-[11px] font-bold">
+<div id="lockMsg" class="fixed bottom-4 left-4 right-4 bg-white text-black p-4 rounded-[18px] text-center z-40 text-[12px] font-bold shadow-[0_10px_40px_rgba(0,0,0,0.5)]">
   🔒 Do Like Comment and Share - 5 Posts Complete Karo To Unlock Slider & Scratch
 </div>
 
-<!-- SCRATCH CARD - SLIDER UNLOCK PE -->
+<!-- SCRATCH MODAL - SLIDER UNLOCK PE -->
 <div id="scratchModal" class="fixed inset-0 bg-black/90 backdrop-blur-xl hidden items-center justify-center z-[90] p-4">
   <div class="w-full max-w-[340px]">
-    <h2 class="text-center font-bold text-[18px]">🎉 MISSION COMPLETE!</h2>
+    <h2 class="text-center font-bold text-[20px]">🎉 MISSION COMPLETE!</h2>
     <p class="text-center text-[11px] opacity-60 mt-1">Ghiso or jeeto UPI Cash ya Voucher</p>
-    <div class="relative mt-4 w-full h-[380px] rounded-[28px] overflow-hidden bg-[#1a1a1a]">
+    <div class="relative mt-4 w-full h-[380px] rounded-[28px] overflow-hidden bg-[#1a1a1a] border border-white/10">
       <div id="realReward" class="absolute inset-0"></div>
       <canvas id="scratchCanvas" class="absolute inset-0 w-full h-full"></canvas>
+      <div class="absolute bottom-3 w-full text-center text-[10px] opacity-60 pointer-events-none">👆 50% Ghiso</div>
     </div>
     <div id="afterWin" class="hidden mt-4">
       <div id="upiBox" class="hidden golden-glass rounded-[18px] p-4">
-        <p class="text-[#00FF88] font-bold text-[13px]">💰 UPI Cash Jeeta!</p>
-        <input id="upiId" placeholder="Enter your UPI ID (98765@paytm)" class="w-full mt-3 p-3 bg-black rounded-xl text-[13px] border border-yellow-400/30 outline-none">
-        <button onclick="withdrawUPI()" class="w-full mt-3 bg-[#FFD60A] text-black py-3 rounded-xl font-black text-[13px]">WITHDRAW NOW</button>
+        <p class="text-[#00FF88] font-bold text-[14px]">💰 ₹<span id="winAmt"></span> UPI Cash Jeeta!</p>
+        <input id="upiId" placeholder="Enter UPI ID - e.g. 9876543210@paytm" class="w-full mt-3 p-3.5 bg-black rounded-xl text-[13px] border border-yellow-400/30 outline-none">
+        <button onclick="withdrawUPI()" class="w-full mt-3 bg-[#FFD60A] text-black py-3.5 rounded-xl font-black text-[13px]">WITHDRAW NOW</button>
       </div>
-      <div id="voucherBox" class="hidden text-center">
-        <p class="text-[#FFD60A] font-bold">🎁 Voucher Copied!</p>
-        <button onclick="closeScratch()" class="w-full mt-3 bg-white text-black py-3 rounded-xl font-black">CLOSE</button>
+      <div id="voucherBox" class="hidden text-center golden-glass rounded-[18px] p-4">
+        <p class="text-[#FFD60A] font-bold">🎁 Voucher Code Copied!</p>
+        <p id="vCodeShow" class="text-white font-black mt-2 tracking-widest"></p>
+        <button onclick="closeScratch()" class="w-full mt-3 bg-white text-black py-3 rounded-xl font-black text-[13px]">CLOSE</button>
       </div>
     </div>
   </div>
 </div>
 
-<!-- WITHDRAWAL HISTORY - TOP RIGHT -->
+<!-- WITHDRAWAL HISTORY -->
 <div id="withdrawModal" class="fixed inset-0 bg-black/90 backdrop-blur-xl hidden items-center justify-center z-[80] p-4">
-  <div class="w-full max-w-[360px] bg-zinc-900 rounded-[22px] p-4 border border-zinc-700 max-h-[80vh] overflow-auto">
-    <div class="flex justify-between"><h2 class="font-bold">💸 Withdrawal History</h2><button onclick="closeWithdraw()">✕</button></div>
-    <div class="flex gap-2 mt-4">
-      <button onclick="tabWithdraw('processing')" class="tab bg-[#FFD60A] text-black px-3 py-1 rounded-full text-[11px] font-bold">Processing</button>
-      <button onclick="tabWithdraw('success')" class="tab bg-white/10 px-3 py-1 rounded-full text-[11px]">Successful</button>
-      <button onclick="tabWithdraw('failed')" class="tab bg-white/10 px-3 py-1 rounded-full text-[11px]">Failed</button>
+  <div class="w-full max-w-[360px] bg-zinc-900 rounded-[22px] p-5 border border-zinc-700 max-h-[80vh] overflow-auto">
+    <div class="flex justify-between items-center"><h2 class="font-bold">💸 Withdrawal History</h2><button onclick="closeWithdraw()" class="w-8 h-8 bg-white/10 rounded-full">✕</button></div>
+    <div class="flex gap-2 mt-5">
+      <button onclick="tabWithdraw('processing')" class="tab bg-[#FFD60A] text-black px-4 py-1.5 rounded-full text-[11px] font-bold">Processing</button>
+      <button onclick="tabWithdraw('success')" class="tab bg-white/10 px-4 py-1.5 rounded-full text-[11px]">Successful</button>
+      <button onclick="tabWithdraw('failed')" class="tab bg-white/10 px-4 py-1.5 rounded-full text-[11px]">Failed</button>
     </div>
     <div id="withdrawList" class="mt-4 space-y-2"></div>
   </div>
 </div>
 
-<!-- ADD MODAL - IMAGE LINK OPTIONAL -->
-<div id="modal" class="fixed inset-0 bg-black/80 hidden items-center justify-center z-50 p-4">
+<!-- ADD POST MODAL -->
+<div id="modal" class="fixed inset-0 bg-black/80 backdrop-blur-md hidden items-center justify-center z-50 p-4">
   <div class="bg-zinc-900 w-full max-w-md rounded-[24px] p-6 border border-zinc-700">
-    <h2 class="font-bold">Naya Meme</h2>
-    <p class="text-[9px] opacity-40 tracking-widest mt-1">AIMEME CULTURE • GOLDEN GLASS EDITION</p>
-    <input id="imgIn" placeholder="Image Link (https://...) - Optional" class="w-full p-3 bg-black border border-yellow-400/30 rounded-xl mt-4 text-sm outline-none">
-    <div class="flex gap-2 mt-3 text-xs"><label class="bg-white text-black px-3 py-1 rounded-full font-bold cursor-pointer">Choose file<input type="file" id="fileIn" hidden accept="image/*"></label><span id="fileName" class="opacity-50">No file chosen</span></div>
-    <textarea id="capIn" placeholder="Caption..." class="w-full p-3 bg-black border border-zinc-700 rounded-xl text-sm h-20 mt-3"></textarea>
-    <div class="flex gap-3 mt-5">
-      <button onclick="closeModal()" class="flex-1 p-3 bg-zinc-800 rounded-xl text-sm">Cancel</button>
-      <button onclick="addPost()" class="flex-1 p-3 bg-yellow-400 text-black font-bold rounded-xl text-sm">POST</button>
-    </div>
+    <h2 class="font-bold text-[16px]">Naya Meme Drop</h2>
+    <p class="text-[9px] opacity-40 tracking-[0.2em] mt-1">AIMEME CULTURE • GOLDEN GLASS</p>
+    <input id="imgIn" placeholder="Image Link Optional (https://...)" class="w-full p-3.5 bg-black border border-yellow-400/20 rounded-xl mt-4 text-sm outline-none">
+    <div class="flex gap-2 mt-3 text-xs items-center"><label class="bg-white text-black px-4 py-2 rounded-full font-bold cursor-pointer">Choose file<input type="file" id="fileIn" hidden accept="image/*"></label><span id="fileName" class="opacity-50 text-[11px]">No file chosen</span></div>
+    <textarea id="capIn" placeholder="Caption optional..." class="w-full p-3 bg-black border border-zinc-700 rounded-xl text-sm h-20 mt-3"></textarea>
+    <div class="flex gap-3 mt-5"><button onclick="closeModal()" class="flex-1 p-3.5 bg-zinc-800 rounded-xl text-sm">Cancel</button><button onclick="addPost()" class="flex-1 p-3.5 bg-yellow-400 text-black font-bold rounded-xl text-sm">POST</button></div>
   </div>
 </div>
 
 <script>
-let posts = JSON.parse(localStorage.getItem('aimeme_posts') || '[]');
-if(posts.length===0) posts=[1,2,3,4,5].map(i=>({id:i, img:`https://picsum.photos/600/600?random=${i+70}`, likes:0, liked:false, comments:0, caption:"Welcome 🔥"}));
+let posts = JSON.parse(localStorage.getItem('aimeme_posts')||'[]');
+if(posts.length===0) posts=[1,2,3,4,5].map(i=>({id:i, img:`https://picsum.photos/600/600?random=${i+40}`, likes:0, liked:false, comments:0}));
 let actions = JSON.parse(localStorage.getItem('mission_actions')||'[]');
 let liked = JSON.parse(localStorage.getItem('liked_posts')||'[]');
 let withdraws = JSON.parse(localStorage.getItem('withdraws')||'[]');
@@ -100,9 +96,9 @@ let rewards=[
   {type:'upi', amount:5, color:'#00FF88'},
   {type:'upi', amount:10, color:'#00FF88'},
   {type:'upi', amount:20, color:'#00FF88'},
-  {type:'voucher', brand:'GIVA', code:'PF-KQXRMZ', offer:'28% Off', color:'#FFB6B8'},
-  {type:'voucher', brand:'TIRA', code:'septhd06vuvi67k', offer:'30% Off on 999', color:'#7AB8E8'},
-  {type:'voucher', brand:'VAKU', code:'K3TTCX PVDWP1', offer:'Watch @599', color:'#FFA73D'}
+  {type:'voucher', brand:'GIVA', code:'PF-KQXRMZ', offer:'28% Off on Jewellery', color:'#FFB6B8'},
+  {type:'voucher', brand:'TIRA', code:'septhd06vuvi67k', offer:'Upto 30% Off on 999', color:'#7AB8E8'},
+  {type:'voucher', brand:'VAKU', code:'K3TTCX PVDWP1', offer:'SmartWatch at Rs.599', color:'#FFA73D'}
 ];
 
 document.getElementById('fileIn').addEventListener('change',e=>{
@@ -110,10 +106,8 @@ document.getElementById('fileIn').addEventListener('change',e=>{
   let r=new FileReader(); r.onload=ev=>finalImg=ev.target.result; r.readAsDataURL(e.target.files[0]);
 });
 
-// SECRET ADMIN LOGIC - SIRF TERE LIYE - NORMAL PE BUTTON NAHI DIKHEGA
-if(window.location.search.includes('admin')){
-  document.getElementById('addBtn').classList.remove('hidden');
-}
+// SECRET ADMIN - SIRF?admin PE BUTTON DIKHEGA
+if(window.location.search.includes('admin')) document.getElementById('addBtn').classList.remove('hidden');
 
 function doAction(id,type){
   let p=posts.find(x=>x.id===id);
@@ -131,25 +125,32 @@ function doAction(id,type){
 function render(){
   document.getElementById('mCount').innerText=`${actions.length}/5`;
   let slider=document.getElementById('grid');
-  if(actions.length>=5){ slider.classList.remove('locked'); document.getElementById('lockMsg').classList.add('hidden');
-    if(!localStorage.getItem('scratchShown')){ localStorage.setItem('scratchShown','true'); setTimeout(openScratch,600); }
-  } else { slider.classList.add('locked'); document.getElementById('lockMsg').classList.remove('hidden'); }
+  if(actions.length>=5){ slider.classList.remove('locked'); document.getElementById('lockMsg').style.display='none'; if(!localStorage.getItem('scratchShown')){ localStorage.setItem('scratchShown','true'); setTimeout(openScratch,700);} }
+  else{ slider.classList.add('locked'); document.getElementById('lockMsg').style.display='block'; }
 
   slider.innerHTML=posts.slice().reverse().map(p=>`
     <div class="insta-card">
-      <div class="flex justify-between items-center p-3">
-        <div class="flex gap-2 items-center"><div class="w-8 h-8 rounded-full bg-zinc-300 flex items-center justify-center">👤</div><div><div class="flex gap-1"><span class="text-[13px] font-bold">user_name</span><span class="text-blue-500 text-[11px]">✔</span></div><div class="text-[11px] text-zinc-500">Placehere</div></div></div><div>⋮</div>
-      </div>
-      <img src="${p.img}" class="w-full aspect-square object-cover">
-      <div class="flex justify-between p-3">
-        <div class="flex gap-4">
-          <button onclick="doAction(${p.id},'like')"><svg width="24" height="24" fill="${p.liked?'black':'none'}" stroke="black" stroke-width="1.8" viewBox="0 0 24 24"><path d="M12 21s-6.5-4.35-8.5-7.5A5 5 0 0 1 12 8a5 5 0 0 1 8.5 5.5C18.5 16.65 12 21 12 21z"/></svg></button>
-          <button onclick="doAction(${p.id},'comment')"><svg width="22" height="22" fill="none" stroke="black" stroke-width="1.8" viewBox="0 0 24 24"><path d="M21 11.5a8.5 8.5 0 0 1-12.7 7.4L3 21l2.1-5.3A8.5 8.5 0 0 1 21 11.5z"/></svg></button>
-          <button><svg width="22" height="22" fill="none" stroke="black" stroke-width="1.8" viewBox="0 0 24 24"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"/></svg></button>
+      <div class="flex justify-between items-center px-3.5 py-3">
+        <div class="flex items-center gap-2.5">
+          <div class="w-8 h-8 rounded-full bg-[#ddd] flex items-center justify-center"><div class="w-5 h-5 bg-zinc-400 rounded-full"></div></div>
+          <div class="leading-[12px]"><div class="flex items-center gap-1"><span class="text-[13px] font-semibold text-black">user_name</span><span class="text-[#0095f6] text-[10px]">✔</span></div><div class="text-[11px] text-[#8e8e8e] mt-[2px]">Placehere</div></div>
         </div>
-        <button><svg width="22" height="22" fill="none" stroke="black" stroke-width="1.8" viewBox="0 0 24 24"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg></button>
+        <div class="text-black font-bold text-[18px]">⋮</div>
       </div>
-      <div class="px-3 pb-3 text-[12px]"><b>${p.likes} likes</b> • ${p.comments} comments</div>
+      <div class="card-img-wrap relative w-full aspect-square overflow-hidden bg-gradient-to-br from-[#9D50FF] via-[#FF7A00] to-[#FF2E93] flex items-center justify-center">
+        <img src="${p.img}" class="card-img absolute inset-0 w-full h-full object-cover transition-all duration-500">
+        <div class="absolute inset-0 flex items-center justify-center pointer-events-none opacity-0"><svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1"><rect x="3" y="3" width="14" height="14" rx="1"/><circle cx="7.5" cy="7.5" r="1.5"/><path d="M3 15l4-4 4 4 3-3 4 4"/><rect x="8" y="8" width="14" height="14" rx="1"/></svg></div>
+      </div>
+      <div class="flex justify-between items-center px-3.5 py-3">
+        <div class="flex items-center gap-4">
+          <button onclick="doAction(${p.id},'like')" class="active:scale-90 transition"><svg width="23" height="23" viewBox="0 0 24 24" fill="${p.liked?'#000':'none'}" stroke="#000" stroke-width="1.6"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg></button>
+          <button onclick="doAction(${p.id},'comment')" class="active:scale-90 transition"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="1.6"><path d="M21 11.5a8.5 8.5 0 0 1-8.5 8.5H11l-4 3v-3.5A8.5 8.5 0 0 1 21 11.5z"/></svg></button>
+          <button class="active:scale-90 transition"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="1.6"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"/></svg></button>
+          <div class="flex gap-1 ml-1"><div class="w-1.5 h-1.5 rounded-full bg-zinc-300"></div><div class="w-1.5 h-1.5 rounded-full bg-[#0095f6]"></div><div class="w-1.5 h-1.5 rounded-full bg-zinc-300"></div></div>
+        </div>
+        <button><svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="1.6"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg></button>
+      </div>
+      <div class="px-3.5 pb-3.5 text-[11px] text-black/60"><span class="text-black font-semibold">${p.likes} likes</span> • ${p.comments} comments</div>
     </div>`).join('');
 }
 
@@ -160,60 +161,57 @@ function openScratch(){
   document.getElementById('upiBox').classList.add('hidden');
   document.getElementById('voucherBox').classList.add('hidden');
   if(r.type==='upi'){
-    document.getElementById('realReward').innerHTML=`<div style="background:${r.color};height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;color:#000"><div class="text-[70px]">💸</div><h1 class="font-black text-[36px]">₹${r.amount}</h1><p class="font-bold">UPI CASH</p></div>`;
+    document.getElementById('winAmt').innerText=r.amount;
+    document.getElementById('realReward').innerHTML=`<div style="background:${r.color};height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;color:#000"><div class="text-[72px]">💸</div><h1 class="font-black text-[38px] -mt-2">₹${r.amount}</h1><p class="font-bold tracking-widest text-[12px] mt-1">UPI CASH</p></div>`;
   } else {
-    document.getElementById('realReward').innerHTML=`<div style="background:${r.color};height:100%;padding:24px;display:flex;flex-direction:column;justify-content:center;color:#000"><h3 class="text-[12px] tracking-[3px] opacity-70">${r.brand}</h3><h1 class="font-black text-[24px] mt-1">${r.offer}</h1><p class="mt-3 font-bold">CODE: ${r.code}</p></div>`;
+    document.getElementById('realReward').innerHTML=`<div style="background:${r.color};height:100%;padding:26px;display:flex;flex-direction:column;justify-content:center;color:#000"><p class="text-[11px] tracking-[3px] opacity-60 font-bold">${r.brand}</p><h1 class="font-black text-[22px] leading-[24px] mt-2">${r.offer}</h1><p class="mt-4 font-bold bg-black text-white inline-block px-3 py-1 rounded-full text-[12px]">CODE: ${r.code}</p></div>`;
   }
-  setTimeout(initScratch,100);
+  setTimeout(initScratch,120);
 }
 function initScratch(){
   let c=document.getElementById('scratchCanvas'), ctx=c.getContext('2d');
   c.width=c.offsetWidth; c.height=c.offsetHeight;
-  ctx.fillStyle='#999'; ctx.fillRect(0,0,c.width,c.height);
-  ctx.font='900 18px sans-serif'; ctx.fillStyle='#555'; ctx.fillText('SCRATCH KARO! 🎁', c.width/2-80, c.height/2);
-  let d=false;
-  function s(e){
-    if(!d) return;
-    let r=c.getBoundingClientRect(); let x=(e.touches?e.touches[0].clientX:e.clientX)-r.left; let y=(e.touches?e.touches[0].clientY:e.clientY)-r.top;
-    ctx.globalCompositeOperation='destination-out'; ctx.beginPath(); ctx.arc(x,y,28,0,Math.PI*2); ctx.fill(); check();
-  }
+  ctx.fillStyle='#9e9e9e'; ctx.fillRect(0,0,c.width,c.height);
+  ctx.fillStyle='#777'; for(let i=0;i<150;i++) ctx.fillRect(Math.random()*c.width,Math.random()*c.height,2,2);
+  ctx.font='900 16px Space Grotesk'; ctx.fillStyle='#444'; ctx.fillText('SCRATCH KARO! 🎁', c.width/2-70, c.height/2);
+  let d=false; const getPos=e=>{let r=c.getBoundingClientRect(); return {x:(e.touches?e.touches[0].clientX:e.clientX)-r.left,y:(e.touches?e.touches[0].clientY:e.clientY)-r.top}};
+  function s(e){ if(!d) return; let p=getPos(e); ctx.globalCompositeOperation='destination-out'; ctx.beginPath(); ctx.arc(p.x,p.y,30,0,Math.PI*2); ctx.fill(); check(); }
   c.addEventListener('mousedown',()=>d=true); c.addEventListener('mouseup',()=>d=false); c.addEventListener('mousemove',s);
   c.addEventListener('touchstart',()=>d=true); c.addEventListener('touchend',()=>d=false); c.addEventListener('touchmove',s);
   function check(){
-    let data=ctx.getImageData(0,0,c.width,c.height).data, t=0;
-    for(let i=3;i<data.length;i+=4) if(data[i]==0) t++;
-    if(t/(c.width*c.height)>0.5){
-      c.style.opacity='0'; c.style.pointerEvents='none';
+    let data=ctx.getImageData(0,0,c.width,c.height).data, t=0; for(let i=3;i<data.length;i+=4) if(data[i]==0) t++;
+    if(t/(c.width*c.height)>0.48){
+      c.style.transition='0.5s'; c.style.opacity='0'; c.style.pointerEvents='none';
       document.getElementById('afterWin').classList.remove('hidden');
       if(currentReward.type==='upi') document.getElementById('upiBox').classList.remove('hidden');
-      else{ document.getElementById('voucherBox').classList.remove('hidden'); navigator.clipboard.writeText(currentReward.code); }
+      else{ document.getElementById('voucherBox').classList.remove('hidden'); document.getElementById('vCodeShow').innerText=currentReward.code; navigator.clipboard.writeText(currentReward.code); }
     }
   }
 }
 function withdrawUPI(){
   let upi=document.getElementById('upiId').value.trim();
-  if(!upi.includes('@')) return alert('Sahi UPI ID daal');
+  if(!upi.includes('@')||upi.length<6) return alert('Sahi UPI ID daalo - e.g. 98765@paytm');
   withdraws.unshift({amount:currentReward.amount, upi, status:'processing', date:new Date().toLocaleDateString()});
   localStorage.setItem('withdraws', JSON.stringify(withdraws));
-  alert(`₹${currentReward.amount} Withdrawal Requested!`); closeScratch(); openWithdraw();
+  alert(`₹${currentReward.amount} Withdrawal Processing!`); closeScratch(); openWithdraw();
 }
 function openWithdraw(){ document.getElementById('withdrawModal').style.display='flex'; tabWithdraw('processing'); }
 function closeWithdraw(){ document.getElementById('withdrawModal').style.display='none'; }
-function tabWithdraw(s){
-  let list=withdraws; document.getElementById('withdrawList').innerHTML=list.map(w=>`
-    <div class="bg-white/5 p-3 rounded-xl flex justify-between text-[12px]"><div><b>₹${w.amount}</b><div class="text-[10px] opacity-50">${w.upi}</div></div><div><span class="text-[10px] px-2 py-1 rounded-full bg-yellow-400 text-black">${w.status.toUpperCase()}</span><div class="text-[9px] opacity-40">${w.date}</div></div></div>`).join('') || '<p class="text-[11px] opacity-40 text-center mt-6">No history yet</p>';
+function tabWithdraw(status){
+  let list=withdraws.filter(w=>w.status===status); if(list.length===0) list=withdraws;
+  document.getElementById('withdrawList').innerHTML=list.map(w=>`<div class="bg-white/5 p-3.5 rounded-xl flex justify-between text-[12px]"><div><b class="text-[13px]">₹${w.amount}</b><div class="text-[10px] opacity-50 mt-0.5">${w.upi}</div></div><div class="text-right"><span class="text-[10px] px-2.5 py-1 rounded-full ${w.status==='processing'?'bg-[#FFD60A] text-black':w.status==='success'?'bg-[#00FF88] text-black':'bg-red-500'} font-bold">${w.status.toUpperCase()}</span><div class="text-[9px] opacity-40 mt-1">${w.date}</div></div></div>`).join('')||'<p class="text-[11px] opacity-40 text-center mt-8">No withdrawal yet</p>';
 }
 function openModal(){document.getElementById('modal').style.display='flex'}
 function closeModal(){document.getElementById('modal').style.display='none'}
 function closeScratch(){document.getElementById('scratchModal').style.display='none'}
 function addPost(){
-  let img=document.getElementById('imgIn').value.trim(); if(img) finalImg=img;
-  if(!finalImg) return alert('Image daal');
-  let cap=document.getElementById('capIn').value || "No caption";
+  let link=document.getElementById('imgIn').value.trim(); if(link) finalImg=link;
+  if(!finalImg) return alert('Image daal - Link ya Choose file');
+  let cap=document.getElementById('capIn').value||"";
   posts.push({img:finalImg, caption:cap, likes:0, liked:false, comments:0, id:Date.now()});
-  localStorage.setItem('aimeme_posts', JSON.stringify(posts)); closeModal(); render(); finalImg="";
+  localStorage.setItem('aimeme_posts', JSON.stringify(posts)); closeModal(); render(); finalImg=""; document.getElementById('imgIn').value=""; document.getElementById('fileName').innerText="No file chosen";
 }
 render();
 </script>
 </body>
-  </html>
+</html>
