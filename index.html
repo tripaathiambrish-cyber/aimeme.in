@@ -2,27 +2,35 @@
 <html>
 <head>
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>AIMEME.IN - GOLDEN FEED</title>
+<title>AIMEME.IN</title>
 <script src="https://cdn.tailwindcss.com"></script>
 <style>
 body{background:#050505;color:#fff;font-family:Inter,sans-serif;margin:0}
 .golden-glass{background:linear-gradient(135deg, rgba(255,214,10,0.14), rgba(255,255,255,0.05));backdrop-filter:blur(20px);border:1px solid rgba(255,214,10,0.35)}
-.feed{height:calc(100vh - 88px);overflow-y:scroll;scroll-snap-type:y mandatory;scroll-behavior:smooth}
+.feed{height:calc(100vh - 80px);overflow-y:scroll;scroll-snap-type:y mandatory;scroll-behavior:smooth}
 .feed::-webkit-scrollbar{display:none}
-.feed-card{scroll-snap-align:start;scroll-snap-stop:always;min-height:calc(100vh - 88px);display:flex;align-items:center;justify-content:center;padding:16px}
+.feed-card{scroll-snap-align:start;scroll-snap-stop:always;min-height:calc(100vh - 80px);display:flex;align-items:center;justify-content:center;padding:14px}
 .insta-post{width:100%;max-width:400px;background:#fff;border-radius:18px;overflow:hidden;box-shadow:0 12px 40px rgba(0,0,0,0.5);border:1px solid #e5e5e5}
 .gold-tick{width:16px;height:16px;background:radial-gradient(circle at 30% 30%, #FFE55A, #FFB800);border-radius:50%;display:flex;align-items:center;justify-content:center;box-shadow:0 0 8px rgba(255,184,0,0.6)}
 </style>
 </head>
 <body>
 <header class="golden-glass sticky top-0 z-30 mx-3 mt-3 rounded-[22px] p-4 flex justify-between items-center">
-<div><h1 class="text-[18px] font-black tracking-[4px] leading-none">AIMEME<span class="text-[#FFD60A]">.</span>IN <span class="text-[7px] bg-gradient-to-r from-[#FFD60A] to-[#FFB800] text-black px-2 py-[2px] rounded-full ml-1">PREMIUM</span></h1><p class="text-[8px] tracking-[0.35em] opacity-70 mt-1 font-bold">GOLDEN UI DESIGN • FEED SCROLLER</p></div>
-<div class="flex gap-2"><span id="mCount" class="bg-[#FFD60A] text-black text-[11px] px-3 py-1.5 rounded-full font-black">0/5</span><button id="addBtn" onclick="openModal()" class="hidden bg-white text-black px-4 py-2 rounded-full font-black text-xs">+ ADD</button></div>
+<div>
+<h1 class="text-[20px] font-black tracking-[5px] leading-none">AIMEME<span class="text-[#FFD60A]">.</span>IN</h1>
+<p class="text-[8px] tracking-[0.35em] opacity-60 mt-1.5 font-bold">FEED SCROLLER</p>
+</div>
+<div class="flex gap-2 items-center">
+<span id="mCount" class="bg-[#FFD60A] text-black text-[11px] px-3 py-1.5 rounded-full font-black">0/5</span>
+<button onclick="openWithdraw()" class="bg-white/10 w-9 h-9 rounded-full border border-white/10 flex items-center justify-center">💸</button>
+<button onclick="openVoucher()" class="bg-white/10 w-9 h-9 rounded-full border border-white/10 flex items-center justify-center">🎟️</button>
+<button id="addBtn" onclick="openModal()" class="hidden bg-white text-black px-4 py-2 rounded-full font-black text-xs">+ ADD</button>
+</div>
 </header>
 <div id="feed" class="feed"></div>
 <div id="modal" class="fixed inset-0 bg-black/80 hidden items-center justify-center z-50 p-4">
 <div class="bg-[#111] w-full max-w-[380px] rounded-[28px] p-7 border border-white/10">
-<h2 class="font-black text-[20px]">New Golden Drop</h2>
+<h2 class="font-black text-[20px]">New Drop</h2>
 <input id="imgIn" placeholder="Image Link" class="w-full mt-5 p-4 bg-[#0a0a0a] border border-[#FFD60A]/40 rounded-[16px] outline-none">
 <label class="mt-3 bg-white text-black px-4 py-2 rounded-lg font-bold text-[13px] cursor-pointer inline-block">Choose file<input type="file" id="fileIn" hidden accept="image/*"></label>
 <span id="fileName" class="opacity-60 text-[13px] ml-2">No file</span>
@@ -30,66 +38,47 @@ body{background:#050505;color:#fff;font-family:Inter,sans-serif;margin:0}
 <div class="flex gap-3 mt-5"><button onclick="closeModal()" class="flex-1 p-4 bg-[#1a1a1a] rounded-[16px] font-bold">Cancel</button><button onclick="addPost()" class="flex-1 p-4 bg-[#FFD60A] text-black rounded-[16px] font-black">DROP</button></div>
 </div>
 </div>
-<div id="postMenu" class="fixed inset-0 bg-black/60 hidden items-end z-[60] p-3"><div class="bg-[#1a1a1a] w-full max-w-[360px] mx-auto rounded-[22px] p-3 border border-white/10"><button onclick="editPost()" class="w-full p-4 bg-white/5 rounded-xl font-bold">✏️ Edit Post</button><button onclick="deletePost()" class="w-full p-4 bg-red-500/10 rounded-xl mt-2 text-red-400 font-bold">🗑️ Delete</button><button onclick="closePostMenu()" class="w-full mt-3 p-3 bg-white/10 rounded-xl font-bold">Cancel</button></div></div>
-<div id="scratchModal" class="fixed inset-0 bg-black/90 hidden items-center justify-center z-[90] p-4"><div class="w-full max-w-[340px]"><h2 class="text-center font-bold text-[18px]">🎉 5/5 MISSION COMPLETE!</h2><div class="relative mt-4 w-full h-[380px] rounded-[28px] overflow-hidden bg-[#1a1a1a]"><div id="realReward" class="absolute inset-0"></div><canvas id="scratchCanvas" class="absolute inset-0 w-full h-full"></canvas></div><div id="afterWin" class="hidden mt-4 text-center"><p class="font-black text-[18px] text-[#FFD60A]">Reward Unlocked! 🔥</p><button onclick="closeScratch()" class="w-full mt-3 bg-white text-black py-3 rounded-xl font-black">CLOSE</button></div></div></div>
+<div id="commentModal" class="fixed inset-0 bg-black/80 hidden items-end z-[95]"><div class="bg-[#121212] w-full rounded-t-[24px] max-h-[70vh] flex flex-col"><div class="p-4 flex justify-between border-b border-white/10"><h3 class="font-bold">Comments</h3><button onclick="closeComment()" class="w-8 h-8 bg-white/10 rounded-full">✕</button></div><div id="commentList" class="flex-1 overflow-auto p-4 space-y-3"></div><div class="p-3 border-t border-white/10 flex gap-2"><input id="cInput" placeholder="Add comment..." class="flex-1 p-3 bg-black rounded-full text-[13px] border border-white/10 outline-none"><button onclick="postComment()" class="bg-[#FFD60A] text-black px-5 rounded-full font-bold">POST</button></div></div></div>
+<div id="withdrawModal" class="fixed inset-0 bg-black/90 hidden items-center justify-center z-[80] p-4"><div class="w-full max-w-[360px] bg-[#121212] rounded-[22px] p-5 border border-white/10"><div class="flex justify-between"><h2 class="font-bold">💸 Withdraw History</h2><button onclick="closeWithdraw()" class="w-8 h-8 bg-white/10 rounded-full">✕</button></div><div id="withdrawList" class="mt-4 space-y-2"></div></div></div>
+<div id="voucherModal" class="fixed inset-0 bg-black/90 hidden items-center justify-center z-[80] p-4"><div class="w-full max-w-[360px] bg-[#121212] rounded-[22px] p-5 border border-white/10"><div class="flex justify-between"><h2 class="font-bold">🎟️ Voucher Tag</h2><button onclick="closeVoucher()" class="w-8 h-8 bg-white/10 rounded-full">✕</button></div><div id="voucherList" class="mt-4 space-y-2"></div></div></div>
+<div id="scratchModal" class="fixed inset-0 bg-black/90 hidden items-center justify-center z-[90] p-4"><div class="w-full max-w-[340px]"><h2 class="text-center font-bold text-[18px]">🎉 5/5 MISSION COMPLETE!</h2><div class="relative mt-4 w-full h-[380px] rounded-[28px] overflow-hidden bg-[#1a1a1a]"><div id="realReward" class="absolute inset-0"></div><canvas id="scratchCanvas" class="absolute inset-0 w-full h-full"></canvas></div><div id="afterWin" class="hidden mt-4"><div id="upiBox" class="hidden golden-glass rounded-[18px] p-4"><p class="text-[#00FF88] font-bold">💰 ₹<span id="winAmt"></span> UPI Cash!</p><input id="upiId" placeholder="Enter UPI ID (name@upi)" class="w-full mt-3 p-3.5 bg-black rounded-xl border border-yellow-400/30 outline-none"><button onclick="withdrawUPI()" class="w-full mt-3 bg-[#FFD60A] text-black py-3 rounded-xl font-black">WITHDRAW NOW</button></div><div id="voucherBox" class="hidden text-center golden-glass p-4 rounded-[18px]"><p class="text-[#FFD60A] font-bold">🎁 Voucher Copied!</p><p id="vCodeShow" class="font-black mt-2 text-[16px]"></p><button onclick="closeScratch()" class="w-full mt-3 bg-white text-black py-3 rounded-xl font-black">CLOSE</button></div></div></div></div>
 <script>
 let posts = JSON.parse(localStorage.getItem('aimeme_posts')||'[]');
-if(posts.length===0) posts=[1,2,3,4,5,6,7,8].map(i=>({id:i, img:`https://picsum.photos/600/800?random=${i+20}`, caption:'Golden Feed Drop 🔥 #viral', likes:Math.floor(Math.random()*100+20), liked:false}));
+if(posts.length===0) posts=[1,2,3,4,5,6].map(i=>({id:i, img:`https://picsum.photos/600/800?random=${i+20}`, caption:'Mood swings be like 😂 #aimeme', likes:18, liked:false, comments:1, commentList:[{user:'aimeme.in', text:'Good Morning Jaanu 🥰'}]}));
 let actions = JSON.parse(localStorage.getItem('mission_actions')||'[]');
 let liked = JSON.parse(localStorage.getItem('liked_posts')||'[]');
-let finalImg="", menuId=null, editId=null;
+let withdraws = JSON.parse(localStorage.getItem('withdraws')||'[]');
+let vouchers = JSON.parse(localStorage.getItem('vouchers')||'[]');
+let finalImg="", activeId=null, currentReward=null;
+let rewards=[{type:'upi',amount:5,color:'#00FF88'},{type:'upi',amount:10,color:'#00FF88'},{type:'voucher',brand:'GIVA',code:'PF-KQXRMZ',offer:'28% Off',color:'#FFB6B8'},{type:'voucher',brand:'TIRA',code:'septhd06vuvi67k',offer:'30% Off',color:'#7AB8E8'}];
 if(window.location.search.includes('admin')) document.getElementById('addBtn').classList.remove('hidden');
-document.getElementById('fileIn').addEventListener('change',e=>{
-let r=new FileReader(); r.onload=ev=>finalImg=ev.target.result; r.readAsDataURL(e.target.files[0]); document.getElementById('fileName').innerText=e.target.files[0].name;
-});
-function openPostMenu(id){menuId=id; document.getElementById('postMenu').style.display='flex';}
-function closePostMenu(){document.getElementById('postMenu').style.display='none';}
-function editPost(){let p=posts.find(x=>x.id===menuId); editId=p.id; document.getElementById('imgIn').value=''; document.getElementById('capIn').value=p.caption; finalImg=p.img; closePostMenu(); openModal();}
-function deletePost(){posts=posts.filter(x=>x.id!==menuId); localStorage.setItem('aimeme_posts',JSON.stringify(posts)); closePostMenu(); render();}
-function doAction(id,type){let p=posts.find(x=>x.id===id); if(type==='like'){if(liked.includes(id)){p.likes--; liked=liked.filter(x=>x!==id);}else{p.likes++; liked.push(id); if(navigator.vibrate) navigator.vibrate(40); if(!actions.includes(id)) actions.push(id);} localStorage.setItem('liked_posts',JSON.stringify(liked)); localStorage.setItem('mission_actions',JSON.stringify(actions)); render();} else { if(!actions.includes(id)) actions.push(id); localStorage.setItem('mission_actions',JSON.stringify(actions)); render();}}
+document.getElementById('fileIn').addEventListener('change',e=>{let r=new FileReader(); r.onload=ev=>finalImg=ev.target.result; r.readAsDataURL(e.target.files[0]); document.getElementById('fileName').innerText=e.target.files[0].name;});
+function doAction(id,type){let p=posts.find(x=>x.id===id); if(type==='like'){if(liked.includes(id)){p.likes--; liked=liked.filter(x=>x!==id);}else{p.likes++; liked.push(id); if(navigator.vibrate) navigator.vibrate(40); if(!actions.includes(id)) actions.push(id);} localStorage.setItem('liked_posts',JSON.stringify(liked)); localStorage.setItem('mission_actions',JSON.stringify(actions)); render();} else { if(!actions.includes(id)) actions.push(id); localStorage.setItem('mission_actions',JSON.stringify(actions)); render(); if(type==='comment') openComment(id);}}
 function render(){
 document.getElementById('mCount').innerText=`${actions.length}/5`;
-let feed=document.getElementById('feed');
-feed.innerHTML=posts.slice().reverse().map(p=>`
-<div class="feed-card">
-<div class="insta-post">
-<div class="flex justify-between items-center px-4 py-3">
-<div class="flex items-center gap-2.5">
-<div class="w-8 h-8 rounded-full bg-gradient-to-br from-[#FFE55A] to-[#FFB800] flex items-center justify-center font-black text-black text-[12px]">A</div>
-<div>
-<div class="flex items-center gap-1.5">
-<span class="text-[13px] font-bold text-black tracking-wide">aimeme.in</span>
-<div class="gold-tick"><svg width="10" height="10" viewBox="0 0 24 24" fill="black"><path d="M9 16.2L4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4L9 16.2z"/></svg></div>
-</div>
-<div class="text-[11px] text-[#8e8e8e] -mt-0.5">Placehere • Golden Verified</div>
-</div>
-</div>
-<button onclick="openPostMenu(${p.id})" class="text-black font-bold text-[18px]">⋯</button>
-</div>
-<div class="relative w-full aspect-[4/5] bg-gradient-to-br from-purple-600 via-orange-400 to-pink-500 flex items-center justify-center">
-<img src="${p.img}" class="absolute inset-0 w-full h-full object-cover">
-</div>
-<div class="flex justify-between items-center px-4 py-3">
-<div class="flex items-center gap-4">
-<button onclick="doAction(${p.id},'like')"><svg width="24" height="24" viewBox="0 0 24 24" fill="${liked.includes(p.id)?'black':'none'}" stroke="black" stroke-width="1.7"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg></button>
-<button onclick="doAction(${p.id},'comment')"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="black" stroke-width="1.6"><path d="M21 11.5a8.5 8.5 0 0 1-8.5 8.5H11l-4 3v-3.5A8.5 8.5 0 0 1 21 11.5z"/></svg></button>
-<button onclick="doAction(${p.id},'share')"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="black" stroke-width="1.6"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"/></svg></button>
-<div class="flex gap-1 ml-2"><div class="w-1.5 h-1.5 rounded-full bg-zinc-300"></div><div class="w-1.5 h-1.5 rounded-full bg-[#0095f6]"></div><div class="w-1.5 h-1.5 rounded-full bg-zinc-300"></div></div>
-</div>
-<button><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="black" stroke-width="1.6"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg></button>
-</div>
+document.getElementById('feed').innerHTML=posts.slice().reverse().map(p=>`
+<div class="feed-card"><div class="insta-post">
+<div class="flex justify-between items-center px-4 py-3"><div class="flex items-center gap-2.5"><div class="w-8 h-8 rounded-full bg-gradient-to-br from-[#FFE55A] to-[#FFB800] flex items-center justify-center font-black text-black text-[12px]">A</div><div><div class="flex items-center gap-1.5"><span class="text-[13px] font-bold text-black">aimeme.in</span><div class="gold-tick"><svg width="10" height="10" viewBox="0 0 24 24" fill="black"><path d="M9 16.2L4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4L9 16.2z"/></svg></div></div><div class="text-[11px] text-[#8e8e8e]">Placehere • Golden Verified</div></div></div><span class="text-black text-[12px] opacity-30">●●●</span></div>
+<div class="relative w-full aspect-[4/5] bg-[#FFD60A]"><img src="${p.img}" class="absolute inset-0 w-full h-full object-cover"></div>
+<div class="flex justify-between items-center px-4 py-3"><div class="flex items-center gap-4"><button onclick="doAction(${p.id},'like')"><svg width="24" height="24" viewBox="0 0 24 24" fill="${liked.includes(p.id)?'black':'none'}" stroke="black" stroke-width="1.7"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg></button><button onclick="doAction(${p.id},'comment')"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="black" stroke-width="1.6"><path d="M21 11.5a8.5 8.5 0 0 1-8.5 8.5H11l-4 3v-3.5A8.5 8.5 0 0 1 21 11.5z"/></svg></button><button onclick="doAction(${p.id},'share')"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="black" stroke-width="1.6"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"/></svg></button></div><button><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="black" stroke-width="1.6"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg></button></div>
 <div class="px-4 pb-4 text-black text-[12px]"><b>${p.likes} likes</b><div class="mt-1"><b>aimeme.in</b> ${p.caption}</div></div>
-</div>
-</div>
-`).join('');
+</div></div>`).join('');
 if(actions.length>=5 &&!localStorage.getItem('scratchShown')){localStorage.setItem('scratchShown','true'); setTimeout(openScratch,800);}
 }
-function openScratch(){document.getElementById('scratchModal').style.display='flex'; document.getElementById('realReward').innerHTML=`<div style="background:#FFD60A;height:100%;display:flex;align-items:center;justify-content:center;flex-direction:column;color:#000"><div class="text-[60px]">🎉</div><h1 class="font-black text-[32px]">₹10 WIN!</h1></div>`; setTimeout(initScratch,100);}
-function initScratch(){let c=document.getElementById('scratchCanvas'),ctx=c.getContext('2d'); c.width=c.offsetWidth; c.height=c.offsetHeight; ctx.fillStyle='#999'; ctx.fillRect(0,0,c.width,c.height); let d=false; function s(e){if(!d)return; let r=c.getBoundingClientRect(); let x=(e.touches?e.touches[0].clientX:e.clientX)-r.left; let y=(e.touches?e.touches[0].clientY:e.clientY)-r.top; ctx.globalCompositeOperation='destination-out'; ctx.beginPath(); ctx.arc(x,y,28,0,Math.PI*2); ctx.fill();} c.addEventListener('mousedown',()=>d=true); c.addEventListener('mouseup',()=>d=false); c.addEventListener('mousemove',s); c.addEventListener('touchstart',()=>d=true); c.addEventListener('touchend',()=>{d=false; document.getElementById('afterWin').classList.remove('hidden'); c.style.opacity='0';}); c.addEventListener('touchmove',s);}
+function openComment(id){activeId=id; let p=posts.find(x=>x.id===id); document.getElementById('commentModal').style.display='flex'; document.getElementById('commentList').innerHTML=(p.commentList||[]).map(c=>`<div class="flex gap-2"><div class="w-7 h-7 rounded-full bg-zinc-300"></div><div class="bg-white/5 rounded-[16px] px-3 py-2 text-white"><b class="text-[12px]">${c.user}</b> <span class="text-[12px]">${c.text}</span></div></div>`).join('');}
+function closeComment(){document.getElementById('commentModal').style.display='none';}
+function postComment(){let txt=document.getElementById('cInput').value.trim(); if(!txt)return; let p=posts.find(x=>x.id===activeId); if(!p.commentList)p.commentList=[]; p.commentList.push({user:'you',text:txt}); if(!actions.includes(p.id)) actions.push(p.id); localStorage.setItem('mission_actions',JSON.stringify(actions)); localStorage.setItem('aimeme_posts',JSON.stringify(posts)); document.getElementById('cInput').value=''; openComment(activeId); render();}
+function openWithdraw(){document.getElementById('withdrawModal').style.display='flex'; document.getElementById('withdrawList').innerHTML=withdraws.map(w=>`<div class="bg-white/5 p-3 rounded-xl flex justify-between text-[12px]"><div><b>₹${w.amount}</b><div class="text-[10px] opacity-50">${w.upi}</div></div><div class="text-[10px] px-2 py-1 rounded-full bg-[#FFD60A] text-black font-bold">${w.status}</div></div>`).join('')||'<p class="text-[11px] opacity-40 text-center">No withdrawals yet</p>';}
+function closeWithdraw(){document.getElementById('withdrawModal').style.display='none';}
+function openVoucher(){document.getElementById('voucherModal').style.display='flex'; document.getElementById('voucherList').innerHTML=vouchers.map(v=>`<div class="bg-white/5 p-3 rounded-xl text-[12px]"><b>${v.brand} - ${v.offer}</b><div class="mt-1 bg-white text-black px-2 py-1 rounded-full inline-block font-bold">${v.code}</div></div>`).join('')||'<p class="text-[11px] opacity-40 text-center">No vouchers yet - Complete 5/5 mission</p>';}
+function closeVoucher(){document.getElementById('voucherModal').style.display='none';}
+function openScratch(){let r=rewards[Math.floor(Math.random()*rewards.length)]; currentReward=r; document.getElementById('scratchModal').style.display='flex'; document.getElementById('afterWin').classList.add('hidden'); document.getElementById('upiBox').classList.add('hidden'); document.getElementById('voucherBox').classList.add('hidden'); if(r.type==='upi'){document.getElementById('winAmt').innerText=r.amount; document.getElementById('realReward').innerHTML=`<div style="background:${r.color};height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;color:#000"><div class="text-[72px]">💸</div><h1 class="font-black text-[38px]">₹${r.amount}</h1></div>`;}else{document.getElementById('realReward').innerHTML=`<div style="background:${r.color};height:100%;padding:26px;display:flex;flex-direction:column;justify-content:center;color:#000"><p class="text-[11px] font-bold opacity-60">${r.brand}</p><h1 class="font-black text-[22px] mt-2">${r.offer}</h1><p class="mt-4 font-bold bg-black text-white inline-block px-3 py-1 rounded-full text-[12px]">${r.code}</p></div>`;} setTimeout(initScratch,120);}
+function initScratch(){let c=document.getElementById('scratchCanvas'),ctx=c.getContext('2d'); c.width=c.offsetWidth; c.height=c.offsetHeight; ctx.fillStyle='#9e9e9e'; ctx.fillRect(0,0,c.width,c.height); ctx.font='900 16px sans-serif'; ctx.fillStyle='#444'; ctx.fillText('SCRATCH KARO! 🎁',c.width/2-70,c.height/2); let d=false; function s(e){if(!d)return; let r=c.getBoundingClientRect(); let x=(e.touches?e.touches[0].clientX:e.clientX)-r.left; let y=(e.touches?e.touches[0].clientY:e.clientY)-r.top; ctx.globalCompositeOperation='destination-out'; ctx.beginPath(); ctx.arc(x,y,30,0,Math.PI*2); ctx.fill(); check();} c.addEventListener('mousedown',()=>d=true); c.addEventListener('mouseup',()=>d=false); c.addEventListener('mousemove',s); c.addEventListener('touchstart',()=>d=true); c.addEventListener('touchend',()=>d=false); c.addEventListener('touchmove',s); function check(){let data=ctx.getImageData(0,0,c.width,c.height).data,t=0; for(let i=3;i<data.length;i+=4) if(data[i]==0) t++; if(t/(c.width*c.height)>0.48){c.style.opacity='0'; c.style.pointerEvents='none'; document.getElementById('afterWin').classList.remove('hidden'); if(currentReward.type==='upi'){document.getElementById('upiBox').classList.remove('hidden');} else{document.getElementById('voucherBox').classList.remove('hidden'); document.getElementById('vCodeShow').innerText=currentReward.code; navigator.clipboard.writeText(currentReward.code); vouchers.unshift(currentReward); localStorage.setItem('vouchers',JSON.stringify(vouchers));} if(navigator.vibrate) navigator.vibrate([100,50,100]); }}}
+function withdrawUPI(){let upi=document.getElementById('upiId').value.trim(); if(!upi.includes('@')) return alert('Sahi UPI ID daalo'); withdraws.unshift({amount:currentReward.amount, upi, status:'processing'}); localStorage.setItem('withdraws',JSON.stringify(withdraws)); alert(`₹${currentReward.amount} Processing!`); closeScratch(); openWithdraw();}
 function closeScratch(){document.getElementById('scratchModal').style.display='none';}
 function openModal(){document.getElementById('modal').style.display='flex';}
-function closeModal(){document.getElementById('modal').style.display='none';}
-function addPost(){let link=document.getElementById('imgIn').value.trim(); let cap=document.getElementById('capIn').value.trim(); if(link) finalImg=link; if(!finalImg) return alert('Image daalo'); posts.push({img:finalImg,caption:cap||'Golden Drop 🔥',likes:0,id:Date.now()}); localStorage.setItem('aimeme_posts',JSON.stringify(posts)); closeModal(); render();}
+function closeModal(){document.getElementById('modal').style.display='none'; finalImg='';}
+function addPost(){let link=document.getElementById('imgIn').value.trim(); let cap=document.getElementById('capIn').value.trim(); if(link) finalImg=link; if(!finalImg) return alert('Image daalo'); posts.push({img:finalImg, caption:cap||'Golden Drop 🔥', likes:0, id:Date.now(), commentList:[]}); localStorage.setItem('aimeme_posts',JSON.stringify(posts)); closeModal(); render();}
 render();
 </script>
 </body>
