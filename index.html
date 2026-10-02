@@ -1,77 +1,160 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>AIMEME.IN — Premium Culture Drop</title>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AIMEME.IN - Memes + Scratch Vouchers</title>
 <script src="https://cdn.tailwindcss.com"></script>
-<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;700&family=Syne:wght@800&display=swap" rel="stylesheet">
-<style>
-body{font-family:'Space Grotesk',sans-serif;background:#050507}
-.gold{background:linear-gradient(92deg,#FFF1A8 0%,#FFD700 25%,#FFB700 50%,#FFD700 75%,#FFF1A8 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
-.glass{background:linear-gradient(180deg, rgba(255,255,255,0.08), rgba(255,255,255,0.03));backdrop-filter:blur(24px);border:1px solid rgba(255,255,255,0.10)}
-.glow:hover{box-shadow:0 0 40px rgba(255,215,0,0.18), inset 0 1px 0 rgba(255,255,255,0.2);border-color:rgba(255,215,0,0.35)}
-</style>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@800;900&display=swap" rel="stylesheet">
+<style>body{background:#080a12;font-family:Inter,sans-serif}canvas{touch-action:none}</style>
 </head>
-<body class="text-white antialiased">
-<header class="flex justify-between items-center px-6 py-4 sticky top-0 z-40 glass rounded-b-[20px] mx-3 mt-3">
-  <h1 class="text-[24px] tracking-[8px] font-extrabold" style="font-family:'Syne'">AIMEME<span class="gold">.IN</span></h1>
-  <div class="flex items-center gap-3">
-    <span class="hidden md:block text-[9px] tracking-[4px] text-white/30 border border-white/10 px-4 py-2 rounded-full">EST 2026 • INDIA</span>
-    <button id="addBtn" onclick="openModal()" class="hidden bg-white text-black px-6 py-2.5 rounded-full font-bold text-[11px] tracking-[2px] hover:bg-yellow-300 transition">+ DROP</button>
-  </div>
+<body class="text-white max-w-[430px] mx-auto">
+<header class="flex justify-between items-center p-4 sticky top-0 bg-[#080a12] z-50">
+  <h1 class="font-black tracking-[5px] text-xl">AIMEME.IN</h1>
+  <button onclick="adminLogin()" class="bg-white text-black text-[11px] px-4 py-2 rounded-full font-bold">ADMIN</button>
 </header>
 
-<div class="w-full overflow-hidden mt-4 border-y border-white/[0.06] bg-[#FFD60A] text-black text-[10px] tracking-[5px] py-2 font-bold">
-  <marquee scrollamount="8">★ AIMEME.IN PREMIUM DROP ★ DESI MEMES ONLY ★ NO CRINGE POLICY ★ 100% ORIGINAL CULTURE ★ AIMEME.IN ★</marquee>
+<div class="px-4 flex gap-2 overflow-auto pb-3">
+  <span class="bg-white text-black px-4 py-2 rounded-full text-sm">All</span>
+  <span class="bg-[#12131a] border border-yellow-400 px-4 py-2 rounded-full text-sm">🎁 Scratch Zone</span>
+  <span class="bg-[#12131a] px-4 py-2 rounded-full text-sm">Memes</span>
 </div>
 
-<div id="grid" class="grid grid-cols-1 md:grid-cols-3 gap-6 p-6 max-w-[1280px] mx-auto mt-4"></div>
+<!-- MEME CARD -->
+<div class="m-3 bg-[#12131a] rounded-[22px] p-3">
+  <div class="flex items-center gap-2 text-[13px] opacity-70"><div class="w-8 h-8 bg-gray-600 rounded-full"></div> r/dankmemes • 2h ago</div>
+  <p class="mt-3 font-bold">ME: AIMEME.IN pe meme dekhne aaya tha<br><span class="text-yellow-400">ALSO ME: 2 ghante se voucher scratch kar raha hu 😭</span></p>
+  <img src="https://i.imgflip.com/65efzo.jpg" class="rounded-xl mt-3 w-full">
+</div>
 
-<footer class="text-center py-12 text-[10px] tracking-[5px] text-white/20">© 2026 AIMEME.IN • BUILT FOR CULTURE</footer>
+<!-- SCRATCH SYSTEM - MAIN -->
+<div id="scratchGate" class="m-3 bg-[#11131f] rounded-[26px] p-4 border border-[#1e2235]">
+  <div class="flex justify-between"><h2 class="font-black text-[18px]">🎉 SCRATCH & WIN</h2><span id="leftCount" class="bg-yellow-400 text-black text-[11px] px-2 py-1 rounded-full font-bold">1 LEFT TODAY</span></div>
+  <p class="text-[12px] opacity-60 mt-1">Like + Comment karo, random voucher jeeto!</p>
 
-<div id="modal" class="fixed inset-0 bg-black/80 backdrop-blur-2xl hidden items-center justify-center z-50 p-4">
-  <div class="glass w-full max-w-md rounded-[32px] p-8 shadow-[0_0_80px_rgba(0,0,0,0.8)]">
-    <h2 id="modalTitle" class="font-bold text-xl tracking-wide">New Drop</h2>
-    <p class="text-[10px] text-white/30 tracking-[4px] mb-6 mt-1">AIMEME.IN • GOLDEN GLASS EDITION</p>
-    <input id="imgIn" placeholder="Image Link (https://...)" class="w-full p-4 glass rounded-2xl mb-3 text-sm outline-none focus:border-yellow-400/40 bg-black/20">
-    <input type="file" id="fileIn" accept="image/*" class="w-full text-[11px] mb-4 text-zinc-500">
-    <textarea id="capIn" placeholder="Write caption..." class="w-full p-4 glass rounded-2xl text-sm h-28 outline-none bg-black/20"></textarea>
-    <div class="flex gap-3 mt-7">
-      <button onclick="closeModal()" class="flex-1 p-4 glass rounded-2xl text-sm">Cancel</button>
-      <button onclick="addPost()" class="flex-1 p-4 bg-[#FFD60A] text-black font-bold rounded-2xl text-sm tracking-widest hover:bg-white transition">DROP NOW</button>
-    </div>
+  <div id="gate" class="mt-4 flex gap-2">
+    <button id="likeBtn" onclick="doLike()" class="flex-1 bg-[#1c2033] py-3 rounded-full font-bold text-sm">❤️ Like</button>
+    <button id="cmtBtn" onclick="openComment()" class="flex-1 bg-[#1c2033] py-3 rounded-full font-bold text-sm">💬 Comment</button>
+  </div>
+
+  <div id="commentBox" class="hidden mt-3">
+    <input id="commentInput" placeholder="Nice deal... likho" class="w-full bg-[#1c2033] p-3 rounded-xl text-sm outline-none">
+    <button onclick="doComment()" class="w-full mt-2 bg-yellow-400 text-black py-3 rounded-xl font-black text-sm">POST COMMENT & UNLOCK SCRATCH</button>
+  </div>
+
+  <div id="scratchContainer" class="hidden relative mt-4 w-full h-[400px] rounded-[28px] overflow-hidden">
+    <div id="realVoucher" class="absolute inset-0"></div>
+    <canvas id="scratchCanvas" class="absolute inset-0 w-full h-full"></canvas>
+    <div class="absolute bottom-3 w-full text-center text-[11px] opacity-70 pointer-events-none">👆 Ghiso - 50% scratch par khulega!</div>
+  </div>
+
+  <div id="afterScratch" class="hidden mt-3 text-center">
+    <p class="text-[#00FF88] font-bold">🔥 Voucher Mil Gaya!</p>
+    <p class="text-[11px] opacity-60">Code copy ho gaya hai. Kal fir aana.</p>
   </div>
 </div>
 
+<!-- ALL VOUCHERS LIST PREVIEW -->
+<div id="voucherList" class="m-3 grid grid-cols-2 gap-2 pb-20"></div>
+
 <script>
-let posts = JSON.parse(localStorage.getItem('aimeme_posts') || '[]');
-if(posts.length==0) posts=[{img:'https://i.imgflip.com/65efzo.jpg',caption:'Welcome to AIMEME.IN — First Golden Drop 🔥',views:'4.2k'}];
-window.editingIndex = null;
-function render(){
-  const isAdmin = window.location.search.includes('admin');
-  document.getElementById('grid').innerHTML = posts.slice().reverse().map((p,i)=>{
-    let realIndex = posts.length-1-i;
-    return `<div class="glass rounded-[32px] overflow-hidden glow transition-all duration-700 group relative">
-      <div class="relative"><img src="${p.img}" class="w-full aspect-[4/5] object-cover group-hover:scale-[1.04] transition duration-[1.2s]">
-        ${isAdmin?`<div class="absolute top-4 left-4 flex gap-2"><button onclick="editPost(${realIndex})" class="bg-black/60 backdrop-blur-xl border border-white/20 px-3 py-1.5 rounded-full text-[10px]">✏️ EDIT</button><button onclick="deletePost(${realIndex})" class="bg-red-500/90 px-3 py-1.5 rounded-full text-[10px] font-bold">🗑️</button></div>`:''}
-        <div class="absolute top-4 right-4 bg-black/60 backdrop-blur-xl px-3 py-1 rounded-full text-[8px] tracking-[2px] border border-white/10">TRENDING 🔥</div>
-        <div class="absolute bottom-4 right-4 bg-gradient-to-r from-yellow-200 to-yellow-500 text-black text-[9px] font-extrabold px-2.5 py-1 rounded-full tracking-[2px]">AIMEME.IN</div>
-      </div>
-      <div class="p-5"><p class="text-[13.5px] leading-[1.5] text-white/90">${p.caption}</p><div class="flex justify-between items-center mt-5 text-[10px] tracking-[3px] text-white/25"><span>${p.views} VIEWS</span><span class="border border-white/10 px-3 py-1 rounded-full">SHARE ↗</span></div></div></div>`
-  }).join('');
+let vouchers = JSON.parse(localStorage.getItem('aimeme_vouchers') || 'null') || [
+  {brand:"TIRA BEAUTY", offer:"Upto 30% Off on min order 999", code:"septhd06vuvi67k", color:"#7AB8E8", bought:"8k bought", img:"💄"},
+  {brand:"VAKU LUXOS", offer:"SmartWatch at Rs.599", code:"K3TTCX PVDWP1", color:"#FFA73D", bought:"32k bought", img:"⌚"},
+  {brand:"BARE ANATOMY", offer:"Flat Rs.449 Off", code:"PYTMDEAL449", color:"#7EC8C0", bought:"22k bought", img:"🧴"},
+  {brand:"MCAFFEINE", offer:"Buy 2 Get 2 Free + 5% Off", code:"MCPTMB2G2APR1", color:"#6ED19C", bought:"14k bought", img:"☕"},
+  {brand:"GIVA", offer:"Flat 28% Off on Jewellery", code:"PF-KQXRMZ", color:"#FFB6B8", bought:"38k bought", img:"💍"},
+  {brand:"MINIMALIST", offer:"Flat 300 Off", code:"MN3COFFPTDO2673CC1E1GI", color:"#8B7CFF", bought:"40k bought", img:"✨"},
+  {brand:"THE DERMA CO", offer:"Buy 1 Get 1 Free", code:"HJYBGAIMGA54TAH", color:"#5ED1B1", bought:"1.1 Lakh bought", img:"🧪"}
+];
+
+let liked=false, commented=false;
+function doLike(){ liked=true; document.getElementById('likeBtn').innerHTML='❤️ Liked!'; document.getElementById('likeBtn').className='flex-1 bg-[#FF2D55] py-3 rounded-full font-bold text-sm'; checkGate(); }
+function openComment(){ document.getElementById('commentBox').classList.remove('hidden'); }
+function doComment(){
+  if(document.getElementById('commentInput').value.length<2){ alert('Kuch toh likh bhai!'); return; }
+  commented=true; document.getElementById('commentBox').innerHTML="<p class='text-[#00FF88] text-center font-bold text-sm'>✅ Comment Done!</p>"; checkGate();
 }
-if(window.location.search.includes('admin')) document.getElementById('addBtn').classList.remove('hidden');
-function openModal(){document.getElementById('modal').style.display='flex'}
-function closeModal(){document.getElementById('modal').style.display='none'; window.editingIndex=null; document.getElementById('modalTitle').innerText='New Drop'; document.getElementById('imgIn').value=''; document.getElementById('capIn').value='';}
-function editPost(idx){window.editingIndex=idx; document.getElementById('imgIn').value=posts[idx].img; document.getElementById('capIn').value=posts[idx].caption; document.getElementById('modalTitle').innerText='Edit Drop'; openModal();}
-function deletePost(idx){if(confirm('Delete karna hai?')){posts.splice(idx,1); localStorage.setItem('aimeme_posts',JSON.stringify(posts)); render();}}
-function addPost(){
-  let img=document.getElementById('imgIn').value, cap=document.getElementById('capIn').value||"AIMEME.IN Golden Drop 🔥", file=document.getElementById('fileIn').files[0];
-  function save(im){ if(window.editingIndex!==null){posts[window.editingIndex].img=im; posts[window.editingIndex].caption=cap;} else {posts.push({img:im,caption:cap,views:(Math.random()*5+1).toFixed(1)+'k'});} localStorage.setItem('aimeme_posts',JSON.stringify(posts)); closeModal(); render(); }
-  if(file){let r=new FileReader(); r.onload=e=>save(e.target.result); r.readAsDataURL(file);} else { if(!img) return alert('Image daal'); save(img); }
+function checkGate(){ if(liked && commented){ startScratchGame(); } }
+
+function startScratchGame(){
+  let last = localStorage.getItem('scratchedTime');
+  if(last && (Date.now() - last < 24*60*60*1000)){ alert('Bhai aaj ka scratch ho chuka! Kal aana. 24hr me 1 hi baar.'); return; }
+  document.getElementById('gate').classList.add('hidden');
+  document.getElementById('commentBox').classList.add('hidden');
+  document.getElementById('scratchContainer').classList.remove('hidden');
+  let rand = vouchers[Math.floor(Math.random()*vouchers.length)];
+  document.getElementById('realVoucher').innerHTML = `
+    <div style="background:${rand.color};height:100%;padding:20px;display:flex;flex-direction:column;justify-content:center;color:#000">
+      <div class="bg-black/20 inline-block px-3 py-1 rounded-full text-[11px] text-white w-fit">${rand.bought} 🛍️</div>
+      <div class="text-[60px] mt-2">${rand.img}</div>
+      <h3 class="text-[12px] tracking-[3px] mt-2 opacity-70">${rand.brand}</h3>
+      <h1 class="font-black text-[26px] leading-[28px] mt-1">${rand.offer}</h1>
+      <p class="text-[13px] mt-3 font-bold">CODE: ${rand.code} 📋</p>
+      <p class="text-[11px] opacity-70">Valid till Nov 10, 2026</p>
+      <button onclick="copyCode('${rand.code}')" class="bg-black text-white w-full py-3 rounded-xl font-bold mt-4">Copy & Redeem Now</button>
+    </div>
+  `;
+  initScratch(rand.code);
 }
-render();
+
+function initScratch(code){
+  let canvas=document.getElementById('scratchCanvas'); let ctx=canvas.getContext('2d');
+  canvas.width=canvas.offsetWidth; canvas.height=canvas.offsetHeight;
+  ctx.fillStyle='#C8C8C8'; ctx.fillRect(0,0,canvas.width,canvas.height);
+  ctx.fillStyle='#A0A0A0'; for(let i=0;i<200;i++) ctx.fillRect(Math.random()*canvas.width,Math.random()*canvas.height,2,2);
+  ctx.font="900 20px Inter"; ctx.fillStyle="#666"; ctx.fillText("SCRATCH KARO! 🎁", canvas.width/2-90, canvas.height/2);
+
+  let drawing=false;
+  function scratch(e){
+    if(!drawing) return;
+    let r=canvas.getBoundingClientRect(); let x=(e.touches?e.touches[0].clientX:e.clientX)-r.left; let y=(e.touches?e.touches[0].clientY:e.clientY)-r.top;
+    ctx.globalCompositeOperation='destination-out'; ctx.beginPath(); ctx.arc(x,y,30,0,Math.PI*2); ctx.fill();
+    checkDone();
+  }
+  canvas.addEventListener('mousedown',()=>drawing=true); canvas.addEventListener('mouseup',()=>drawing=false); canvas.addEventListener('mousemove',scratch);
+  canvas.addEventListener('touchstart',()=>drawing=true); canvas.addEventListener('touchend',()=>drawing=false); canvas.addEventListener('touchmove',scratch);
+
+  function checkDone(){
+    let data=ctx.getImageData(0,0,canvas.width,canvas.height).data; let t=0; for(let i=3;i<data.length;i+=4) if(data[i]==0) t++;
+    if(t/(canvas.width*canvas.height)>0.45){
+      canvas.style.transition="0.6s"; canvas.style.opacity="0"; canvas.style.pointerEvents="none";
+      localStorage.setItem('scratchedTime', Date.now());
+      document.getElementById('afterScratch').classList.remove('hidden');
+      document.getElementById('leftCount').innerText="0 LEFT TODAY";
+      navigator.clipboard.writeText(code);
+      if(window.confetti){ confetti(); }
+      // Splash sound
+      let el=document.createElement('div'); el.innerHTML="🎉🎉"; el.style="position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);font-size:80px;animation:pop 0.6s"; document.body.appendChild(el); setTimeout(()=>el.remove(),800);
+    }
+  }
+}
+
+function copyCode(c){ navigator.clipboard.writeText(c); alert('Copied: '+c+' \nAb Redeem kar!'); }
+
+function renderList(){
+  document.getElementById('voucherList').innerHTML = vouchers.map(v=>`
+    <div style="background:${v.color}" class="rounded-[18px] p-3 text-black">
+      <div class="text-[10px] bg-black/20 inline-block px-2 py-1 rounded-full text-white">${v.bought}</div>
+      <div class="text-[28px] mt-1">${v.img}</div>
+      <div class="font-black text-[12px] mt-1">${v.brand}</div>
+      <div class="font-bold text-[13px] leading-4">${v.offer}</div>
+    </div>
+  `).join('');
+}
+renderList();
+
+function adminLogin(){
+  let p=prompt('Admin Password?');
+  if(btoa(p)==='QWlNRU1FI0lOXzl4R09MRCR1MWtRIXoyNw=='){ // AiMEME#IN_9xGOLD$51kQ!z27
+    let brand=prompt('Brand?'); let offer=prompt('Offer?'); let code=prompt('New Voucher Code? (expire wala hata ke naya daal)');
+    let color=prompt('Color code? e.g. #FFA73D')||'#7AB8E8';
+    if(brand&&offer&&code){
+      vouchers.unshift({brand,offer,code,color,bought:"New Drop 🔥",img:"🎁"});
+      localStorage.setItem('aimeme_vouchers', JSON.stringify(vouchers));
+      renderList(); alert('Naya voucher add ho gaya! Ab user ko yehi milega scratch par.');
+    }
+  } else alert('Wrong password!');
+}
 </script>
 </body>
 </html>
