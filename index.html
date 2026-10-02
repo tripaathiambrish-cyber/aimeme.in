@@ -1,160 +1,108 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>AIMEME.IN - Memes + Scratch Vouchers</title>
-<script src="https://cdn.tailwindcss.com"></script>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@800;900&display=swap" rel="stylesheet">
-<style>body{background:#080a12;font-family:Inter,sans-serif}canvas{touch-action:none}</style>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AIMEME.IN</title>
+<style>
+body{margin:0;background:#0a0a0a;color:#fff;font-family:sans-serif}
+.glass-header{position:sticky;top:0;z-index:50;background:rgba(0,0,0,0.6);backdrop-filter:blur(12px);border-bottom:1px solid rgba(255,215,0,0.3);padding:12px 16px;display:flex;justify-content:space-between;align-items:center}
+.logo{font-weight:900;letter-spacing:2px;background: linear-gradient(180deg,#FFD700,#FFA500);-webkit-background-clip:text;-webkit-text-fill-color:transparent;filter: drop-shadow(0 0 10px rgba(255,215,0,0.6));font-size:22px;border:1px solid rgba(255,215,0,0.4);padding:6px 14px;border-radius:12px;background-color:rgba(255,215,0,0.08)}
+.progress{font-size:12px;color:#FFD700;border:1px solid gold;padding:4px 10px;border-radius:20px}
+.meme-card{background:#151515;margin:12px;border-radius:16px;overflow:hidden;border:1px solid #222}
+.meme-img{width:100%;max-height:500px;object-fit:cover}
+.actions{display:flex;justify-content:space-around;padding:10px;border-top:1px solid #222}
+.actions button{background:none;border:none;color:#fff;font-size:14px}
+.actions button.active{color:#FFD700}
+.announce{background:linear-gradient(90deg,#FFD700,#FF8C00);color:#000;text-align:center;padding:8px;font-weight:bold;font-size:13px}
+#scratchBox{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.92);z-index:999;flex-direction:column;justify-content:center;align-items:center;padding:20px}
+canvas{border-radius:20px;box-shadow:0 0 30px gold}
+</style>
 </head>
-<body class="text-white max-w-[430px] mx-auto">
-<header class="flex justify-between items-center p-4 sticky top-0 bg-[#080a12] z-50">
-  <h1 class="font-black tracking-[5px] text-xl">AIMEME.IN</h1>
-  <button onclick="adminLogin()" class="bg-white text-black text-[11px] px-4 py-2 rounded-full font-bold">ADMIN</button>
-</header>
+<body>
 
-<div class="px-4 flex gap-2 overflow-auto pb-3">
-  <span class="bg-white text-black px-4 py-2 rounded-full text-sm">All</span>
-  <span class="bg-[#12131a] border border-yellow-400 px-4 py-2 rounded-full text-sm">🎁 Scratch Zone</span>
-  <span class="bg-[#12131a] px-4 py-2 rounded-full text-sm">Memes</span>
+<div class="announce">🔥 Follow @aimeme.in on Instagram - Coming Soon! <span id="instaLink"></span></div>
+
+<div class="glass-header">
+  <div class="logo" id="logo">AIMEME.IN</div>
+  <div class="progress" id="progress">0/5 TO WIN</div>
 </div>
 
-<!-- MEME CARD -->
-<div class="m-3 bg-[#12131a] rounded-[22px] p-3">
-  <div class="flex items-center gap-2 text-[13px] opacity-70"><div class="w-8 h-8 bg-gray-600 rounded-full"></div> r/dankmemes • 2h ago</div>
-  <p class="mt-3 font-bold">ME: AIMEME.IN pe meme dekhne aaya tha<br><span class="text-yellow-400">ALSO ME: 2 ghante se voucher scratch kar raha hu 😭</span></p>
-  <img src="https://i.imgflip.com/65efzo.jpg" class="rounded-xl mt-3 w-full">
+<div id="feed"></div>
+
+<div id="scratchBox">
+  <h2 style="color:gold">🎁 SLIDE TO OPEN</h2>
+  <p>Ungli se ghiso</p>
+  <canvas id="scratchCard" width="300" height="180"></canvas>
+  <p id="winText" style="display:none;color:#FFD700;font-size:20px;font-weight:bold;margin-top:15px">TIRA 30% OFF - CODE: TIRA30</p>
+  <button id="googleBtn" style="display:none;margin-top:15px;padding:12px 20px;background:#fff;color:#000;border:none;border-radius:10px;font-weight:bold;width:280px">Continue with Google to Claim</button>
+  <button onclick="document.getElementById('scratchBox').style.display='none'" style="margin-top:10px;background:none;border:none;color:#888">Close</button>
 </div>
-
-<!-- SCRATCH SYSTEM - MAIN -->
-<div id="scratchGate" class="m-3 bg-[#11131f] rounded-[26px] p-4 border border-[#1e2235]">
-  <div class="flex justify-between"><h2 class="font-black text-[18px]">🎉 SCRATCH & WIN</h2><span id="leftCount" class="bg-yellow-400 text-black text-[11px] px-2 py-1 rounded-full font-bold">1 LEFT TODAY</span></div>
-  <p class="text-[12px] opacity-60 mt-1">Like + Comment karo, random voucher jeeto!</p>
-
-  <div id="gate" class="mt-4 flex gap-2">
-    <button id="likeBtn" onclick="doLike()" class="flex-1 bg-[#1c2033] py-3 rounded-full font-bold text-sm">❤️ Like</button>
-    <button id="cmtBtn" onclick="openComment()" class="flex-1 bg-[#1c2033] py-3 rounded-full font-bold text-sm">💬 Comment</button>
-  </div>
-
-  <div id="commentBox" class="hidden mt-3">
-    <input id="commentInput" placeholder="Nice deal... likho" class="w-full bg-[#1c2033] p-3 rounded-xl text-sm outline-none">
-    <button onclick="doComment()" class="w-full mt-2 bg-yellow-400 text-black py-3 rounded-xl font-black text-sm">POST COMMENT & UNLOCK SCRATCH</button>
-  </div>
-
-  <div id="scratchContainer" class="hidden relative mt-4 w-full h-[400px] rounded-[28px] overflow-hidden">
-    <div id="realVoucher" class="absolute inset-0"></div>
-    <canvas id="scratchCanvas" class="absolute inset-0 w-full h-full"></canvas>
-    <div class="absolute bottom-3 w-full text-center text-[11px] opacity-70 pointer-events-none">👆 Ghiso - 50% scratch par khulega!</div>
-  </div>
-
-  <div id="afterScratch" class="hidden mt-3 text-center">
-    <p class="text-[#00FF88] font-bold">🔥 Voucher Mil Gaya!</p>
-    <p class="text-[11px] opacity-60">Code copy ho gaya hai. Kal fir aana.</p>
-  </div>
-</div>
-
-<!-- ALL VOUCHERS LIST PREVIEW -->
-<div id="voucherList" class="m-3 grid grid-cols-2 gap-2 pb-20"></div>
 
 <script>
-let vouchers = JSON.parse(localStorage.getItem('aimeme_vouchers') || 'null') || [
-  {brand:"TIRA BEAUTY", offer:"Upto 30% Off on min order 999", code:"septhd06vuvi67k", color:"#7AB8E8", bought:"8k bought", img:"💄"},
-  {brand:"VAKU LUXOS", offer:"SmartWatch at Rs.599", code:"K3TTCX PVDWP1", color:"#FFA73D", bought:"32k bought", img:"⌚"},
-  {brand:"BARE ANATOMY", offer:"Flat Rs.449 Off", code:"PYTMDEAL449", color:"#7EC8C0", bought:"22k bought", img:"🧴"},
-  {brand:"MCAFFEINE", offer:"Buy 2 Get 2 Free + 5% Off", code:"MCPTMB2G2APR1", color:"#6ED19C", bought:"14k bought", img:"☕"},
-  {brand:"GIVA", offer:"Flat 28% Off on Jewellery", code:"PF-KQXRMZ", color:"#FFB6B8", bought:"38k bought", img:"💍"},
-  {brand:"MINIMALIST", offer:"Flat 300 Off", code:"MN3COFFPTDO2673CC1E1GI", color:"#8B7CFF", bought:"40k bought", img:"✨"},
-  {brand:"THE DERMA CO", offer:"Buy 1 Get 1 Free", code:"HJYBGAIMGA54TAH", color:"#5ED1B1", bought:"1.1 Lakh bought", img:"🧪"}
+// --- MEMES DATA - TU ADMIN SE YAHAN ADD KAREGA ---
+const MEMES = [
+  {id:1, text:"ME: meme dekhne aaya tha, career dekh liya", img:"https://i.imgflip.com/65efzo.jpg"},
+  {id:2, text:"Paisa nahi hai par attitude crore ka", img:"https://i.imgflip.com/65efzo.jpg"},
 ];
 
-let liked=false, commented=false;
-function doLike(){ liked=true; document.getElementById('likeBtn').innerHTML='❤️ Liked!'; document.getElementById('likeBtn').className='flex-1 bg-[#FF2D55] py-3 rounded-full font-bold text-sm'; checkGate(); }
-function openComment(){ document.getElementById('commentBox').classList.remove('hidden'); }
-function doComment(){
-  if(document.getElementById('commentInput').value.length<2){ alert('Kuch toh likh bhai!'); return; }
-  commented=true; document.getElementById('commentBox').innerHTML="<p class='text-[#00FF88] text-center font-bold text-sm'>✅ Comment Done!</p>"; checkGate();
-}
-function checkGate(){ if(liked && commented){ startScratchGame(); } }
+let completed = 0;
+let actions = {};
 
-function startScratchGame(){
-  let last = localStorage.getItem('scratchedTime');
-  if(last && (Date.now() - last < 24*60*60*1000)){ alert('Bhai aaj ka scratch ho chuka! Kal aana. 24hr me 1 hi baar.'); return; }
-  document.getElementById('gate').classList.add('hidden');
-  document.getElementById('commentBox').classList.add('hidden');
-  document.getElementById('scratchContainer').classList.remove('hidden');
-  let rand = vouchers[Math.floor(Math.random()*vouchers.length)];
-  document.getElementById('realVoucher').innerHTML = `
-    <div style="background:${rand.color};height:100%;padding:20px;display:flex;flex-direction:column;justify-content:center;color:#000">
-      <div class="bg-black/20 inline-block px-3 py-1 rounded-full text-[11px] text-white w-fit">${rand.bought} 🛍️</div>
-      <div class="text-[60px] mt-2">${rand.img}</div>
-      <h3 class="text-[12px] tracking-[3px] mt-2 opacity-70">${rand.brand}</h3>
-      <h1 class="font-black text-[26px] leading-[28px] mt-1">${rand.offer}</h1>
-      <p class="text-[13px] mt-3 font-bold">CODE: ${rand.code} 📋</p>
-      <p class="text-[11px] opacity-70">Valid till Nov 10, 2026</p>
-      <button onclick="copyCode('${rand.code}')" class="bg-black text-white w-full py-3 rounded-xl font-bold mt-4">Copy & Redeem Now</button>
-    </div>
-  `;
-  initScratch(rand.code);
-}
-
-function initScratch(code){
-  let canvas=document.getElementById('scratchCanvas'); let ctx=canvas.getContext('2d');
-  canvas.width=canvas.offsetWidth; canvas.height=canvas.offsetHeight;
-  ctx.fillStyle='#C8C8C8'; ctx.fillRect(0,0,canvas.width,canvas.height);
-  ctx.fillStyle='#A0A0A0'; for(let i=0;i<200;i++) ctx.fillRect(Math.random()*canvas.width,Math.random()*canvas.height,2,2);
-  ctx.font="900 20px Inter"; ctx.fillStyle="#666"; ctx.fillText("SCRATCH KARO! 🎁", canvas.width/2-90, canvas.height/2);
-
-  let drawing=false;
-  function scratch(e){
-    if(!drawing) return;
-    let r=canvas.getBoundingClientRect(); let x=(e.touches?e.touches[0].clientX:e.clientX)-r.left; let y=(e.touches?e.touches[0].clientY:e.clientY)-r.top;
-    ctx.globalCompositeOperation='destination-out'; ctx.beginPath(); ctx.arc(x,y,30,0,Math.PI*2); ctx.fill();
-    checkDone();
-  }
-  canvas.addEventListener('mousedown',()=>drawing=true); canvas.addEventListener('mouseup',()=>drawing=false); canvas.addEventListener('mousemove',scratch);
-  canvas.addEventListener('touchstart',()=>drawing=true); canvas.addEventListener('touchend',()=>drawing=false); canvas.addEventListener('touchmove',scratch);
-
-  function checkDone(){
-    let data=ctx.getImageData(0,0,canvas.width,canvas.height).data; let t=0; for(let i=3;i<data.length;i+=4) if(data[i]==0) t++;
-    if(t/(canvas.width*canvas.height)>0.45){
-      canvas.style.transition="0.6s"; canvas.style.opacity="0"; canvas.style.pointerEvents="none";
-      localStorage.setItem('scratchedTime', Date.now());
-      document.getElementById('afterScratch').classList.remove('hidden');
-      document.getElementById('leftCount').innerText="0 LEFT TODAY";
-      navigator.clipboard.writeText(code);
-      if(window.confetti){ confetti(); }
-      // Splash sound
-      let el=document.createElement('div'); el.innerHTML="🎉🎉"; el.style="position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);font-size:80px;animation:pop 0.6s"; document.body.appendChild(el); setTimeout(()=>el.remove(),800);
-    }
-  }
-}
-
-function copyCode(c){ navigator.clipboard.writeText(c); alert('Copied: '+c+' \nAb Redeem kar!'); }
-
-function renderList(){
-  document.getElementById('voucherList').innerHTML = vouchers.map(v=>`
-    <div style="background:${v.color}" class="rounded-[18px] p-3 text-black">
-      <div class="text-[10px] bg-black/20 inline-block px-2 py-1 rounded-full text-white">${v.bought}</div>
-      <div class="text-[28px] mt-1">${v.img}</div>
-      <div class="font-black text-[12px] mt-1">${v.brand}</div>
-      <div class="font-bold text-[13px] leading-4">${v.offer}</div>
+function render(){
+  let feed = document.getElementById('feed');
+  feed.innerHTML = MEMES.map(m=>`
+    <div class="meme-card">
+      <div style="padding:10px;font-size:14px">${m.text}</div>
+      <img class="meme-img" src="${m.img}">
+      <div class="actions">
+        <button onclick="doAction(${m.id},'like',this)">❤️ Like</button>
+        <button onclick="doAction(${m.id},'comment',this)">💬 Comment</button>
+        <button onclick="doAction(${m.id},'share',this)">🔗 Share</button>
+      </div>
     </div>
   `).join('');
 }
-renderList();
-
-function adminLogin(){
-  let p=prompt('Admin Password?');
-  if(btoa(p)==='QWlNRU1FI0lOXzl4R09MRCR1MWtRIXoyNw=='){ // AiMEME#IN_9xGOLD$51kQ!z27
-    let brand=prompt('Brand?'); let offer=prompt('Offer?'); let code=prompt('New Voucher Code? (expire wala hata ke naya daal)');
-    let color=prompt('Color code? e.g. #FFA73D')||'#7AB8E8';
-    if(brand&&offer&&code){
-      vouchers.unshift({brand,offer,code,color,bought:"New Drop 🔥",img:"🎁"});
-      localStorage.setItem('aimeme_vouchers', JSON.stringify(vouchers));
-      renderList(); alert('Naya voucher add ho gaya! Ab user ko yehi milega scratch par.');
-    }
-  } else alert('Wrong password!');
+function doAction(id,type,btn){
+  if(!actions[id]) actions[id]={};
+  actions[id][type]=true;
+  btn.classList.add('active');
+  if(actions[id].like && actions[id].comment && actions[id].share &&!actions[id].done){
+    actions[id].done=true;
+    completed++;
+    document.getElementById('progress').innerText = completed+'/5 TO WIN';
+    if(completed>=5) openScratch();
+  }
 }
+function openScratch(){
+  document.getElementById('scratchBox').style.display='flex';
+  let c = document.getElementById('scratchCard');
+  let ctx = c.getContext('2d');
+  ctx.fillStyle="#222"; ctx.fillRect(0,0,300,180);
+  ctx.fillStyle="#FFD700"; ctx.font="bold 18px sans-serif";
+  ctx.fillText("TIRA BEAUTY 30% OFF",40,80);
+  ctx.fillText("CODE: TIRA30",70,110);
+  ctx.fillStyle="#C0C0C0"; ctx.fillRect(0,0,300,180);
+  let scratching=false;
+  c.addEventListener('touchstart',()=>scratching=true);
+  c.addEventListener('touchend',()=>{scratching=false; check();});
+  c.addEventListener('touchmove',(e)=>{
+    let r=c.getBoundingClientRect();
+    let x=e.touches[0].clientX-r.left, y=e.touches[0].clientY-r.top;
+    ctx.globalCompositeOperation='destination-out';
+    ctx.beginPath(); ctx.arc(x,y,18,0,Math.PI*2); ctx.fill();
+  });
+  function check(){
+    document.getElementById('winText').style.display='block';
+    document.getElementById('googleBtn').style.display='block';
+  }
+}
+// hidden admin - logo 1 sec press
+let t; document.getElementById('logo').addEventListener('touchstart',()=>{t=setTimeout(()=>{let p=prompt('Password Vidhayak Ji?'); if(p==='Ambrish@Vidhayak#2026') alert('Admin Panel ke liye admin.html kholo');},800)});
+document.getElementById('logo').addEventListener('touchend',()=>clearTimeout(t));
+render();
+
+// Insta link baad me yahan daal dena
+// document.getElementById('instaLink').innerHTML = '<a href="https://instagram.com/aimeme.in" style="color:#000"> @aimeme.in </a>';
 </script>
 </body>
 </html>
