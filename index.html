@@ -1,73 +1,75 @@
 <!DOCTYPE html>
 <html>
 <head>
+<meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>AIMEME. — Premium Drop</title>
+<title>AIMEME.IN — Premium Culture Drop</title>
 <script src="https://cdn.tailwindcss.com"></script>
-<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=Syne:wght@700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;700&family=Syne:wght@800&display=swap" rel="stylesheet">
 <style>
-body{font-family:'Space Grotesk',sans-serif;background:#070708}
-.gold{background:linear-gradient(90deg,#FFD700,#FFA500,#FFD700);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
-.glass{background:rgba(20,20,20,0.6);backdrop-filter:blur(18px);border:1px solid rgba(255,255,255,0.08)}
-.glow:hover{box-shadow:0 0 30px rgba(255,215,0,0.15);border-color:rgba(255,215,0,0.3)}
+body{font-family:'Space Grotesk',sans-serif;background:#050507}
+.gold{background:linear-gradient(92deg,#FFF1A8 0%,#FFD700 25%,#FFB700 50%,#FFD700 75%,#FFF1A8 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.glass{background:linear-gradient(180deg, rgba(255,255,255,0.08), rgba(255,255,255,0.03));backdrop-filter:blur(24px);border:1px solid rgba(255,255,255,0.10)}
+.glow:hover{box-shadow:0 0 40px rgba(255,215,0,0.18), inset 0 1px 0 rgba(255,255,255,0.2);border-color:rgba(255,215,0,0.35)}
 </style>
 </head>
-<body class="text-white selection:bg-yellow-400 selection:text-black">
-<!-- HEADER GLASS -->
-<header class="flex justify-between items-center p-5 sticky top-0 z-30 glass border-b-0 border-b border-white/5">
-  <h1 class="text-[22px] tracking-[6px] font-bold" style="font-family:'Syne'">AIMEME<span class="gold">.</span></h1>
-  <div class="flex gap-2">
-    <div class="hidden md:block text-[10px] tracking-[3px] text-zinc-500 border border-white/10 px-3 py-1.5 rounded-full">EST 2026 • INDIA</div>
-    <button id="addBtn" onclick="openModal()" class="hidden bg-white text-black px-5 py-2 rounded-full font-bold text-[11px] tracking-widest">+ DROP</button>
+<body class="text-white antialiased">
+<header class="flex justify-between items-center px-6 py-4 sticky top-0 z-40 glass rounded-b-[20px] mx-3 mt-3">
+  <h1 class="text-[24px] tracking-[8px] font-extrabold" style="font-family:'Syne'">AIMEME<span class="gold">.IN</span></h1>
+  <div class="flex items-center gap-3">
+    <span class="hidden md:block text-[9px] tracking-[4px] text-white/30 border border-white/10 px-4 py-2 rounded-full">EST 2026 • INDIA</span>
+    <button id="addBtn" onclick="openModal()" class="hidden bg-white text-black px-6 py-2.5 rounded-full font-bold text-[11px] tracking-[2px] hover:bg-yellow-300 transition">+ DROP</button>
   </div>
 </header>
 
-<!-- RUNNING TAG -->
-<div class="w-full overflow-hidden border-y border-white/5 bg-yellow-400 text-black text-[10px] tracking-[4px] py-1.5 whitespace-nowrap">
-  <marquee>★ NEW DROP LIVE ★ DESI MEMES ONLY ★ NO CRINGE POLICY ★ 100% ORIGINAL CULTURE ★</marquee>
+<div class="w-full overflow-hidden mt-4 border-y border-white/[0.06] bg-[#FFD60A] text-black text-[10px] tracking-[5px] py-2 font-bold">
+  <marquee scrollamount="8">★ AIMEME.IN PREMIUM DROP ★ DESI MEMES ONLY ★ NO CRINGE POLICY ★ 100% ORIGINAL CULTURE ★ AIMEME.IN ★</marquee>
 </div>
 
-<div id="grid" class="grid grid-cols-1 md:grid-cols-3 gap-5 p-5 max-w-[1200px] mx-auto mt-6"></div>
+<div id="grid" class="grid grid-cols-1 md:grid-cols-3 gap-6 p-6 max-w-[1280px] mx-auto mt-4"></div>
 
-<!-- MODAL GLASS -->
-<div id="modal" class="fixed inset-0 bg-black/70 backdrop-blur-xl hidden items-center justify-center z-50 p-4">
-  <div class="glass w-full max-w-md rounded-[28px] p-7">
-    <h2 class="font-bold text-lg mb-1">New Drop</h2><p class="text-[11px] text-zinc-500 tracking-widest mb-5">AIMEME CULTURE • GOLDEN EDITION</p>
-    <input id="imgIn" placeholder="Image Link (https://...)" class="w-full p-3.5 glass rounded-2xl mb-3 text-sm outline-none focus:border-yellow-400/50">
-    <input type="file" id="fileIn" accept="image/*" class="w-full text-[11px] mb-3 text-zinc-400">
-    <textarea id="capIn" placeholder="Write caption..." class="w-full p-3.5 glass rounded-2xl text-sm h-24 outline-none"></textarea>
-    <div class="flex gap-3 mt-6">
-      <button onclick="closeModal()" class="flex-1 p-3 glass rounded-2xl text-sm">Cancel</button>
-      <button onclick="addPost()" class="flex-1 p-3 bg-gradient-to-r from-yellow-300 to-amber-500 text-black font-bold rounded-2xl text-sm">DROP NOW</button>
+<footer class="text-center py-12 text-[10px] tracking-[5px] text-white/20">© 2026 AIMEME.IN • BUILT FOR CULTURE</footer>
+
+<div id="modal" class="fixed inset-0 bg-black/80 backdrop-blur-2xl hidden items-center justify-center z-50 p-4">
+  <div class="glass w-full max-w-md rounded-[32px] p-8 shadow-[0_0_80px_rgba(0,0,0,0.8)]">
+    <h2 id="modalTitle" class="font-bold text-xl tracking-wide">New Drop</h2>
+    <p class="text-[10px] text-white/30 tracking-[4px] mb-6 mt-1">AIMEME.IN • GOLDEN GLASS EDITION</p>
+    <input id="imgIn" placeholder="Image Link (https://...)" class="w-full p-4 glass rounded-2xl mb-3 text-sm outline-none focus:border-yellow-400/40 bg-black/20">
+    <input type="file" id="fileIn" accept="image/*" class="w-full text-[11px] mb-4 text-zinc-500">
+    <textarea id="capIn" placeholder="Write caption..." class="w-full p-4 glass rounded-2xl text-sm h-28 outline-none bg-black/20"></textarea>
+    <div class="flex gap-3 mt-7">
+      <button onclick="closeModal()" class="flex-1 p-4 glass rounded-2xl text-sm">Cancel</button>
+      <button onclick="addPost()" class="flex-1 p-4 bg-[#FFD60A] text-black font-bold rounded-2xl text-sm tracking-widest hover:bg-white transition">DROP NOW</button>
     </div>
   </div>
 </div>
 
 <script>
 let posts = JSON.parse(localStorage.getItem('aimeme_posts') || '[]');
-if(posts.length==0) posts=[{img:'https://i.imgflip.com/65efzo.jpg',caption:'First Golden Drop - Welcome to AIMEME. Culture 🔥',views:'2.4k'}];
-
+if(posts.length==0) posts=[{img:'https://i.imgflip.com/65efzo.jpg',caption:'Welcome to AIMEME.IN — First Golden Drop 🔥',views:'4.2k'}];
+window.editingIndex = null;
 function render(){
-  document.getElementById('grid').innerHTML = posts.slice().reverse().map(p=>`
-    <div class="glass rounded-[26px] overflow-hidden glow transition-all duration-500 group">
-      <div class="relative">
-        <img src="${p.img}" class="w-full aspect-[4/5] object-cover group-hover:scale-[1.03] transition duration-700">
-        <div class="absolute top-3 left-3 bg-black/70 backdrop-blur px-3 py-1 rounded-full text-[9px] tracking-widest border border-white/10">TRENDING 🔥</div>
-        <div class="absolute bottom-3 right-3 bg-yellow-400 text-black text-[8px] font-bold px-2 py-1 rounded-full tracking-widest">AIMEME.</div>
+  const isAdmin = window.location.search.includes('admin');
+  document.getElementById('grid').innerHTML = posts.slice().reverse().map((p,i)=>{
+    let realIndex = posts.length-1-i;
+    return `<div class="glass rounded-[32px] overflow-hidden glow transition-all duration-700 group relative">
+      <div class="relative"><img src="${p.img}" class="w-full aspect-[4/5] object-cover group-hover:scale-[1.04] transition duration-[1.2s]">
+        ${isAdmin?`<div class="absolute top-4 left-4 flex gap-2"><button onclick="editPost(${realIndex})" class="bg-black/60 backdrop-blur-xl border border-white/20 px-3 py-1.5 rounded-full text-[10px]">✏️ EDIT</button><button onclick="deletePost(${realIndex})" class="bg-red-500/90 px-3 py-1.5 rounded-full text-[10px] font-bold">🗑️</button></div>`:''}
+        <div class="absolute top-4 right-4 bg-black/60 backdrop-blur-xl px-3 py-1 rounded-full text-[8px] tracking-[2px] border border-white/10">TRENDING 🔥</div>
+        <div class="absolute bottom-4 right-4 bg-gradient-to-r from-yellow-200 to-yellow-500 text-black text-[9px] font-extrabold px-2.5 py-1 rounded-full tracking-[2px]">AIMEME.IN</div>
       </div>
-      <div class="p-4">
-        <p class="text-[13px] leading-[1.4] text-zinc-200">${p.caption}</p>
-        <div class="flex justify-between items-center mt-4 text-[10px] tracking-widest text-zinc-500"><span>${p.views||'1.2k'} VIEWS</span><span class="border border-white/10 px-2 py-1 rounded-full">SHARE ↗</span></div>
-      </div>
-    </div>`).join('');
+      <div class="p-5"><p class="text-[13.5px] leading-[1.5] text-white/90">${p.caption}</p><div class="flex justify-between items-center mt-5 text-[10px] tracking-[3px] text-white/25"><span>${p.views} VIEWS</span><span class="border border-white/10 px-3 py-1 rounded-full">SHARE ↗</span></div></div></div>`
+  }).join('');
 }
 if(window.location.search.includes('admin')) document.getElementById('addBtn').classList.remove('hidden');
 function openModal(){document.getElementById('modal').style.display='flex'}
-function closeModal(){document.getElementById('modal').style.display='none'}
+function closeModal(){document.getElementById('modal').style.display='none'; window.editingIndex=null; document.getElementById('modalTitle').innerText='New Drop'; document.getElementById('imgIn').value=''; document.getElementById('capIn').value='';}
+function editPost(idx){window.editingIndex=idx; document.getElementById('imgIn').value=posts[idx].img; document.getElementById('capIn').value=posts[idx].caption; document.getElementById('modalTitle').innerText='Edit Drop'; openModal();}
+function deletePost(idx){if(confirm('Delete karna hai?')){posts.splice(idx,1); localStorage.setItem('aimeme_posts',JSON.stringify(posts)); render();}}
 function addPost(){
-  let img=document.getElementById('imgIn').value, cap=document.getElementById('capIn').value||"Golden Drop", file=document.getElementById('fileIn').files[0];
-  let push = (im)=>{ posts.push({img:im,caption:cap,views:Math.floor(Math.random()*5+1)+'.'+Math.floor(Math.random()*9)+'k'}); localStorage.setItem('aimeme_posts',JSON.stringify(posts)); closeModal(); render(); };
-  if(file){ let r=new FileReader(); r.onload=e=>push(e.target.result); r.readAsDataURL(file);} else { if(!img) return alert('Image daal'); push(img); }
+  let img=document.getElementById('imgIn').value, cap=document.getElementById('capIn').value||"AIMEME.IN Golden Drop 🔥", file=document.getElementById('fileIn').files[0];
+  function save(im){ if(window.editingIndex!==null){posts[window.editingIndex].img=im; posts[window.editingIndex].caption=cap;} else {posts.push({img:im,caption:cap,views:(Math.random()*5+1).toFixed(1)+'k'});} localStorage.setItem('aimeme_posts',JSON.stringify(posts)); closeModal(); render(); }
+  if(file){let r=new FileReader(); r.onload=e=>save(e.target.result); r.readAsDataURL(file);} else { if(!img) return alert('Image daal'); save(img); }
 }
 render();
 </script>
