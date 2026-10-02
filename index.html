@@ -1,165 +1,143 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>AiMeme.in</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AIMEME.IN - GOLDEN GLASS UI DESIGN</title>
 <script src="https://cdn.tailwindcss.com"></script>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@700;900&display=swap" rel="stylesheet">
 <style>
-body{background:#000;color:#fff}
-.card{position:relative;background:#101010;border-radius:22px;overflow:hidden;border:1px solid rgba(255,255,255,0.08)}
-.top-actions{position:absolute;top:8px;right:8px;display:flex;gap:5px;z-index:10}
-.icon-btn{background:rgba(0,0,0,0.7);backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,0.1);padding:5px 8px;border-radius:20px;font-size:10px}
-.locked{filter:blur(12px);pointer-events:none}
+body{font-family:'Space Grotesk',sans-serif;background:#050505;color:#fff;overflow-x:hidden}
+.golden-glass{
+  background: linear-gradient(135deg, rgba(255,214,10,0.08), rgba(255,255,255,0.03));
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255,214,10,0.25);
+  box-shadow: 0 8px 32px rgba(255,214,10,0.12), inset 0 1px 0 rgba(255,255,255,0.1);
+}
+.glass-card{
+  background: rgba(16,16,16,0.7);
+  backdrop-filter: blur(25px);
+  border: 1px solid rgba(255,214,10,0.18);
+  border-radius:28px;
+}
+.slider{display:flex;overflow-x:scroll;scroll-snap-type:x mandatory;gap:16px}
+.slider::-webkit-scrollbar{display:none}
+.locked{pointer-events:none;filter:blur(22px);opacity:0.45}
 </style>
 </head>
 <body>
 
-<div class="flex justify-between p-5">
-  <h1 class="text-xl font-black">AiMeme<span class="text-[#FFD60A]">.in</span></h1>
-  <button onclick="checkAdmin()" class="bg-[#FFD60A] text-black px-4 py-2 rounded-full font-black text-xs">+ DROP</button>
-</div>
-
-<!-- Mission Progress Bar -->
-<div class="mx-3 p-3 bg-[#111] rounded-2xl border border-white/10 flex justify-between items-center">
-  <span class="text-xs">Mission: <span id="missionCount">0</span>/5</span>
-  <span class="text-[10px] bg-[#FFD60A] text-black px-2 py-1 rounded-full font-bold" id="missionStatus">LOCKED</span>
-</div>
-
-<div id="gallery" class="grid grid-cols-1 gap-3 p-3 mt-3"></div>
-
-<!-- LOCK MESSAGE -->
-<div id="lockOverlay" class="fixed bottom-5 left-3 right-3 bg-[#FFD60A] text-black p-4 rounded-[18px] font-bold text-center text-[13px] hidden z-[60]">
-  🔒 Do Like Comment And Share And Complete The Mission To Get Reward<br>
-  <span class="text-[11px] font-normal">Slide locked - 5 posts pe action karo</span>
-</div>
-
-<!-- NEW DROP -->
-<div id="addModal" class="fixed inset-0 bg-black/95 hidden items-center justify-center z-50 p-4">
-  <div class="w-full max-w-sm bg-[#0E0E0E] rounded-[28px] p-6 border border-white/10">
-    <h2 class="text-xl font-black">New Drop</h2>
-    <input id="memeUrl" placeholder="Image Link (Optional)" class="w-full mt-4 p-4 bg-[#1A1A1A] rounded-[16px] text-sm border border-yellow-500/40 outline-none">
-    <div class="mt-3 flex gap-2 items-center">
-      <label class="bg-white text-black px-3 py-1 rounded text-xs font-bold">Choose file<input type="file" id="memeFile" hidden accept="image/*"></label>
-      <span id="fileName" class="text-xs opacity-60">No file</span>
-    </div>
-    <textarea id="memeCaption" placeholder="Write caption..." class="w-full mt-3 p-4 bg-[#1A1A1A] rounded-[16px] h-20 text-sm border border-white/10"></textarea>
-    <div class="flex gap-3 mt-4">
-      <button onclick="closeModal()" class="flex-1 p-4 bg-[#1C1C1C] rounded-[16px]">Cancel</button>
-      <button onclick="dropMeme()" class="flex-1 p-4 bg-[#FFD60A] text-black rounded-[16px] font-black">DROP NOW</button>
-    </div>
+<!-- HEADER - GOLDEN GLASS -->
+<header class="golden-glass sticky top-0 z-20 mx-3 mt-3 rounded-[20px] p-4 flex justify-between items-center">
+  <div>
+    <h1 class="text-[22px] font-black tracking-[4px]">AIMEME<span class="text-[#FFD60A]">.IN</span></h1>
+    <p class="text-[9px] tracking-[0.3em] opacity-50 font-bold">GOLDEN GLASS UI DESIGN</p>
   </div>
+  <button id="addBtn" onclick="openModal()" class="hidden bg-gradient-to-br from-[#FFD60A] to-[#FFA500] text-black px-6 py-2.5 rounded-full font-black text-xs shadow-[0_0_20px_rgba(255,214,10,0.4)]">+ DROP</button>
+</header>
+
+<!-- MISSION - GOLDEN GLASS -->
+<div class="golden-glass mx-3 mt-4 p-4 rounded-[20px] flex justify-between items-center">
+  <div class="flex items-center gap-3">
+    <div class="w-10 h-10 rounded-full bg-gradient-to-br from-[#FFD60A] to-[#FF8C00] flex items-center justify-center font-black text-black text-xs">5</div>
+    <div><p class="text-[12px] font-bold">MISSION GATE</p><p id="mCount" class="text-[10px] opacity-60">0/5 Completed</p></div>
+  </div>
+  <span id="mStatus" class="bg-white/10 border border-white/20 px-4 py-1.5 rounded-full font-bold text-[10px] tracking-widest">LOCKED</span>
 </div>
 
-<div id="adminLogin" class="fixed inset-0 bg-black/90 hidden items-center justify-center z-[80] p-4">
-  <div class="bg-[#0E0E0E] rounded-[28px] p-6 w-full max-w-xs text-center border border-white/10">
-    <input id="passInput" type="password" placeholder="Password" class="w-full p-4 bg-[#1A1A1A] rounded-[16px] text-center text-sm outline-none">
-    <button onclick="loginAdmin()" class="w-full mt-4 p-4 bg-[#FFD60A] text-black font-black rounded-[16px]">LOGIN</button>
+<!-- SLIDER -->
+<div class="max-w-6xl mx-auto mt-6 px-3">
+  <div id="grid" class="slider pb-10"></div>
+</div>
+
+<!-- LOCK BANNER - GOLDEN GLASS -->
+<div id="lockMsg" class="fixed bottom-4 left-3 right-3 golden-glass p-4 rounded-[20px] text-center z-50">
+  <p class="text-[13px] font-black text-[#FFD60A]">🔒 GOLDEN MISSION LOCKED</p>
+  <p class="text-[11px] mt-1 font-bold">Do Like Comment and Share - Complete 5 Posts To Unlock Slider & Get Golden Reward</p>
+</div>
+
+<!-- NEW DROP MODAL - GOLDEN GLASS -->
+<div id="modal" class="fixed inset-0 bg-black/80 backdrop-blur-xl hidden items-center justify-center z-[60] p-4">
+  <div class="glass-card w-full max-w-[360px] p-6">
+    <h2 class="text-[20px] font-black">New Golden Drop</h2>
+    <p class="text-[9px] tracking-[0.25em] opacity-40 mt-1">AIMEME CULTURE • GOLDEN GLASS EDITION</p>
+    <input id="imgIn" placeholder="Image Link (https://...) - Optional" class="w-full mt-5 p-4 bg-black/50 rounded-[16px] text-sm border border-[#FFD60A]/30 outline-none focus:border-[#FFD60A]">
+    <div class="mt-3 flex gap-2 items-center">
+      <label class="bg-[#FFD60A] text-black px-4 py-1.5 rounded-full text-xs font-black cursor-pointer">Choose file<input type="file" id="fileIn" hidden accept="image/*"></label>
+      <span id="fileName" class="text-xs opacity-50">No file chosen</span>
+    </div>
+    <textarea id="capIn" placeholder="Write caption..." class="w-full mt-3 p-4 bg-black/50 rounded-[16px] h-24 text-sm border border-white/10 outline-none"></textarea>
+    <div class="flex gap-3 mt-5">
+      <button onclick="closeModal()" class="flex-1 p-4 bg-white/5 border border-white/10 rounded-[16px] text-sm font-bold">Cancel</button>
+      <button onclick="addPost()" class="flex-1 p-4 bg-gradient-to-br from-[#FFD60A] to-[#FFA500] text-black rounded-[16px] text-sm font-black shadow-[0_0_20px_rgba(255,214,10,0.5)]">DROP NOW</button>
+    </div>
   </div>
 </div>
 
 <script>
-const ADMIN_PASS="VidhayakJi@786#AiMeme";
-let finalImg="";
-let userActions = JSON.parse(localStorage.getItem('user_mission')||'[]'); // array of post ids where action done
+let posts = JSON.parse(localStorage.getItem('aimeme_posts') || '[]');
+if(posts.length===0){ posts=[1,2,3,4,5,6].map(i=>({id:i, img:`https://picsum.photos/600/600?random=${i+30}`, caption:`Golden drop #${i} ✨`, likes:0, comments:0, shares:0, rating:0, liked:false})); }
+let actions = JSON.parse(localStorage.getItem('mission_actions')||'[]');
+let finalImg = "";
 
-document.getElementById('memeFile').addEventListener('change',e=>{
-  document.getElementById('fileName').innerText=e.target.files[0].name;
+document.getElementById('fileIn').addEventListener('change', e=>{
+  document.getElementById('fileName').innerText = e.target.files[0].name;
   let r=new FileReader(); r.onload=ev=>finalImg=ev.target.result; r.readAsDataURL(e.target.files[0]);
 });
 
-function updateMission(){
-  document.getElementById('missionCount').innerText=userActions.length;
-  if(userActions.length>=5){
-    document.getElementById('missionStatus').innerText="UNLOCKED 🔥";
-    document.getElementById('missionStatus').className="text-[10px] bg-green-400 text-black px-2 py-1 rounded-full font-bold";
-    document.getElementById('lockOverlay').classList.add('hidden');
-  } else {
-    document.getElementById('missionStatus').innerText="LOCKED";
-  }
-}
+if(window.location.search.includes('admin')) document.getElementById('addBtn').classList.remove('hidden');
 
 function doAction(id, type){
-  if(!userActions.includes(id)){
-    userActions.push(id);
-    localStorage.setItem('user_mission',JSON.stringify(userActions));
-  }
-  // update counts
-  let posts=JSON.parse(localStorage.getItem('aimeme_posts')||'[]');
+  if(!actions.includes(id)){ actions.push(id); localStorage.setItem('mission_actions', JSON.stringify(actions)); }
   let p=posts.find(x=>x.id===id);
-  if(type==='like') p.likes++;
-  if(type==='comment') p.comments++;
-  if(type==='share') p.shares++;
-  p.rating=Math.min(5, p.likes+p.comments+p.shares);
-  localStorage.setItem('aimeme_posts',JSON.stringify(posts));
-  loadGallery();
-  checkLock();
+  if(type==='like'){ p.likes++; p.liked=!p.liked; }
+  if(type==='comment'){ let c=prompt('Comment:'); if(c) p.comments++; }
+  if(type==='share'){ p.shares++; if(navigator.share) navigator.share({url:p.img}); }
+  p.rating=Math.min(5, p.likes+p.comments);
+  localStorage.setItem('aimeme_posts', JSON.stringify(posts));
+  render();
 }
 
-function checkLock(){
-  updateMission();
-  if(userActions.length>=1 && userActions.length<5){
-    document.getElementById('lockOverlay').classList.remove('hidden');
-    document.getElementById('lockOverlay').innerHTML=`🔒 Do Like Comment And Share And Complete The Mission To Get Reward<br><span class="text-[11px]">Slide locked - ${userActions.length}/5 done</span>`;
-    // lock slide after 1st post
-    setTimeout(()=>{ window.scrollTo({top:0, behavior:'smooth'}) },500);
+function render(){
+  document.getElementById('mCount').innerText=`${actions.length}/5 Completed`;
+  if(actions.length>=5){
+    document.getElementById('grid').classList.remove('locked');
+    document.getElementById('mStatus').innerText='UNLOCKED ✨';
+    document.getElementById('mStatus').className='bg-[#FFD60A] text-black px-4 py-1.5 rounded-full font-bold text-[10px]';
+    document.getElementById('lockMsg').classList.add('hidden');
   }
-  if(userActions.length>=5){
-    // reward
-    if(!localStorage.getItem('reward_shown')){
-      alert('🎉 MISSION COMPLETE! Reward Unlocked! Ab full slide kar sakta hai!');
-      localStorage.setItem('reward_shown','true');
-    }
-  }
-}
-
-function loadGallery(){
-  let posts=JSON.parse(localStorage.getItem('aimeme_posts')||'[]');
-  let html="";
-  posts.forEach((p,i)=>{
-    let isLocked = (userActions.length>=1 && userActions.length<5 && i>=1);
-    html+=`
-    <div class="card ${isLocked?'locked':''}">
-      <div class="top-actions">
-        <button onclick="doAction(${p.id},'like')" class="icon-btn">❤️ ${p.likes}</button>
-        <button onclick="doAction(${p.id},'comment')" class="icon-btn">💬 ${p.comments}</button>
-        <button onclick="doAction(${p.id},'share')" class="icon-btn">↗️ ${p.shares||0}</button>
-        <div class="icon-btn bg-[#FFD60A] text-black font-black">${p.rating||0}/5</div>
+  document.getElementById('grid').innerHTML = posts.slice().reverse().map(p=>`
+    <div class="glass-card w-[82vw] md:w-[360px] flex-shrink-0 overflow-hidden">
+      <div class="flex justify-between items-center p-4">
+        <div class="flex gap-2 items-center"><div class="w-8 h-8 rounded-full bg-gradient-to-br from-yellow-400 to-orange-500"></div><span class="text-xs font-bold">aimeme.in</span></div>
+        <div class="golden-glass px-3 py-1 rounded-full text-[11px] font-black text-[#FFD60A]">${p.rating||0}/5</div>
       </div>
-      <img src="${p.img}" class="w-full h-[320px] object-cover">
-      ${p.caption?`<div class="p-3 text-xs">${p.caption}</div>`:''}
-      ${isLocked?'<div class="absolute inset-0 bg-black/60 flex items-center justify-center text-xs font-bold">🔒 Complete Mission to Unlock</div>':''}
-    </div>`;
-  });
-  document.getElementById('gallery').innerHTML=html||'<p class="text-center opacity-30 mt-20 text-sm">No drops yet</p>';
-  updateMission();
-}
-
-function dropMeme(){
-  let link=document.getElementById('memeUrl').value.trim();
-  if(link) finalImg=link;
-  if(!finalImg) return alert('Image daal');
-  let posts=JSON.parse(localStorage.getItem('aimeme_posts')||'[]');
-  posts.unshift({img:finalImg, caption:document.getElementById('memeCaption').value, likes:0, comments:0, shares:0, rating:0, id:Date.now()});
-  localStorage.setItem('aimeme_posts',JSON.stringify(posts));
-  location.reload();
-}
-function checkAdmin(){document.getElementById('adminLogin').classList.remove('hidden');document.getElementById('adminLogin').classList.add('flex');}
-function loginAdmin(){if(document.getElementById('passInput').value.trim()===ADMIN_PASS){localStorage.setItem('aimeme_admin','true');document.getElementById('adminLogin').classList.add('hidden');document.getElementById('addModal').classList.remove('hidden');document.getElementById('addModal').classList.add('flex');}else alert('Wrong');}
-function closeModal(){document.getElementById('addModal').classList.add('hidden');}
-if(window.location.search.includes('admin')) checkAdmin();
-loadGallery(); checkLock();
-
-// Prevent slide when locked
-let startY=0;
-document.addEventListener('touchstart',e=>startY=e.touches[0].clientY);
-document.addEventListener('touchmove',e=>{
-  if(userActions.length>=1 && userActions.length<5){
-    if(e.touches[0].clientY < startY-50){
-      e.preventDefault();
-      document.getElementById('lockOverlay').classList.remove('hidden');
-    }
+      <img src="${p.img}" class="w-full aspect-square object-cover">
+      <div class="flex justify-between p-4">
+        <div class="flex gap-4">
+          <button onclick="doAction(${p.id},'like')" class="text-xl">${p.liked?'❤️':'🤍'} <span class="text-[11px]">${p.likes||0}</span></button>
+          <button onclick="doAction(${p.id},'comment')" class="text-xl">💬 <span class="text-[11px]">${p.comments||0}</span></button>
+          <button onclick="doAction(${p.id},'share')" class="text-xl">✈️</button>
+        </div>
+      </div>
+      <div class="px-4 pb-4"><p class="text-[12px]"><b>aimeme.in</b> ${p.caption}</p></div>
+    </div>
+  `).join('');
+  if(actions.length===5 &&!localStorage.getItem('gold_reward')){
+    localStorage.setItem('gold_reward','true');
+    setTimeout(()=>alert('🎉 GOLDEN REWARD UNLOCKED! Slider Open!'),600);
   }
-},{passive:false});
+}
+function openModal(){document.getElementById('modal').style.display='flex'}
+function closeModal(){document.getElementById('modal').style.display='none'}
+function addPost(){
+  let link=document.getElementById('imgIn').value.trim(); if(link) finalImg=link;
+  if(!finalImg) return alert('Image daal');
+  posts.push({img:finalImg, caption:document.getElementById('capIn').value, likes:0, comments:0, shares:0, rating:0, id:Date.now(), liked:false});
+  localStorage.setItem('aimeme_posts', JSON.stringify(posts));
+  closeModal(); render(); finalImg="";
+}
+render();
 </script>
 </body>
 </html>
