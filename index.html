@@ -1,108 +1,131 @@
 <!DOCTYPE html>
 <html>
 <head>
+<meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>AIMEME.IN</title>
+<title>AIMEME.IN — Premium Culture Drop</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;700&family=Syne:wght@800&display=swap" rel="stylesheet">
 <style>
-body{margin:0;background:#0a0a0a;color:#fff;font-family:sans-serif}
-.glass-header{position:sticky;top:0;z-index:50;background:rgba(0,0,0,0.6);backdrop-filter:blur(12px);border-bottom:1px solid rgba(255,215,0,0.3);padding:12px 16px;display:flex;justify-content:space-between;align-items:center}
-.logo{font-weight:900;letter-spacing:2px;background: linear-gradient(180deg,#FFD700,#FFA500);-webkit-background-clip:text;-webkit-text-fill-color:transparent;filter: drop-shadow(0 0 10px rgba(255,215,0,0.6));font-size:22px;border:1px solid rgba(255,215,0,0.4);padding:6px 14px;border-radius:12px;background-color:rgba(255,215,0,0.08)}
-.progress{font-size:12px;color:#FFD700;border:1px solid gold;padding:4px 10px;border-radius:20px}
-.meme-card{background:#151515;margin:12px;border-radius:16px;overflow:hidden;border:1px solid #222}
-.meme-img{width:100%;max-height:500px;object-fit:cover}
-.actions{display:flex;justify-content:space-around;padding:10px;border-top:1px solid #222}
-.actions button{background:none;border:none;color:#fff;font-size:14px}
-.actions button.active{color:#FFD700}
-.announce{background:linear-gradient(90deg,#FFD700,#FF8C00);color:#000;text-align:center;padding:8px;font-weight:bold;font-size:13px}
-#scratchBox{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.92);z-index:999;flex-direction:column;justify-content:center;align-items:center;padding:20px}
-canvas{border-radius:20px;box-shadow:0 0 30px gold}
+body{font-family:'Space Grotesk',sans-serif;background:#050507}
+.gold{background:linear-gradient(92deg,#FFF1A8 0%,#FFD700 25%,#FFB700 50%,#FFD700 75%,#FFF1A8 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.glass{background:linear-gradient(180deg, rgba(255,255,255,0.08), rgba(255,255,255,0.03));backdrop-filter:blur(24px);border:1px solid rgba(255,255,255,0.10)}
+.glow:hover{box-shadow:0 0 40px rgba(255,215,0,0.18), inset 0 1px 0 rgba(255,255,255,0.2);border-color:rgba(255,215,0,0.35)}
+.active-btn{background:#FFD60A!important;color:#000!important}
 </style>
 </head>
-<body>
+<body class="text-white antialiased">
 
-<div class="announce">🔥 Follow @aimeme.in on Instagram - Coming Soon! <span id="instaLink"></span></div>
+<header class="flex justify-between items-center px-6 py-4 sticky top-0 z-40 glass rounded-b-[20px] mx-3 mt-3">
+  <h1 class="text-[24px] tracking-[8px] font-extrabold" style="font-family:'Syne'">AIMEME<span class="gold">.IN</span></h1>
+  <div class="flex items-center gap-3">
+    <span id="progress" class="text-[10px] tracking-[2px] text-black bg-[#FFD60A] px-4 py-2 rounded-full font-bold">0/5 TO WIN</span>
+    <button id="addBtn" onclick="checkAdmin()" class="hidden bg-white text-black px-6 py-2.5 rounded-full font-bold text-[11px] tracking-[2px]">+ DROP</button>
+  </div>
+</header>
 
-<div class="glass-header">
-  <div class="logo" id="logo">AIMEME.IN</div>
-  <div class="progress" id="progress">0/5 TO WIN</div>
+<div class="w-full overflow-hidden mt-4 border-y border-white/[0.06] bg-[#FFD60A] text-black text-[10px] tracking-[5px] py-2 font-bold">
+  <marquee scrollamount="8">★ 5 POST LIKE COMMENT SHARE KARO ★ SLIDE TO OPEN SCRATCH CARD ★ VOUCHER WIN KARO ★ FOLLOW @aimeme.in ON INSTAGRAM ★</marquee>
 </div>
 
-<div id="feed"></div>
+<div id="grid" class="grid grid-cols-1 md:grid-cols-3 gap-6 p-6 max-w-[1280px] mx-auto mt-4"></div>
 
-<div id="scratchBox">
-  <h2 style="color:gold">🎁 SLIDE TO OPEN</h2>
-  <p>Ungli se ghiso</p>
-  <canvas id="scratchCard" width="300" height="180"></canvas>
-  <p id="winText" style="display:none;color:#FFD700;font-size:20px;font-weight:bold;margin-top:15px">TIRA 30% OFF - CODE: TIRA30</p>
-  <button id="googleBtn" style="display:none;margin-top:15px;padding:12px 20px;background:#fff;color:#000;border:none;border-radius:10px;font-weight:bold;width:280px">Continue with Google to Claim</button>
-  <button onclick="document.getElementById('scratchBox').style.display='none'" style="margin-top:10px;background:none;border:none;color:#888">Close</button>
+<footer class="text-center py-12 text-[10px] tracking-[5px] text-white/20">© 2026 AIMEME.IN • BUILT FOR CULTURE • <a href="https://instagram.com/aimeme.in" target="_blank" class="text-yellow-400">INSTA: @aimeme.in</a></footer>
+
+<!-- SCRATCH BOX -->
+<div id="scratchBox" class="fixed inset-0 bg-black/95 backdrop-blur-xl hidden items-center justify-center z-[70] p-6 flex-col">
+  <h2 class="text-[32px] font-black tracking-[6px] gold" style="font-family:'Syne'">WINNER!</h2>
+  <p class="text-[10px] tracking-[4px] text-white/40 mt-2 mb-6">GHISO AUR DEKHO KYA NIKLA</p>
+  <canvas id="scratchCard" width="320" height="200" class="rounded-[24px] border border-yellow-500/30 shadow-[0_0_60px_rgba(255,215,0,0.4)]"></canvas>
+  <p id="winText" class="hidden mt-6 text-center"><span class="text-[22px] font-bold text-[#FFD60A]">TIRA 30% OFF</span><br><span class="text-[14px] tracking-[3px]">CODE: TIRA30</span></p>
+  <button id="googleBtn" class="hidden mt-5 bg-white text-black px-8 py-3 rounded-full font-bold text-[12px] tracking-[2px]">CONTINUE WITH GOOGLE TO CLAIM</button>
+  <button onclick="closeScratch()" class="mt-6 text-white/30 text-[10px] tracking-[4px]">CLOSE</button>
+</div>
+
+<!-- ADD MODAL -->
+<div id="modal" class="fixed inset-0 bg-black/80 backdrop-blur-2xl hidden items-center justify-center z-50 p-4">
+  <div class="glass w-full max-w-md rounded-[32px] p-8">
+    <h2 id="modalTitle" class="font-bold text-xl">New Drop</h2>
+    <p class="text-[10px] text-white/30 tracking-[4px] mb-6 mt-1">AIMEME.IN • GOLDEN GLASS</p>
+    <input id="imgIn" placeholder="Image Link https://..." class="w-full p-4 glass rounded-2xl mb-3 text-sm outline-none bg-black/20">
+    <input type="file" id="fileIn" accept="image/*" class="w-full text-[11px] mb-4 text-zinc-500">
+    <textarea id="capIn" placeholder="Write caption..." class="w-full p-4 glass rounded-2xl text-sm h-28 outline-none bg-black/20"></textarea>
+    <div class="flex gap-3 mt-7">
+      <button onclick="closeModal()" class="flex-1 p-4 glass rounded-2xl text-sm">Cancel</button>
+      <button onclick="addPost()" class="flex-1 p-4 bg-[#FFD60A] text-black font-bold rounded-2xl text-sm tracking-widest">DROP NOW</button>
+    </div>
+  </div>
 </div>
 
 <script>
-// --- MEMES DATA - TU ADMIN SE YAHAN ADD KAREGA ---
-const MEMES = [
-  {id:1, text:"ME: meme dekhne aaya tha, career dekh liya", img:"https://i.imgflip.com/65efzo.jpg"},
-  {id:2, text:"Paisa nahi hai par attitude crore ka", img:"https://i.imgflip.com/65efzo.jpg"},
+let posts = JSON.parse(localStorage.getItem('aimeme_posts') || '[]');
+if(posts.length==0) posts=[
+  {img:'https://images.unsplash.com/photo-1529778873920-4da4926a72c2?w=800',caption:'Welcome to AIMEME.IN — First Golden Drop 🔥',views:'4.2k'},
+  {img:'https://images.unsplash.com/photo-1511512578047-dfb367046420?w=800',caption:'Paisa nahi hai par attitude crore ka 💸',views:'2.8k'}
 ];
-
-let completed = 0;
-let actions = {};
+window.editingIndex = null;
+let completed=0, actions={};
 
 function render(){
-  let feed = document.getElementById('feed');
-  feed.innerHTML = MEMES.map(m=>`
-    <div class="meme-card">
-      <div style="padding:10px;font-size:14px">${m.text}</div>
-      <img class="meme-img" src="${m.img}">
-      <div class="actions">
-        <button onclick="doAction(${m.id},'like',this)">❤️ Like</button>
-        <button onclick="doAction(${m.id},'comment',this)">💬 Comment</button>
-        <button onclick="doAction(${m.id},'share',this)">🔗 Share</button>
+  const isAdmin = localStorage.getItem('aimeme_admin')==='true' || window.location.pathname.includes('/admin') || window.location.search.includes('admin');
+  document.getElementById('grid').innerHTML = posts.slice().reverse().map((p,i)=>{
+    let realIndex = posts.length-1-i;
+    let act = actions[realIndex] || {};
+    return `<div class="glass rounded-[32px] overflow-hidden glow transition-all duration-700 group relative">
+      <div class="relative"><img src="${p.img}" onerror="this.src='https://images.unsplash.com/photo-1531259683007-016a7bbe742d?w=800'" class="w-full aspect-[4/5] object-cover">
+        ${isAdmin?`<div class="absolute top-4 left-4 flex gap-2"><button onclick="editPost(${realIndex})" class="bg-black/70 px-3 py-1.5 rounded-full text-[10px]">EDIT</button><button onclick="deletePost(${realIndex})" class="bg-red-500 px-3 py-1.5 rounded-full text-[10px]">DEL</button></div>`:''}
+        <div class="absolute top-4 right-4 bg-black/60 backdrop-blur-xl px-3 py-1 rounded-full text-[8px] tracking-[2px]">TRENDING 🔥</div>
+        <div class="absolute bottom-4 right-4 bg-gradient-to-r from-yellow-200 to-yellow-500 text-black text-[9px] font-extrabold px-2.5 py-1 rounded-full tracking-[2px]">AIMEME.IN</div>
       </div>
-    </div>
-  `).join('');
+      <div class="p-5">
+        <p class="text-[13.5px] leading-[1.5] text-white/90">${p.caption}</p>
+        <div class="flex gap-2 mt-4">
+          <button onclick="doAction(${realIndex},'like',this)" class="flex-1 glass py-2.5 rounded-full text-[11px] ${act.like?'active-btn':''}">❤️ Like</button>
+          <button onclick="doAction(${realIndex},'comment',this)" class="flex-1 glass py-2.5 rounded-full text-[11px] ${act.comment?'active-btn':''}">💬 Comment</button>
+          <button onclick="doAction(${realIndex},'share',this)" class="flex-1 glass py-2.5 rounded-full text-[11px] ${act.share?'active-btn':''}">↗ Share</button>
+        </div>
+        <div class="flex justify-between mt-3 text-[10px] tracking-[3px] text-white/25"><span>${p.views} VIEWS</span><span>AIMEME.IN</span></div>
+      </div></div>`
+  }).join('');
 }
+
 function doAction(id,type,btn){
-  if(!actions[id]) actions[id]={};
-  actions[id][type]=true;
-  btn.classList.add('active');
+  if(!actions[id]) actions[id]={}; actions[id][type]=true; btn.classList.add('active-btn');
   if(actions[id].like && actions[id].comment && actions[id].share &&!actions[id].done){
-    actions[id].done=true;
-    completed++;
-    document.getElementById('progress').innerText = completed+'/5 TO WIN';
+    actions[id].done=true; completed++; document.getElementById('progress').innerText=completed+'/5 TO WIN';
     if(completed>=5) openScratch();
   }
 }
 function openScratch(){
-  document.getElementById('scratchBox').style.display='flex';
-  let c = document.getElementById('scratchCard');
-  let ctx = c.getContext('2d');
-  ctx.fillStyle="#222"; ctx.fillRect(0,0,300,180);
-  ctx.fillStyle="#FFD700"; ctx.font="bold 18px sans-serif";
-  ctx.fillText("TIRA BEAUTY 30% OFF",40,80);
-  ctx.fillText("CODE: TIRA30",70,110);
-  ctx.fillStyle="#C0C0C0"; ctx.fillRect(0,0,300,180);
-  let scratching=false;
-  c.addEventListener('touchstart',()=>scratching=true);
-  c.addEventListener('touchend',()=>{scratching=false; check();});
-  c.addEventListener('touchmove',(e)=>{
-    let r=c.getBoundingClientRect();
-    let x=e.touches[0].clientX-r.left, y=e.touches[0].clientY-r.top;
-    ctx.globalCompositeOperation='destination-out';
-    ctx.beginPath(); ctx.arc(x,y,18,0,Math.PI*2); ctx.fill();
-  });
-  function check(){
-    document.getElementById('winText').style.display='block';
-    document.getElementById('googleBtn').style.display='block';
-  }
+  let box=document.getElementById('scratchBox'); box.classList.remove('hidden'); box.classList.add('flex');
+  let c=document.getElementById('scratchCard'), ctx=c.getContext('2d');
+  ctx.globalCompositeOperation='source-over'; ctx.fillStyle="#111"; ctx.fillRect(0,0,320,200);
+  ctx.fillStyle="#FFD60A"; ctx.font="bold 18px Space Grotesk"; ctx.fillText("TIRA BEAUTY 30% OFF",50,85); ctx.font="bold 14px Space Grotesk"; ctx.fillText("CODE: TIRA30 - WINNER!",70,115);
+  ctx.fillStyle="#999"; ctx.fillRect(0,0,320,200); ctx.fillStyle="#666"; ctx.font="bold 11px Space Grotesk"; ctx.fillText("GHISO YAHAN 👆",110,105);
+  const scratch=(e)=>{ let r=c.getBoundingClientRect(); let x=(e.touches?e.touches[0].clientX:e.clientX)-r.left; let y=(e.touches?e.touches[0].clientY:e.clientY)-r.top; ctx.globalCompositeOperation='destination-out'; ctx.beginPath(); ctx.arc(x,y,25,0,Math.PI*2); ctx.fill(); document.getElementById('winText').classList.remove('hidden'); document.getElementById('googleBtn').classList.remove('hidden'); }
+  c.addEventListener('mousemove',(e)=>{if(e.buttons===1) scratch(e)}); c.addEventListener('touchmove',(e)=>{scratch(e); e.preventDefault();},{passive:false});
 }
-// hidden admin - logo 1 sec press
-let t; document.getElementById('logo').addEventListener('touchstart',()=>{t=setTimeout(()=>{let p=prompt('Password Vidhayak Ji?'); if(p==='Ambrish@Vidhayak#2026') alert('Admin Panel ke liye admin.html kholo');},800)});
-document.getElementById('logo').addEventListener('touchend',()=>clearTimeout(t));
-render();
+function closeScratch(){ let b=document.getElementById('scratchBox'); b.classList.add('hidden'); b.classList.remove('flex'); }
 
-// Insta link baad me yahan daal dena
-// document.getElementById('instaLink').innerHTML = '<a href="https://instagram.com/aimeme.in" style="color:#000"> @aimeme.in </a>';
+function checkAdmin(){
+  if(localStorage.getItem('aimeme_admin')==='true'){ openModal(); return; }
+  let p=prompt('Password daalo Vidhayak Ji:');
+  if(p==='Ambrish@Vidhayak#2026'){ localStorage.setItem('aimeme_admin','true'); document.getElementById('addBtn').classList.remove('hidden'); openModal(); } else alert('Wrong Password!');
+}
+if(window.location.pathname.includes('/admin') || window.location.search.includes('admin') || localStorage.getItem('aimeme_admin')==='true'){
+  document.getElementById('addBtn').classList.remove('hidden');
+}
+
+function openModal(){document.getElementById('modal').style.display='flex'}
+function closeModal(){document.getElementById('modal').style.display='none'; window.editingIndex=null; document.getElementById('imgIn').value=''; document.getElementById('capIn').value='';}
+function editPost(idx){window.editingIndex=idx; document.getElementById('imgIn').value=posts[idx].img; document.getElementById('capIn').value=posts[idx].caption; openModal();}
+function deletePost(idx){if(confirm('Delete?')){posts.splice(idx,1); localStorage.setItem('aimeme_posts',JSON.stringify(posts)); render();}}
+function addPost(){
+  let img=document.getElementById('imgIn').value, cap=document.getElementById('capIn').value||"AIMEME.IN Golden Drop 🔥", file=document.getElementById('fileIn').files[0];
+  function save(im){ if(window.editingIndex!==null){posts[window.editingIndex].img=im; posts[window.editingIndex].caption=cap;} else {posts.push({img:im,caption:cap,views:(Math.random()*5+1).toFixed(1)+'k'});} localStorage.setItem('aimeme_posts',JSON.stringify(posts)); closeModal(); render(); }
+  if(file){let r=new FileReader(); r.onload=e=>save(e.target.result); r.readAsDataURL(file);} else { if(!img) return alert('Image daal'); save(img); }
+}
+render();
 </script>
 </body>
 </html>
