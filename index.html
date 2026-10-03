@@ -1,140 +1,160 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>AIMEME.IN</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>aimeme.in - Golden Drops</title>
 <script src="https://cdn.tailwindcss.com"></script>
-<script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-firestore-compat.js"></script>
-<style>
-body{background:#0f0f0f;color:#fff;font-family:Inter,sans-serif;margin:0}
-.golden-glass{background:linear-gradient(135deg, rgba(255,214,10,0.14), rgba(255,255,255,0.05));backdrop-filter:blur(20px);border:1px solid rgba(255,214,10,0.35)}
-.feed{height:calc(100vh - 115px);overflow-y:scroll;scroll-snap-type:y mandatory;scroll-behavior:smooth}
-.feed::-webkit-scrollbar{display:none}
-.feed-card{scroll-snap-align:start;scroll-snap-stop:always;min-height:calc(100vh - 115px);display:flex;align-items:center;justify-content:center;padding:16px}
-.insta-post{width:100%;max-width:360px;background:#fff;border-radius:12px;overflow:hidden;box-shadow:0 10px 35px rgba(0,0,0,0.45);position:relative}
-.post-head{display:flex;justify-content:space-between;align-items:center;padding:12px 14px}
-.post-head-left{display:flex;align-items:center;gap:10px}
-.dp{width:32px;height:32px;border-radius:50%;background:#111;display:flex;align-items:center;justify-content:center;color:#FFD60A;font-weight:900;font-size:13px}
-.post-img-wrap{width:100%;aspect-ratio:1/1;background:#f2f2f2;position:relative}
-.post-img-wrap img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
-.post-foot{display:flex;justify-content:space-between;align-items:center;padding:12px 14px}
-.icon-row{display:flex;gap:16px;align-items:center}
-.dots{display:flex;gap:4px;align-items:center}
-.dot{width:5px;height:5px;border-radius:50%;background:#d0d0d0}
-.dot.active{width:6px;height:6px;background:#0095f6}
-</style>
-</head>
-<body>
-  <header class="golden-glass sticky top-0 z-30 mx-3 mt-3 rounded-[22px] p-3 flex flex-col gap-2.5">
-<div class="flex justify-between items-center w-full">
-<div><h1 class="text-[20px] font-black tracking-[5px] leading-none">AIMEME<span class="text-[#FFD60A]">.</span>IN</h1><p class="text-[8px] tracking-[0.35em] opacity-60 mt-1 font-bold">FEED SCROLLER</p></div>
-<div class="flex gap-2 items-center">
-<span id="mCount" class="bg-[#FFD60A] text-black text-[11px] px-3 py-1.5 rounded-full font-black">0/5</span>
-<button onclick="openWithdraw()" class="bg-white/10 w-8 h-8 rounded-full border border-white/10">💸</button>
-<button onclick="openVoucher()" class="bg-white/10 w-8 h-8 rounded-full border border-white/10">🎟️</button>
-<button id="addBtn" onclick="openModal()" class="hidden bg-white text-black px-3 py-1.5 rounded-full font-black text-[10px]">+ ADD</button>
-</div>
-</div>
-<a href="https://www.instagram.com/aimeme.co.in" target="_blank" class="w-full flex items-center justify-center gap-2 bg-white px-4 py-3 rounded-full">
-<img src="https://upload.wikimedia.org/wikipedia/commons/a/a5/Instagram_icon.png" class="w-7 h-7 rounded-full"/><span class="font-black text-[14px] bg-gradient-to-r from-[#f09433] via-[#dc2743] to-[#bc1888] bg-clip-text text-transparent">Follow me on Instagram</span>
-</a>
-</header>
-<div id="feed" class="feed"></div>
-<div id="modal" class="fixed inset-0 bg-black/80 hidden items-center justify-center z-50 p-4"><div class="bg-[#111] w-full max-w-[380px] rounded-[28px] p-7 border border-white/10"><h2 class="font-black text-[20px]">New Drop</h2><input id="imgIn" placeholder="Image Link" class="w-full mt-5 p-4 bg-[#0a0a0a] border border-[#FFD60A]/40 rounded-[16px] outline-none"><label class="mt-3 bg-white text-black px-4 py-2 rounded-lg font-bold text-[13px] cursor-pointer inline-block">Choose file<input type="file" id="fileIn" hidden accept="image/*"></label><span id="fileName" class="opacity-60 text-[13px] ml-2">No file</span><textarea id="capIn" placeholder="Caption..." rows="2" class="w-full mt-3 p-4 bg-[#0a0a0a] border border-white/10 rounded-[16px] outline-none"></textarea><div class="flex gap-3 mt-5"><button onclick="closeModal()" class="flex-1 p-4 bg-[#1a1a1a] rounded-[16px] font-bold">Cancel</button><button onclick="addPost()" class="flex-1 p-4 bg-[#FFD60A] text-black rounded-[16px] font-black">DROP</button></div></div></div>
-<div id="commentModal" class="fixed inset-0 bg-black/80 hidden items-end z-[95]"><div class="bg-[#121212] w-full rounded-t-[24px] max-h-[70vh] flex flex-col"><div class="p-4 flex justify-between border-b border-white/10"><h3 class="font-bold">Comments</h3><button onclick="closeComment()" class="w-8 h-8 bg-white/10 rounded-full">✕</button></div><div id="commentList" class="flex-1 overflow-auto p-4 space-y-3"></div><div class="p-3 border-t border-white/10 flex gap-2"><input id="cInput" placeholder="Add comment..." class="flex-1 p-3 bg-black rounded-full text-[13px] border border-white/10 outline-none"><button onclick="postComment()" class="bg-[#FFD60A] text-black px-5 rounded-full font-bold">POST</button></div></div></div>
-<div id="withdrawModal" class="fixed inset-0 bg-black/90 hidden items-center justify-center z-[80] p-4"><div class="w-full max-w-[400px] bg-[#121212] rounded-[22px] p-5 border border-white/10 max-h-[85vh] overflow-auto"><div class="flex justify-between"><h2 class="font-bold">💸 Withdrawals</h2><button onclick="closeWithdraw()" class="w-8 h-8 bg-white/10 rounded-full">✕</button></div><div id="withdrawList" class="mt-4 space-y-2"></div><div id="adminWdBox" class="hidden"><hr class="my-4 border-white/10"><h3 class="font-bold text-[#FFD60A] text-[13px]">ADMIN PANEL - LIVE UPI REQUESTS</h3><div id="adminWithdrawList" class="mt-3 space-y-2"></div></div></div></div>
-<div id="voucherModal" class="fixed inset-0 bg-black/90 hidden items-center justify-center z-[80] p-4"><div class="w-full max-w-[360px] bg-[#121212] rounded-[22px] p-5 border border-white/10"><div class="flex justify-between"><h2 class="font-bold">🎟️ Voucher Tag</h2><button onclick="closeVoucher()" class="w-8 h-8 bg-white/10 rounded-full">✕</button></div><div id="voucherList" class="mt-4 space-y-2"></div></div></div>
-<div id="scratchModal" class="fixed inset-0 bg-black/90 hidden items-center justify-center z-[90] p-4"><div class="w-full max-w-[340px]"><h2 class="text-center font-bold text-[18px]">🎉 5/5 MISSION COMPLETE!</h2><div class="relative mt-4 w-full h-[380px] rounded-[28px] overflow-hidden bg-[#1a1a1a]"><div id="realReward" class="absolute inset-0"></div><canvas id="scratchCanvas" class="absolute inset-0 w-full h-full"></canvas></div><div id="afterWin" class="hidden mt-4"><div id="upiBox" class="hidden golden-glass rounded-[18px] p-4"><p class="text-[#00FF88] font-bold">💰 ₹<span id="winAmt"></span> UPI Cash!</p><input id="upiId" placeholder="Enter UPI ID (name@upi)" class="w-full mt-3 p-3.5 bg-black rounded-xl border border-yellow-400/30 outline-none"><button onclick="withdrawUPI()" class="w-full mt-3 bg-[#FFD60A] text-black py-3 rounded-xl font-black">WITHDRAW NOW</button></div><div id="voucherBox" class="hidden text-center golden-glass p-4 rounded-[18px]"><p class="text-[#FFD60A] font-bold">🎁 Aapka Voucher!</p><p id="vCodeShow" class="font-black mt-2 text-[16px]"></p><p id="vBrandShow" class="text-[12px] opacity-70 mt-1"></p><button onclick="closeScratch()" class="w-full mt-3 bg-white text-black py-3 rounded-xl font-black">CLOSE & NEXT MISSION</button></div></div></div></div>
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&display=swap" rel="stylesheet">
 <script>
 const firebaseConfig = {
-  apiKey: "AIzaSyDhZ6zYdaa0CD9r_HOtm5l7pBfkaxWeANY",
+  apiKey: "AIzaSyB0p0o4Z2s2o0X4Q0X4Q0X4Q0X4Q0X4Q0",
   authDomain: "aimeme-5ebf5.firebaseapp.com",
   projectId: "aimeme-5ebf5",
-  storageBucket: "aimeme-5ebf5.firebasestorage.app",
-  messagingSenderId: "67906916932",
-  appId: "1:67906916932:web:6bd44cb7d3e96e11916211"
+  storageBucket: "aimeme-5ebf5.appspot.com",
+  messagingSenderId: "1234567890",
+  appId: "1:1234567890:web:abcdef"
 };
 firebase.initializeApp(firebaseConfig);
 const db = firebase.firestore();
-let posts=[], actions=JSON.parse(localStorage.getItem('mission_actions')||'[]'), liked=JSON.parse(localStorage.getItem('liked_posts')||'[]'), withdraws=JSON.parse(localStorage.getItem('withdraws')||'[]'), vouchers=JSON.parse(localStorage.getItem('vouchers')||'[]'), finalImg="", activeId=null, currentReward=null;
-let rewards=[
-  {type:'upi',amount:5,color:'#00FF88'},
-  {type:'upi',amount:10,color:'#00FF88'},
-  {type:'voucher',brand:'GIVA',code:'PF-KQXRMZ',offer:'GIVA 28% Off',color:'#FFB6B8'},
-  {type:'voucher',brand:'TIRA',code:'septhd06vuvi67k',offer:'TIRA 30% Off',color:'#7AB8E8'}
-];
-let isAdmin = window.location.search.includes('admin');
-if(isAdmin){document.getElementById('addBtn').classList.remove('hidden'); document.getElementById('adminWdBox').classList.remove('hidden');}
-document.getElementById('fileIn').addEventListener('change',e=>{let r=new FileReader(); r.onload=ev=>finalImg=ev.target.result; r.readAsDataURL(e.target.files[0]); document.getElementById('fileName').innerText=e.target.files[0].name;});
-db.collection("posts").orderBy("id","desc").onSnapshot(snap=>{ posts=snap.docs.map(d=>d.data()); render(); });
-document.getElementById('mCount').innerText=`${actions.length}/5`;
-function resetMission(){ actions=[]; localStorage.setItem('mission_actions',JSON.stringify([])); localStorage.removeItem('scratchShown'); document.getElementById('mCount').innerText=`0/5`; }
-function doAction(id,type){
-  if(type==='like'){
-    let isLiked=liked.includes(id);
-    db.collection("posts").doc(String(id)).update({likes: firebase.firestore.FieldValue.increment(isLiked?-1:1)});
-    if(isLiked) liked=liked.filter(x=>x!==id); else {liked.push(id); if(navigator.vibrate) navigator.vibrate(40);}
-    localStorage.setItem('liked_posts',JSON.stringify(liked));
-  }
-  if(!actions.includes(id)){ actions.push(id); localStorage.setItem('mission_actions',JSON.stringify(actions)); document.getElementById('mCount').innerText=`${actions.length}/5`; }
-  if(type==='comment') openComment(id);
-  if(type==='share'){navigator.clipboard.writeText(location.href); alert('Link Copied!');}
-  if(actions.length>=5 &&!localStorage.getItem('scratchShown')){localStorage.setItem('scratchShown','true'); setTimeout(openScratch,800);}
+</script>
+<style>
+*{font-family:'Inter',sans-serif}
+body{background:#fff}
+.feed-card{max-width:470px;margin:0 auto 24px;border:1px solid #dbdbdb;border-radius:8px;background:#fff;overflow:hidden}
+.insta-post{position:relative}
+.post-head{display:flex;justify-content:space-between;align-items:center;padding:10px 12px}
+.post-head-left{display:flex;align-items:center;gap:10px}
+.dp{width:32px;height:32px;border-radius:50%;background:linear-gradient(45deg,#feda75,#fa7e1e,#d62976,#962fbf,#4f5bd5);display:flex;align-items:center;justify-content:center;color:#fff;font-weight:800}
+.post-img-wrap{background:#000;display:flex;align-items:center;justify-content:center;min-height:300px}
+.post-img-wrap img{width:100%;height:auto;max-height:600px;object-fit:contain}
+.post-foot{display:flex;justify-content:space-between;align-items:center;padding:10px 12px}
+.icon-row{display:flex;gap:14px}
+.dots{display:flex;gap:4px}
+.dot{width:6px;height:6px;border-radius:50%;background:#a8a8a8}
+.dot.active{background:#0095f6}
+.modal{position:fixed;inset:0;background:rgba(0,0,0,0.7);z-index:9999;display:none;align-items:center;justify-content:center;padding:20px}
+.modal.show{display:flex}
+</style>
+</head>
+<body>
+<header class="sticky top-0 z-50 bg-white border-b border-[#dbdbdb] px-4 py-2.5 flex justify-between items-center">
+  <h1 class="text-[22px] font-black tracking-tighter">aimeme.in</h1>
+  <div class="flex gap-3 items-center">
+    <span id="mCount" class="text-xs bg-black text-white px-2 py-1 rounded-full">0/5</span>
+    <button id="adminBtn" onclick="openModal()" class="hidden bg-black text-white px-4 py-1.5 rounded-full text-sm font-bold">+ DROP</button>
+  </div>
+</header>
+
+<div id="feed" class="pt-4 pb-20 min-h-screen">
+  <p class="text-center mt-20 text-gray-400">Loading Golden Drops...</p>
+</div>
+
+<!-- POST MODAL -->
+<div id="postModal" class="modal">
+  <div class="bg-white rounded-xl w-full max-w-[400px] p-5">
+    <div class="flex justify-between items-center mb-4"><h2 class="font-bold text-lg">New Drop</h2><button onclick="closeModal()" class="text-xl">✕</button></div>
+    <input id="imgIn" type="text" placeholder="Image Link (Best -.jpg link)" class="w-full border border-gray-300 rounded-lg px-3 py-2.5 text-sm mb-3">
+    <div class="border-2 border-dashed border-gray-300 rounded-lg p-3 mb-3 text-center">
+      <input type="file" id="fileIn" accept="image/*" class="hidden">
+      <button onclick="document.getElementById('fileIn').click()" class="text-sm font-bold">📁 Choose File (Auto Compress)</button>
+      <p id="fileName" class="text-[11px] text-gray-500 mt-1">No file</p>
+    </div>
+    <input id="capIn" type="text" placeholder="Caption likho - Ye to relatable hai 😭😂" class="w-full border border-gray-300 rounded-lg px-3 py-2.5 text-sm mb-4">
+    <button onclick="addPost()" class="w-full bg-black text-white py-3 rounded-full font-bold">DROP</button>
+    <p class="text-[10px] text-gray-400 mt-2 text-center">Tip: Hamesha Image Link use karo, File badi ho to fail hogi</p>
+  </div>
+</div>
+<script>
+let posts=[], liked=[], actions=[], finalImg='', isAdmin=false;
+const urlParams = new URLSearchParams(window.location.search);
+if(urlParams.has('admin')){ isAdmin=true; document.getElementById('adminBtn').classList.remove('hidden'); }
+
+function openModal(){ document.getElementById('postModal').classList.add('show'); }
+function closeModal(){ document.getElementById('postModal').classList.remove('show'); }
+
+// FILE COMPRESS - 600px + 50% quality
+document.getElementById('fileIn').addEventListener('change',e=>{
+  let file = e.target.files[0];
+  if(!file) return;
+  document.getElementById('fileName').innerText = file.name + ' (Compress...)';
+  let reader = new FileReader();
+  reader.onload = ev => {
+    let img = new Image();
+    img.onload = ()=>{
+      let canvas = document.createElement('canvas');
+      let max = 600; let w = img.width, h = img.height;
+      if(w>max || h>max){ if(w>h){ h = h*max/w; w=max; } else { w = w*max/h; h=max; } }
+      canvas.width=w; canvas.height=h;
+      canvas.getContext('2d').drawImage(img,0,0,w,h);
+      finalImg = canvas.toDataURL('image/jpeg',0.5);
+      document.getElementById('fileName').innerText = '✅ Ready ('+Math.round(finalImg.length/1024)+'KB)';
+    };
+    img.src = ev.target.result;
+  };
+  reader.readAsDataURL(file);
+});
+
+function addPost(){
+  let link=document.getElementById('imgIn').value.trim();
+  let cap=document.getElementById('capIn').value.trim();
+  if(link) finalImg=link;
+  if(!finalImg) return alert('Image daalo!');
+  if(finalImg.length > 800000) return alert('Image bahut badi hai! Imgur ka link use karo');
+  let newPost={img:finalImg, caption:cap||'Golden Drop 🔥', likes:0, id:Date.now(), commentList:[]};
+  db.collection("posts").doc(String(newPost.id)).set(newPost).then(()=>{
+    alert('Post Save Ho Gaya ✅');
+    closeModal();
+    document.getElementById('imgIn').value=''; document.getElementById('capIn').value='';
+    document.getElementById('fileName').innerText='No file'; finalImg='';
+  }).catch(err=>alert('Error: '+err.message));
 }
+
+function deletePost(id){ if(!confirm('Delete?')) return; db.collection("posts").doc(String(id)).delete(); }
+function editPost(id){
+  let p = posts.find(x=>x.id==id);
+  let newCap = prompt('New Caption:', p.caption);
+  if(newCap!==null){ db.collection("posts").doc(String(id)).update({caption:newCap}); }
+}
+function doAction(id,type){
+  if(type=='like'){ if(liked.includes(id)) return; liked.push(id); db.collection("posts").doc(String(id)).update({likes: firebase.firestore.FieldValue.increment(1)}); }
+  if(type=='comment'){ let c=prompt('Comment:'); if(c) db.collection("posts").doc(String(id)).update({commentList: firebase.firestore.FieldValue.arrayUnion(c)}); }
+  if(type=='share'){ navigator.clipboard.writeText(location.origin); alert('Link Copied!'); }
+  if(isAdmin) return;
+  actions.push(Date.now()); localStorage.setItem('aimeme_actions', JSON.stringify(actions));
+}
+
+// FIXED FIREBASE READ - orderBy hataya hai
+db.collection("posts").onSnapshot(snap=>{
+  console.log('Posts:', snap.size);
+  posts = snap.docs.map(d=>d.data()).sort((a,b)=>(b.id||0)-(a.id||0));
+  render();
+}, err=>{
+  document.getElementById('feed').innerHTML = `<div class="p-10 text-center text-red-500">Firebase Error: ${err.message}<br>Rule Publish karo!</div>`;
+});
+
+// Load actions
+try{ actions = JSON.parse(localStorage.getItem('aimeme_actions')||'[]'); }catch(e){ actions=[]; }
+</script>
+<script>
 function render(){
   document.getElementById('mCount').innerText=`${actions.length}/5`;
+  if(posts.length==0){ document.getElementById('feed').innerHTML=`<p class="text-center mt-20 text-gray-400">No posts yet. Admin se post karo?admin lagake</p>`; return; }
   document.getElementById('feed').innerHTML=posts.map(p=>`
   <div class="feed-card"><div class="insta-post">
-  ${isAdmin?`<div class="absolute top-1 right-12 flex gap-1 z-20"><button onclick="editPost(${p.id})" class="bg-black/70 text-white w-7 h-7 rounded-full text-[11px]">✏️</button><button onclick="deletePost(${p.id})" class="bg-red-500 text-white w-7 h-7 rounded-full text-[11px]">🗑️</button></div>`:''}
-  <div class="post-head">
-    <div class="post-head-left">
-      <div class="dp">A</div>
-      <div>
-        <div class="flex items-center gap-1.5">
-          <span class="text-[13.5px] font-bold text-black leading-none tracking-tight">aimeme.in</span>
-          <svg width="14" height="14" viewBox="0 0 24 24"><circle cx="12" cy="12" r="11" fill="#0095F6"/><path fill="white" d="M17.1 8.3l-4.7 7.1-3.1-3.1 1.1-1.1 2 2 3.6-5.4 1.1 0.5z"/></svg>
-        </div>
-        <div class="text-[11px] text-[#737373] leading-none mt-[3px]">Placehere</div>
-      </div>
-    </div>
-    <svg width="18" height="18" viewBox="0 0 24 24" fill="#262626"><circle cx="12" cy="6" r="1.5"/><circle cx="12" cy="12" r="1.5"/><circle cx="12" cy="18" r="1.5"/></svg>
-  </div>
+  ${isAdmin?`<div class="absolute top-2 right-2 flex gap-1 z-20"><button onclick="editPost(${p.id})" class="bg-black/70 text-white w-7 h-7 rounded-full text-[11px]">✏️</button><button onclick="deletePost(${p.id})" class="bg-red-500 text-white w-7 h-7 rounded-full text-[11px]">🗑️</button></div>`:''}
+  <div class="post-head"><div class="post-head-left"><div class="dp">A</div><div><div class="flex items-center gap-1.5"><span class="text-[13.5px] font-bold text-black leading-none">aimeme.in</span><svg width="14" height="14" viewBox="0 0 24 24"><circle cx="12" cy="12" r="11" fill="#0095F6"/><path fill="white" d="M17.1 8.3l-4.7 7.1-3.1-3.1 1.1-1.1 2 2 3.6-5.4 1.1 0.5z"/></svg></div><div class="text-[11px] text-[#737373] leading-none mt-[3px]">Manesar, Haryana</div></div></div><svg width="18" height="18" viewBox="0 0 24 24" fill="#262626"><circle cx="12" cy="6" r="1.5"/><circle cx="12" cy="12" r="1.5"/><circle cx="12" cy="18" r="1.5"/></svg></div>
   <div class="post-img-wrap"><img src="${p.img}" loading="lazy"></div>
-  <div class="post-foot">
-    <div class="icon-row">
-      <button onclick="doAction(${p.id},'like')"><svg width="24" height="24" viewBox="0 0 24 24" fill="${liked.includes(p.id)?'#262626':'none'}" stroke="#262626" stroke-width="${liked.includes(p.id)?'0':'1.7'}"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg></button>
-      <button onclick="doAction(${p.id},'comment')"><svg width="23" height="23" viewBox="0 0 24 24" fill="none" stroke="#262626" stroke-width="1.7"><path d="M21 11.5a8.5 8.5 0 0 1-8.5 8.5H11l-4 3.5v-3.5A8.5 8.5 0 0 1 2.5 11.5a8.5 8.5 0 0 1 8.5-8.5H21z"/></svg></button>
-      <button onclick="doAction(${p.id},'share')"><svg width="23" height="23" viewBox="0 0 24 24" fill="none" stroke="#262626" stroke-width="1.7"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg></button>
-    </div>
-    <div class="dots"><div class="dot"></div><div class="dot active"></div><div class="dot"></div></div>
-    <svg width="23" height="23" viewBox="0 0 24 24" fill="none" stroke="#262626" stroke-width="1.7"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>
-  </div>
-  <!-- CAPTION FIX - AB DIKHEGA -->
-  <div class="px-3.5 pb-3 pt-1 text-[13px] text-black leading-[1.3]">
+  <div class="post-foot"><div class="icon-row"><button onclick="doAction(${p.id},'like')"><svg width="24" height="24" viewBox="0 0 24 24" fill="${liked.includes(p.id)?'#ed4956':'none'}" stroke="${liked.includes(p.id)?'#ed4956':'#262626'}" stroke-width="1.7"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg></button><button onclick="doAction(${p.id},'comment')"><svg width="23" height="23" viewBox="0 0 24 24" fill="none" stroke="#262626" stroke-width="1.7"><path d="M21 11.5a8.5 8.5 0 0 1-8.5 8.5H11l-4 3.5v-3.5A8.5 8.5 0 0 1 2.5 11.5a8.5 8.5 0 0 1 8.5-8.5H21z"/></svg></button><button onclick="doAction(${p.id},'share')"><svg width="23" height="23" viewBox="0 0 24 24" fill="none" stroke="#262626" stroke-width="1.7"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg></button></div><div class="dots"><div class="dot"></div><div class="dot active"></div><div class="dot"></div></div><svg width="23" height="23" viewBox="0 0 24 24" fill="none" stroke="#262626" stroke-width="1.7"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg></div>
+  <div class="px-3.5 pb-3 pt-1 text-[14px] text-black leading-[1.35]">
     <span class="font-bold">aimeme.in</span> ${p.caption||''}
-    <div class="text-[11px] text-[#8e8e8e] mt-1">${p.likes||0} likes • View ${(p.commentList||[]).length} comments</div>
+    <div class="text-[12px] text-[#8e8e8e] mt-1 font-semibold">${p.likes||0} likes</div>
+    ${p.commentList && p.commentList.length?`<div class="text-[13px] mt-1">${p.commentList.map(c=>`<div><span class="font-bold">user</span> ${c}</div>`).join('')}</div>`:''}
   </div>
   </div></div>`).join('');
 }
-function deletePost(id){ if(confirm('Delete karna hai?')) db.collection("posts").doc(String(id)).delete(); }
-function editPost(id){ let p=posts.find(x=>x.id==id); let nc=prompt('New Caption:', p.caption); if(nc!==null) db.collection("posts").doc(String(id)).update({caption:nc}); }
-function openComment(id){activeId=id; let p=posts.find(x=>x.id==id); document.getElementById('commentModal').style.display='flex'; document.getElementById('commentList').innerHTML=(p.commentList||[]).map(c=>`<div class="flex gap-2"><div class="w-7 h-7 rounded-full bg-zinc-300"></div><div class="bg-white/5 rounded-[16px] px-3 py-2 text-white"><b class="text-[12px]">${c.user}</b> <span class="text-[12px]">${c.text}</span></div></div>`).join('');}
-function closeComment(){document.getElementById('commentModal').style.display='none';}
-function postComment(){let txt=document.getElementById('cInput').value.trim(); if(!txt)return; let p=posts.find(x=>x.id==activeId); let nl=[...(p.commentList||[]), {user:'you',text:txt}]; db.collection("posts").doc(String(activeId)).update({commentList:nl}); if(!actions.includes(activeId)){ actions.push(activeId); localStorage.setItem('mission_actions',JSON.stringify(actions)); document.getElementById('mCount').innerText=`${actions.length}/5`; if(actions.length>=5 &&!localStorage.getItem('scratchShown')){localStorage.setItem('scratchShown','true'); setTimeout(openScratch,800);} } document.getElementById('cInput').value='';}
-function openWithdraw(){document.getElementById('withdrawModal').style.display='flex';document.getElementById('withdrawList').innerHTML=withdraws.map(w=>`<div class="bg-white/5 p-3 rounded-xl flex justify-between text-[12px]"><div><b>₹${w.amount}</b><div class="text-[10px] opacity-50">${w.upi}</div></div><div class="text-[10px] px-2 py-1 rounded-full bg-[#FFD60A] text-black font-bold">${w.status}</div></div>`).join('')||'<p class="text-[11px] opacity-40 text-center">No withdrawals yet</p>';if(isAdmin){db.collection("withdrawals").orderBy("time","desc").onSnapshot(snap=>{let list=snap.docs.map(d=>({id:d.id,...d.data()}));document.getElementById('adminWithdrawList').innerHTML=list.map(w=>`<div class="bg-yellow-500/10 p-3 rounded-xl flex justify-between text-[12px] border border-yellow-500/20"><div><b class="text-[14px]">₹${w.amount}</b><div class="text-[11px] mt-1 font-bold">${w.upi}</div><div class="text-[9px] opacity-50">${new Date(w.time).toLocaleString()}</div></div><div class="flex flex-col items-end gap-1"><span class="text-[10px] px-2 py-1 rounded-full ${w.status=='pending'?'bg-orange-400':w.status=='approved'?'bg-green-400':'bg-red-400'} text-black font-bold">${w.status}</span><div class="flex gap-1 mt-1"><button onclick="approveWd('${w.id}')" class="bg-green-500 text-white px-3 py-1 rounded-full text-[10px] font-bold">APPROVE</button><button onclick="rejectWd('${w.id}')" class="bg-red-500 text-white px-3 py-1 rounded-full text-[10px] font-bold">REJECT</button></div></div></div>`).join('')});}}
-function closeWithdraw(){document.getElementById('withdrawModal').style.display='none';}
-function approveWd(id){ db.collection("withdrawals").doc(id).update({status:"approved"}); }
-function rejectWd(id){ if(confirm('Reject karna hai?')) db.collection("withdrawals").doc(id).update({status:"rejected"}); }
-function openVoucher(){document.getElementById('voucherModal').style.display='flex'; document.getElementById('voucherList').innerHTML=vouchers.map(v=>`<div class="bg-white/5 p-3 rounded-xl text-[12px]"><b>${v.brand} - ${v.offer}</b><div class="mt-1 bg-white text-black px-2 py-1 rounded-full inline-block font-bold">${v.code}</div></div>`).join('')||'<p class="text-[11px] opacity-40 text-center">No vouchers yet</p>';}
-function closeVoucher(){document.getElementById('voucherModal').style.display='none';}
-function openScratch(){let r=rewards[Math.floor(Math.random()*rewards.length)]; currentReward=r; document.getElementById('scratchModal').style.display='flex'; document.getElementById('afterWin').classList.add('hidden'); document.getElementById('upiBox').classList.add('hidden'); document.getElementById('voucherBox').classList.add('hidden'); if(r.type==='upi'){document.getElementById('winAmt').innerText=r.amount; document.getElementById('realReward').innerHTML=`<div style="background:${r.color};height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;color:#000"><div class="text-[72px]">💸</div><h1 class="font-black text-[38px]">₹${r.amount}</h1></div>`;}else{document.getElementById('realReward').innerHTML=`<div style="background:${r.color};height:100%;padding:26px;display:flex;flex-direction:column;justify-content:center;color:#000"><p class="text-[11px] font-bold opacity-60">${r.brand}</p><h1 class="font-black text-[22px] mt-2">${r.offer}</h1><p class="mt-4 font-bold bg-black text-white inline-block px-3 py-1 rounded-full text-[12px]">${r.code}</p></div>`;} setTimeout(initScratch,120);}
-function initScratch(){let c=document.getElementById('scratchCanvas'),ctx=c.getContext('2d'); c.width=c.offsetWidth; c.height=c.offsetHeight; ctx.fillStyle='#9e9e9e'; ctx.fillRect(0,0,c.width,c.height); ctx.font='900 16px sans-serif'; ctx.fillStyle='#444'; ctx.fillText('SCRATCH KARO! 🎁',c.width/2-70,c.height/2); let d=false; function s(e){if(!d)return; let r=c.getBoundingClientRect(); let x=(e.touches?e.touches[0].clientX:e.clientX)-r.left; let y=(e.touches?e.touches[0].clientY:e.clientY)-r.top; ctx.globalCompositeOperation='destination-out'; ctx.beginPath(); ctx.arc(x,y,30,0,Math.PI*2); ctx.fill(); check();} c.addEventListener('mousedown',()=>d=true); c.addEventListener('mouseup',()=>d=false); c.addEventListener('mousemove',s); c.addEventListener('touchstart',()=>d=true); c.addEventListener('touchend',()=>d=false); c.addEventListener('touchmove',s); function check(){let data=ctx.getImageData(0,0,c.width,c.height).data,t=0; for(let i=3;i<data.length;i+=4) if(data[i]==0) t++; if(t/(c.width*c.height)>0.48){c.style.opacity='0'; c.style.pointerEvents='none'; document.getElementById('afterWin').classList.remove('hidden'); if(currentReward.type==='upi'){document.getElementById('upiBox').classList.remove('hidden');} else{document.getElementById('voucherBox').classList.remove('hidden'); document.getElementById('vCodeShow').innerText=currentReward.code; document.getElementById('vBrandShow').innerText=currentReward.brand+' - '+currentReward.offer; navigator.clipboard.writeText(currentReward.code); vouchers.unshift(currentReward); localStorage.setItem('vouchers',JSON.stringify(vouchers));} if(navigator.vibrate) navigator.vibrate([100,50,100]); }}}
-function withdrawUPI(){let upi=document.getElementById('upiId').value.trim(); if(!upi.includes('@')) return alert('Sahi UPI ID daalo'); db.collection("withdrawals").add({amount:currentReward.amount, upi:upi, status:'pending', time:Date.now()}).then(()=>{ withdraws.unshift({amount:currentReward.amount, upi, status:'pending'}); localStorage.setItem('withdraws',JSON.stringify(withdraws)); alert(`₹${currentReward.amount} Request Admin ko bhej diya!`); closeScratch(); resetMission(); });}
-function closeScratch(){document.getElementById('scratchModal').style.display='none'; if(currentReward && currentReward.type==='voucher'){ resetMission(); }}
-function openModal(){document.getElementById('modal').style.display='flex';}
-function closeModal(){document.getElementById('modal').style.display='none'; finalImg='';}
-function addPost(){let link=document.getElementById('imgIn').value.trim(); let cap=document.getElementById('capIn').value.trim(); if(link) finalImg=link; if(!finalImg) return alert('Image daalo'); let newPost={img:finalImg, caption:cap||'Golden Drop 🔥', likes:0, id:Date.now(), commentList:[]}; db.collection("posts").doc(String(newPost.id)).set(newPost).then(()=>{alert('Post Added!'); closeModal();});}
 </script>
 </body>
 </html>
