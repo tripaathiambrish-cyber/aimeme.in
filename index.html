@@ -1,160 +1,59 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>aimeme.in - Golden Drops</title>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>aimeme.co.in - Under Maintenance</title>
 <script src="https://cdn.tailwindcss.com"></script>
-<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&display=swap" rel="stylesheet">
-<script>
-const firebaseConfig = {
-  apiKey: "AIzaSyB0p0o4Z2s2o0X4Q0X4Q0X4Q0X4Q0X4Q0",
-  authDomain: "aimeme-5ebf5.firebaseapp.com",
-  projectId: "aimeme-5ebf5",
-  storageBucket: "aimeme-5ebf5.appspot.com",
-  messagingSenderId: "1234567890",
-  appId: "1:1234567890:web:abcdef"
-};
-firebase.initializeApp(firebaseConfig);
-const db = firebase.firestore();
-</script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@900;800;600&display=swap" rel="stylesheet">
 <style>
 *{font-family:'Inter',sans-serif}
-body{background:#fff}
-.feed-card{max-width:470px;margin:0 auto 24px;border:1px solid #dbdbdb;border-radius:8px;background:#fff;overflow:hidden}
-.insta-post{position:relative}
-.post-head{display:flex;justify-content:space-between;align-items:center;padding:10px 12px}
-.post-head-left{display:flex;align-items:center;gap:10px}
-.dp{width:32px;height:32px;border-radius:50%;background:linear-gradient(45deg,#feda75,#fa7e1e,#d62976,#962fbf,#4f5bd5);display:flex;align-items:center;justify-content:center;color:#fff;font-weight:800}
-.post-img-wrap{background:#000;display:flex;align-items:center;justify-content:center;min-height:300px}
-.post-img-wrap img{width:100%;height:auto;max-height:600px;object-fit:contain}
-.post-foot{display:flex;justify-content:space-between;align-items:center;padding:10px 12px}
-.icon-row{display:flex;gap:14px}
-.dots{display:flex;gap:4px}
-.dot{width:6px;height:6px;border-radius:50%;background:#a8a8a8}
-.dot.active{background:#0095f6}
-.modal{position:fixed;inset:0;background:rgba(0,0,0,0.7);z-index:9999;display:none;align-items:center;justify-content:center;padding:20px}
-.modal.show{display:flex}
+.glass{background:rgba(255,255,255,0.22);backdrop-filter:blur(26px);-webkit-backdrop-filter:blur(26px);border:1px solid rgba(255,255,255,0.4);box-shadow:0 30px 90px rgba(0,0,0,0.13)}
+.folder{width:165px;height:120px;background:linear-gradient(135deg,#FFD93D,#FFB800);border-radius:0 24px 14px 14px;position:relative;box-shadow:0 30px 70px rgba(255,184,0,0.5);transform:rotate(-6deg)}
+.folder::before{content:'';position:absolute;top:-22px;left:0;width:72px;height:22px;background:#FFB800;border-radius:12px 12px 0 0}
 </style>
 </head>
-<body>
-<header class="sticky top-0 z-50 bg-white border-b border-[#dbdbdb] px-4 py-2.5 flex justify-between items-center">
-  <h1 class="text-[22px] font-black tracking-tighter">aimeme.in</h1>
-  <div class="flex gap-3 items-center">
-    <span id="mCount" class="text-xs bg-black text-white px-2 py-1 rounded-full">0/5</span>
-    <button id="adminBtn" onclick="openModal()" class="hidden bg-black text-white px-4 py-1.5 rounded-full text-sm font-bold">+ DROP</button>
-  </div>
-</header>
+<body class="min-h-screen bg-[#f6f5f2] relative flex items-center justify-center px-4 py-8 overflow-hidden">
 
-<div id="feed" class="pt-4 pb-20 min-h-screen">
-  <p class="text-center mt-20 text-gray-400">Loading Golden Drops...</p>
-</div>
+<div class="absolute -top-40 -left-40 w-[800px] h-[800px] bg-gradient-to-br from-yellow-200 via-orange-200 to-pink-300 rounded-full blur-[110px] opacity-70"></div>
+<div class="absolute -bottom-40 -right-40 w-[800px] h-[800px] bg-gradient-to-br from-blue-200 via-violet-200 to-pink-200 rounded-full blur-[110px] opacity-70"></div>
 
-<!-- POST MODAL -->
-<div id="postModal" class="modal">
-  <div class="bg-white rounded-xl w-full max-w-[400px] p-5">
-    <div class="flex justify-between items-center mb-4"><h2 class="font-bold text-lg">New Drop</h2><button onclick="closeModal()" class="text-xl">✕</button></div>
-    <input id="imgIn" type="text" placeholder="Image Link (Best -.jpg link)" class="w-full border border-gray-300 rounded-lg px-3 py-2.5 text-sm mb-3">
-    <div class="border-2 border-dashed border-gray-300 rounded-lg p-3 mb-3 text-center">
-      <input type="file" id="fileIn" accept="image/*" class="hidden">
-      <button onclick="document.getElementById('fileIn').click()" class="text-sm font-bold">📁 Choose File (Auto Compress)</button>
-      <p id="fileName" class="text-[11px] text-gray-500 mt-1">No file</p>
+<div class="relative z-10 glass rounded-[42px] p-7 md:p-12 max-w-[800px] w-full text-center">
+
+  <div class="flex justify-center mb-10"><div class="folder flex items-center justify-center text-5xl">📁</div></div>
+
+  <div class="inline-flex bg-black text-white px-5 py-2 rounded-full text-[10px] font-black tracking-[0.25em] mb-6">● AIMEME.CO.IN</div>
+
+  <h1 class="text-[50px] md:text-[86px] font-[900] leading-[0.85] tracking-[-0.06em]">
+    WEBSITE<br><span class="text-transparent bg-clip-text bg-gradient-to-r from-[#FFB800] via-[#FF5A00] to-[#FF006B]">IS UNDER</span><br>MAINTENANCE
+  </h1>
+
+  <p class="text-[14px] text-[#6e6e73] mt-5 font-semibold">We are cooking something golden. Back very soon!</p>
+
+  <!-- REAL INSTA FOLLOW CARD -->
+  <div class="mt-10 bg-white rounded-[28px] p-6 max-w-[480px] mx-auto shadow-[0_24px_70px_rgba(0,0,0,0.12)] border border-black/[0.06]">
+
+    <div class="flex flex-col items-center">
+      <!-- Real Insta Logo Gradient -->
+      <div class="w-[72px] h-[72px] rounded-[20px] bg-gradient-to-tr from-[#feda75] via-[#d62976] via-[#962fbf] to-[#4f5bd5] flex items-center justify-center shadow-[0_12px_30px_rgba(214,41,118,0.45)]">
+        <svg width="38" height="38" viewBox="0 0 24 24" fill="white"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 8.333 1.28.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
+      </div>
+
+      <h2 class="mt-4 font-black text-[18px] tracking-tight">Follow us on Instagram</h2>
+      <p class="font-bold text-[14px] text-[#8e8e8e]">@aimeme.co.in</p>
+
+      <a href="https://instagram.com/aimeme.co.in" target="_blank" class="mt-5 bg-black text-white px-10 py-3.5 rounded-full text-[13px] font-black tracking-wide w-full md:w-auto hover:bg-zinc-800 transition">Follow Now →</a>
+
+      <div class="mt-5 flex items-center gap-2 text-[11px] font-bold text-black/50 tracking-widest">
+        <span class="w-6 h-[1px] bg-black/20"></span>
+        FOLLOW FOR MORE UPDATES
+        <span class="w-6 h-[1px] bg-black/20"></span>
+      </div>
     </div>
-    <input id="capIn" type="text" placeholder="Caption likho - Ye to relatable hai 😭😂" class="w-full border border-gray-300 rounded-lg px-3 py-2.5 text-sm mb-4">
-    <button onclick="addPost()" class="w-full bg-black text-white py-3 rounded-full font-bold">DROP</button>
-    <p class="text-[10px] text-gray-400 mt-2 text-center">Tip: Hamesha Image Link use karo, File badi ho to fail hogi</p>
+
   </div>
+
+  <p class="text-[10px] text-black/30 mt-8 tracking-[0.3em] font-black">AIMEME.CO.IN</p>
 </div>
-<script>
-let posts=[], liked=[], actions=[], finalImg='', isAdmin=false;
-const urlParams = new URLSearchParams(window.location.search);
-if(urlParams.has('admin')){ isAdmin=true; document.getElementById('adminBtn').classList.remove('hidden'); }
 
-function openModal(){ document.getElementById('postModal').classList.add('show'); }
-function closeModal(){ document.getElementById('postModal').classList.remove('show'); }
-
-// FILE COMPRESS - 600px + 50% quality
-document.getElementById('fileIn').addEventListener('change',e=>{
-  let file = e.target.files[0];
-  if(!file) return;
-  document.getElementById('fileName').innerText = file.name + ' (Compress...)';
-  let reader = new FileReader();
-  reader.onload = ev => {
-    let img = new Image();
-    img.onload = ()=>{
-      let canvas = document.createElement('canvas');
-      let max = 600; let w = img.width, h = img.height;
-      if(w>max || h>max){ if(w>h){ h = h*max/w; w=max; } else { w = w*max/h; h=max; } }
-      canvas.width=w; canvas.height=h;
-      canvas.getContext('2d').drawImage(img,0,0,w,h);
-      finalImg = canvas.toDataURL('image/jpeg',0.5);
-      document.getElementById('fileName').innerText = '✅ Ready ('+Math.round(finalImg.length/1024)+'KB)';
-    };
-    img.src = ev.target.result;
-  };
-  reader.readAsDataURL(file);
-});
-
-function addPost(){
-  let link=document.getElementById('imgIn').value.trim();
-  let cap=document.getElementById('capIn').value.trim();
-  if(link) finalImg=link;
-  if(!finalImg) return alert('Image daalo!');
-  if(finalImg.length > 800000) return alert('Image bahut badi hai! Imgur ka link use karo');
-  let newPost={img:finalImg, caption:cap||'Golden Drop 🔥', likes:0, id:Date.now(), commentList:[]};
-  db.collection("posts").doc(String(newPost.id)).set(newPost).then(()=>{
-    alert('Post Save Ho Gaya ✅');
-    closeModal();
-    document.getElementById('imgIn').value=''; document.getElementById('capIn').value='';
-    document.getElementById('fileName').innerText='No file'; finalImg='';
-  }).catch(err=>alert('Error: '+err.message));
-}
-
-function deletePost(id){ if(!confirm('Delete?')) return; db.collection("posts").doc(String(id)).delete(); }
-function editPost(id){
-  let p = posts.find(x=>x.id==id);
-  let newCap = prompt('New Caption:', p.caption);
-  if(newCap!==null){ db.collection("posts").doc(String(id)).update({caption:newCap}); }
-}
-function doAction(id,type){
-  if(type=='like'){ if(liked.includes(id)) return; liked.push(id); db.collection("posts").doc(String(id)).update({likes: firebase.firestore.FieldValue.increment(1)}); }
-  if(type=='comment'){ let c=prompt('Comment:'); if(c) db.collection("posts").doc(String(id)).update({commentList: firebase.firestore.FieldValue.arrayUnion(c)}); }
-  if(type=='share'){ navigator.clipboard.writeText(location.origin); alert('Link Copied!'); }
-  if(isAdmin) return;
-  actions.push(Date.now()); localStorage.setItem('aimeme_actions', JSON.stringify(actions));
-}
-
-// FIXED FIREBASE READ - orderBy hataya hai
-db.collection("posts").onSnapshot(snap=>{
-  console.log('Posts:', snap.size);
-  posts = snap.docs.map(d=>d.data()).sort((a,b)=>(b.id||0)-(a.id||0));
-  render();
-}, err=>{
-  document.getElementById('feed').innerHTML = `<div class="p-10 text-center text-red-500">Firebase Error: ${err.message}<br>Rule Publish karo!</div>`;
-});
-
-// Load actions
-try{ actions = JSON.parse(localStorage.getItem('aimeme_actions')||'[]'); }catch(e){ actions=[]; }
-</script>
-<script>
-function render(){
-  document.getElementById('mCount').innerText=`${actions.length}/5`;
-  if(posts.length==0){ document.getElementById('feed').innerHTML=`<p class="text-center mt-20 text-gray-400">No posts yet. Admin se post karo?admin lagake</p>`; return; }
-  document.getElementById('feed').innerHTML=posts.map(p=>`
-  <div class="feed-card"><div class="insta-post">
-  ${isAdmin?`<div class="absolute top-2 right-2 flex gap-1 z-20"><button onclick="editPost(${p.id})" class="bg-black/70 text-white w-7 h-7 rounded-full text-[11px]">✏️</button><button onclick="deletePost(${p.id})" class="bg-red-500 text-white w-7 h-7 rounded-full text-[11px]">🗑️</button></div>`:''}
-  <div class="post-head"><div class="post-head-left"><div class="dp">A</div><div><div class="flex items-center gap-1.5"><span class="text-[13.5px] font-bold text-black leading-none">aimeme.in</span><svg width="14" height="14" viewBox="0 0 24 24"><circle cx="12" cy="12" r="11" fill="#0095F6"/><path fill="white" d="M17.1 8.3l-4.7 7.1-3.1-3.1 1.1-1.1 2 2 3.6-5.4 1.1 0.5z"/></svg></div><div class="text-[11px] text-[#737373] leading-none mt-[3px]">Manesar, Haryana</div></div></div><svg width="18" height="18" viewBox="0 0 24 24" fill="#262626"><circle cx="12" cy="6" r="1.5"/><circle cx="12" cy="12" r="1.5"/><circle cx="12" cy="18" r="1.5"/></svg></div>
-  <div class="post-img-wrap"><img src="${p.img}" loading="lazy"></div>
-  <div class="post-foot"><div class="icon-row"><button onclick="doAction(${p.id},'like')"><svg width="24" height="24" viewBox="0 0 24 24" fill="${liked.includes(p.id)?'#ed4956':'none'}" stroke="${liked.includes(p.id)?'#ed4956':'#262626'}" stroke-width="1.7"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg></button><button onclick="doAction(${p.id},'comment')"><svg width="23" height="23" viewBox="0 0 24 24" fill="none" stroke="#262626" stroke-width="1.7"><path d="M21 11.5a8.5 8.5 0 0 1-8.5 8.5H11l-4 3.5v-3.5A8.5 8.5 0 0 1 2.5 11.5a8.5 8.5 0 0 1 8.5-8.5H21z"/></svg></button><button onclick="doAction(${p.id},'share')"><svg width="23" height="23" viewBox="0 0 24 24" fill="none" stroke="#262626" stroke-width="1.7"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg></button></div><div class="dots"><div class="dot"></div><div class="dot active"></div><div class="dot"></div></div><svg width="23" height="23" viewBox="0 0 24 24" fill="none" stroke="#262626" stroke-width="1.7"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg></div>
-  <div class="px-3.5 pb-3 pt-1 text-[14px] text-black leading-[1.35]">
-    <span class="font-bold">aimeme.in</span> ${p.caption||''}
-    <div class="text-[12px] text-[#8e8e8e] mt-1 font-semibold">${p.likes||0} likes</div>
-    ${p.commentList && p.commentList.length?`<div class="text-[13px] mt-1">${p.commentList.map(c=>`<div><span class="font-bold">user</span> ${c}</div>`).join('')}</div>`:''}
-  </div>
-  </div></div>`).join('');
-}
-</script>
 </body>
 </html>
